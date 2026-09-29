@@ -1,102 +1,146 @@
 import React from 'react'
+import { LOGO_ASSETS } from '@/data/logos'
+import { ComvenLogoColoridaSemTagline, ComvenLogoColoridaComTagline } from './ComvenLogoVectors'
 
 export interface ComvenLogoProps {
-  /** 'light' means dark blue #004185 wordmark; 'dark' means white wordmark */
-  variant?: 'light' | 'dark' | 'yellow-on-white' | 'custom'
+  /**
+   * Variation mode:
+   * 'dark' -> official dark mode logo (colorida or 1-color depending on scheme)
+   * 'light' -> official light mode logo (colorida or 1-color)
+   * 'dark-1cor' -> white monochrome on dark
+   * 'light-1cor' -> blue monochrome on light
+   * 'dark-colorida' -> official colored version on dark
+   * 'light-colorida' -> official colored version on light
+   */
+  variant?:
+    | 'dark'
+    | 'light'
+    | 'dark-1cor'
+    | 'light-1cor'
+    | 'dark-colorida'
+    | 'light-colorida'
+    | 'yellow-on-white'
+    | 'custom'
   showTagline?: boolean
   className?: string
+  alt?: string
+  width?: number | string
+  height?: number | string
+  scale?: number
   wordmarkColor?: string
   taglineColor?: string
-  /** Size scale multiplier */
-  scale?: number
 }
 
 /**
- * ComvenLogo renders the exact brand typography lockup:
- * - Geometric wordmark "comven" (Century Gothic Bold base with stylized check/accent)
- * - Tagline "comunicação de venda em tempo real" in lowercase Century Gothic Bold
+ * ComvenOfficialLogo renders the official brand logo using the highest quality asset:
+ * - Official PNG uploaded assets for the 6 dark and 1-cor variations
+ * - High-fidelity Vector SVGs for the light-colorida variations (com e sem tagline)
  */
-export const ComvenLogo: React.FC<ComvenLogoProps> = ({
-  variant = 'light',
-  showTagline = true,
+export const ComvenOfficialLogo: React.FC<ComvenLogoProps> = ({
+  variant = 'dark-colorida',
+  showTagline = false,
   className = '',
-  wordmarkColor,
-  taglineColor,
-  scale = 1,
+  alt = 'Logotipo COMVEN',
+  width,
+  height,
 }) => {
-  let finalWordmark = wordmarkColor
-  let finalTagline = taglineColor
+  // Normalize variant
+  let resolvedVariant = variant
+  if (resolvedVariant === 'dark') {
+    resolvedVariant = 'dark-colorida'
+  } else if (resolvedVariant === 'light') {
+    resolvedVariant = 'light-colorida'
+  }
 
-  if (!finalWordmark) {
-    if (variant === 'light') {
-      finalWordmark = '#004185'
-      finalTagline = '#F2CB05'
-    } else if (variant === 'dark') {
-      finalWordmark = '#FFFFFF'
-      finalTagline = '#F2CB05'
-    } else if (variant === 'yellow-on-white') {
-      finalWordmark = '#F2CB05'
-      finalTagline = '#F2CB05'
-    } else {
-      finalWordmark = '#004185'
-      finalTagline = '#F2CB05'
+  // Render appropriate official asset
+  if (resolvedVariant === 'light-colorida') {
+    if (showTagline) {
+      return (
+        <div className={`inline-flex items-center justify-center ${className}`}>
+          <ComvenLogoColoridaComTagline width={width || 280} height={height} />
+        </div>
+      )
     }
+    return (
+      <div className={`inline-flex items-center justify-center ${className}`}>
+        <ComvenLogoColoridaSemTagline width={width || 240} height={height} />
+      </div>
+    )
   }
 
-  if (!finalTagline) {
-    finalTagline = '#F2CB05'
+  if (resolvedVariant === 'light-1cor') {
+    const src = showTagline ? LOGO_ASSETS.light1CorComTagline : LOGO_ASSETS.light1CorSemTagline
+    return (
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className={`max-w-full h-auto object-contain select-none ${className}`}
+        loading="lazy"
+      />
+    )
   }
 
-  // Base font size for wordmark is 48px * scale
-  const wordmarkFontSize = Math.round(48 * scale)
-  const taglineFontSize = Math.max(10, Math.round(11 * scale))
+  if (resolvedVariant === 'dark-1cor') {
+    const src = showTagline ? LOGO_ASSETS.dark1CorComTagline : LOGO_ASSETS.dark1CorSemTagline
+    return (
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className={`max-w-full h-auto object-contain select-none ${className}`}
+        loading="lazy"
+      />
+    )
+  }
+
+  // Default: dark-colorida (official)
+  const src = showTagline ? LOGO_ASSETS.darkColoridaComTagline : LOGO_ASSETS.darkColoridaSemTagline
 
   return (
-    <div
-      className={`inline-flex flex-col items-center justify-center select-none text-center ${className}`}
-      style={{ lineHeight: 1 }}
-    >
-      {/* Wordmark "comven" with distinctive curved geometric letters and green accent/check */}
-      <div
-        className="font-comven-wordmark tracking-tight flex items-baseline font-bold"
-        style={{
-          fontSize: `${wordmarkFontSize}px`,
-          color: finalWordmark,
-          letterSpacing: '-0.03em',
-        }}
-      >
-        <span>comv</span>
-        {/* The 'e' in comven with brand accent in original mark */}
-        <span className="relative">
-          e
-          <span
-            className="absolute -top-1 right-0 w-2 h-2 rounded-full"
-            style={{
-              display: 'none',
-            }}
-          />
-        </span>
-        <span>n</span>
-      </div>
-
-      {showTagline && (
-        <div
-          className="font-comven-wordmark font-bold tracking-wider mt-1.5 uppercase"
-          style={{
-            fontSize: `${taglineFontSize}px`,
-            color: finalTagline,
-            letterSpacing: '0.08em',
-          }}
-        >
-          comunicação de venda em tempo real
-        </div>
-      )}
-    </div>
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      className={`max-w-full h-auto object-contain select-none ${className}`}
+      loading="lazy"
+    />
   )
 }
 
 /**
- * High-fidelity SVG version of the COMVEN Logo Lockup matching the PDF presentation
+ * Backward compatible ComvenLogo for sidebar, notfound and headers
+ */
+export const ComvenLogo: React.FC<ComvenLogoProps> = ({
+  variant = 'dark',
+  showTagline = false,
+  className = '',
+  scale = 1,
+  width,
+  height,
+}) => {
+  // If variant is dark, default to dark-colorida official logo
+  const mappedVariant =
+    variant === 'dark' ? 'dark-colorida' : variant === 'light' ? 'light-colorida' : variant
+
+  const defaultWidth = showTagline ? Math.round(240 * scale) : Math.round(180 * scale)
+
+  return (
+    <ComvenOfficialLogo
+      variant={mappedVariant}
+      showTagline={showTagline}
+      width={width || defaultWidth}
+      height={height}
+      className={className}
+    />
+  )
+}
+
+/**
+ * ComvenLogoLockup for sections like Área de Proteção and comparisons
  */
 export const ComvenLogoLockup: React.FC<{
   theme?: 'light' | 'dark'
@@ -105,60 +149,15 @@ export const ComvenLogoLockup: React.FC<{
   width?: number | string
   height?: number | string
 }> = ({ theme = 'light', showTagline = true, className = '', width = 280, height }) => {
-  const isDark = theme === 'dark'
-  const primaryColor = isDark ? '#FFFFFF' : '#004185'
-  const accentColor = '#06D04D'
-  const yellowColor = '#F2CB05'
-
-  // Height proportional to width if not provided
-  const viewBoxHeight = showTagline ? 110 : 70
-
   return (
-    <div className={`inline-flex items-center justify-center ${className}`}>
-      <svg
-        viewBox={`0 0 320 ${viewBoxHeight}`}
-        width={width}
-        height={height}
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="max-w-full h-auto"
-      >
-        {/* Wordmark "comven" */}
-        <g id="wordmark">
-          {/* 'c' */}
-          <text
-            x="160"
-            y={showTagline ? '62' : '52'}
-            textAnchor="middle"
-            fontFamily="'Century Gothic', 'Outfit', Futura, 'Avenir Next', sans-serif"
-            fontWeight="700"
-            fontSize="64"
-            letterSpacing="-2"
-            fill={primaryColor}
-          >
-            comv<tspan fill={primaryColor}>e</tspan>n
-          </text>
-
-          {/* Green accent tick / checkmark over the 'e' / 'v' representing real-time sales speed */}
-          <path d="M 205 22 Q 212 14 224 8 Q 218 18 214 26 Z" fill={accentColor} opacity="0.95" />
-        </g>
-
-        {/* Tagline */}
-        {showTagline && (
-          <text
-            x="160"
-            y="94"
-            textAnchor="middle"
-            fontFamily="'Century Gothic', 'Outfit', Futura, 'Avenir Next', sans-serif"
-            fontWeight="700"
-            fontSize="11"
-            letterSpacing="0.8"
-            fill={yellowColor}
-          >
-            COMUNICAÇÃO DE VENDA EM TEMPO REAL
-          </text>
-        )}
-      </svg>
-    </div>
+    <ComvenOfficialLogo
+      variant={theme === 'dark' ? 'dark-colorida' : 'light-colorida'}
+      showTagline={showTagline}
+      width={width}
+      height={height}
+      className={className}
+    />
   )
 }
+
+export { ComvenLogoColoridaComTagline, ComvenLogoColoridaSemTagline }

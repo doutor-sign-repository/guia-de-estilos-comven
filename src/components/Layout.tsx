@@ -82,12 +82,12 @@ export default function Layout() {
       {/* Mobile Top Header */}
       <header className="lg:hidden sticky top-0 z-40 bg-[#141414] text-white px-4 py-3 flex items-center justify-between border-b border-[#292929] shadow-md">
         <div className="flex items-center gap-3">
-          <ComvenLogo variant="dark" showTagline={false} scale={0.65} />
+          <ComvenLogo variant="dark-colorida" showTagline={false} width={110} />
           <div className="h-4 w-px bg-[#3D3D3D]" />
           <span className="text-xs font-semibold text-[#848484] uppercase tracking-wider">
             Design System
           </span>
-        </div>
+        </div>{' '}
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -117,20 +117,9 @@ export default function Layout() {
         {/* Top Brand Section */}
         <div className="p-6 pb-4">
           <div className="flex items-center justify-between">
-            {/* Wordmark with tagline as described in specs */}
-            <div className="flex flex-col items-start text-left">
-              <span
-                className="font-comven-wordmark text-2xl font-bold tracking-tight text-white"
-                style={{ letterSpacing: '-0.03em' }}
-              >
-                comven
-              </span>
-              <span
-                className="font-comven-wordmark text-[10px] uppercase font-bold text-[#F2CB05] tracking-wider mt-1"
-                style={{ letterSpacing: '0.08em' }}
-              >
-                comunicação de venda em tempo real
-              </span>
+            {/* Official COMVEN Logo for Dark Background with Tagline */}
+            <div className="flex flex-col items-start text-left w-full max-w-[210px]">
+              <ComvenLogo variant="dark-colorida" showTagline={true} width={200} />
             </div>
 
             {/* Mobile close button inside drawer */}
@@ -240,9 +229,13 @@ export default function Layout() {
         </main>
 
         {/* Global Footer */}
-        <footer className="w-full border-t border-[#EBEBEB] bg-white py-6 px-6 text-center text-xs text-[#666666]">
-          <div className="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-            <span>COMVEN © 2026 — Design System v1.0 · Ago/2026</span>
+        <footer className="w-full border-t border-[#EBEBEB] bg-white py-6 px-6 text-xs text-[#666666]">
+          <div className="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <ComvenLogo variant="light-1cor" showTagline={false} width={100} />
+              <div className="h-4 w-px bg-gray-200 hidden sm:block" />
+              <span>COMVEN © 2026 — Design System v1.0 · Ago/2026</span>
+            </div>
             <span className="text-[#848484]">Referência oficial de marca para uso interno</span>
           </div>
         </footer>

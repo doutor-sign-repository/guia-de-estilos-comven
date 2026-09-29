@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComvenLogo, ComvenLogoLockup } from '@/components/ComvenLogo'
+import { ComvenLogo, ComvenLogoLockup, ComvenOfficialLogo } from '@/components/ComvenLogo'
 import { BRAND_COLORS, COLOR_FAMILIES } from '@/data/colors'
 import { ButtonPlayground } from '@/components/registry/ButtonPlayground'
 import { useToast } from '@/hooks/use-toast'
@@ -50,74 +50,205 @@ export default function Index() {
       {/* ======================================================== */}
       {/* SEÇÃO 1: LOGOTIPO                                        */}
       {/* ======================================================== */}
-      <section id="logotipo" className="scroll-mt-12 space-y-6">
-        <div className="flex items-baseline gap-3 border-b border-[#EBEBEB] pb-4">
-          <div className="w-8 h-8 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-sm">
-            1
+      <section id="logotipo" className="scroll-mt-12 space-y-8">
+        <div className="flex items-baseline justify-between border-b border-[#EBEBEB] pb-4">
+          <div className="flex items-baseline gap-3">
+            <div className="w-8 h-8 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-sm">
+              1
+            </div>
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#141414] tracking-tight">
+                Logotipo Oficial
+              </h2>
+              <p className="text-sm text-[#666666] mt-0.5">
+                Matriz completa das 8 variações oficiais: fundo claro e escuro, colorida e 1 cor,
+                com e sem tagline
+              </p>
+            </div>
           </div>
+          <span className="hidden sm:inline-block px-3 py-1 rounded-full text-xs font-semibold bg-[#004185]/10 text-[#004185]">
+            8 variações oficiais
+          </span>
+        </div>
+
+        {/* Grupo 1: Versões Principais com Tagline (4 variações) */}
+        <div className="space-y-4">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#141414] tracking-tight">
-              Logotipo
-            </h2>
-            <p className="text-sm text-[#666666] mt-0.5">
-              Versão principal e aplicação em fundo escuro
+            <h3 className="text-lg font-bold text-[#141414] flex items-center gap-2">
+              <span>Versões com Tagline</span>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded bg-gray-100 text-[#666666]">
+                Lockup completo
+              </span>
+            </h3>
+            <p className="text-xs text-[#666666] mt-0.5">
+              Aplicações institucionais principais acompanhadas da assinatura &quot;COMUNICAÇÃO DE
+              VENDA EM TEMPO REAL&quot;.
             </p>
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* 1. Light Mode Colorida com Tagline (Versão Principal Oficial) */}
+            <div className="bg-white rounded-xl border-2 border-[#004185]/20 p-8 shadow-sm flex flex-col justify-between min-h-[300px] group hover:shadow-md hover:border-[#004185] transition-all">
+              <div className="flex items-center justify-between gap-2 border-b border-gray-100 pb-3">
+                <span className="text-xs font-bold text-[#004185] uppercase tracking-wider">
+                  Fundo Claro · Colorida (Principal)
+                </span>
+                <span className="text-[11px] font-medium px-2 py-0.5 bg-[#E6FAED] text-[#047D2E] rounded">
+                  Oficial #1
+                </span>
+              </div>
+              <div className="w-full max-w-[340px] mx-auto py-6 flex items-center justify-center">
+                <ComvenOfficialLogo variant="light-colorida" showTagline={true} width="100%" />
+              </div>
+              <div className="border-t border-gray-100 pt-3">
+                <div className="text-xs font-bold text-[#141414]">
+                  Light Mode — Colorida com Tagline
+                </div>
+                <div className="text-[11px] text-[#666666] mt-0.5">
+                  Versão principal em fundo claro (#FFFFFF). Azul #004185, verde #06D04D e check
+                  amarelo #F2CB05.
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Dark Mode Colorida com Tagline */}
+            <div className="bg-[#141414] rounded-xl border border-[#292929] p-8 shadow-sm flex flex-col justify-between min-h-[300px] group hover:shadow-md hover:border-[#444] transition-all">
+              <div className="flex items-center justify-between gap-2 border-b border-[#292929] pb-3">
+                <span className="text-xs font-bold text-[#9DC6F3] uppercase tracking-wider">
+                  Fundo Escuro · Colorida
+                </span>
+                <span className="text-[11px] font-medium px-2 py-0.5 bg-white/10 text-[#DCDCDC] rounded">
+                  Fundo #141414
+                </span>
+              </div>
+              <div className="w-full max-w-[340px] mx-auto py-6 flex items-center justify-center">
+                <ComvenOfficialLogo variant="dark-colorida" showTagline={true} width="100%" />
+              </div>
+              <div className="border-t border-[#292929] pt-3">
+                <div className="text-xs font-bold text-white">Dark Mode — Colorida com Tagline</div>
+                <div className="text-[11px] text-[#848484] mt-0.5">
+                  Versão oficial institucional para superfícies escuras com wordmark colorido e
+                  tagline.
+                </div>
+              </div>
+            </div>
+
+            {/* 3. Light Mode 1 Cor com Tagline */}
+            <div className="bg-white rounded-xl border border-[#EBEBEB] p-8 shadow-sm flex flex-col justify-between min-h-[300px] group hover:shadow-md transition-all">
+              <div className="flex items-center justify-between gap-2 border-b border-gray-100 pb-3">
+                <span className="text-xs font-bold text-[#666666] uppercase tracking-wider">
+                  Fundo Claro · 1 Cor (Azul)
+                </span>
+                <span className="text-[11px] font-mono text-[#848484]">#004185</span>
+              </div>
+              <div className="w-full max-w-[340px] mx-auto py-6 flex items-center justify-center">
+                <ComvenOfficialLogo variant="light-1cor" showTagline={true} width="100%" />
+              </div>
+              <div className="border-t border-gray-100 pt-3">
+                <div className="text-xs font-bold text-[#141414]">
+                  Light Mode — Monocromática com Tagline
+                </div>
+                <div className="text-[11px] text-[#666666] mt-0.5">
+                  Aplicação monocromática azul sobre claro para documentos impressos ou telas
+                  institucionais.
+                </div>
+              </div>
+            </div>
+
+            {/* 4. Dark Mode 1 Cor com Tagline */}
+            <div className="bg-[#141414] rounded-xl border border-[#292929] p-8 shadow-sm flex flex-col justify-between min-h-[300px] group hover:shadow-md transition-all">
+              <div className="flex items-center justify-between gap-2 border-b border-[#292929] pb-3">
+                <span className="text-xs font-bold text-[#DCDCDC] uppercase tracking-wider">
+                  Fundo Escuro · 1 Cor (Branco)
+                </span>
+                <span className="text-[11px] font-mono text-[#848484]">#FFFFFF</span>
+              </div>
+              <div className="w-full max-w-[340px] mx-auto py-6 flex items-center justify-center">
+                <ComvenOfficialLogo variant="dark-1cor" showTagline={true} width="100%" />
+              </div>
+              <div className="border-t border-[#292929] pt-3">
+                <div className="text-xs font-bold text-white">
+                  Dark Mode — Monocromática com Tagline
+                </div>
+                <div className="text-[11px] text-[#848484] mt-0.5">
+                  Aplicação 1 cor branca em alto contraste para materiais em negativo ou fundos
+                  fotográficos.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Grid 2 Cards: Light & Dark Lockups */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Card A: Light Background */}
-          <div className="bg-white rounded-xl border border-[#EBEBEB] p-8 sm:p-10 shadow-sm flex flex-col items-center justify-center min-h-[260px] group hover:shadow-md transition-shadow">
-            <div className="w-full max-w-[320px] py-4">
-              <ComvenLogoLockup theme="light" showTagline={true} width="100%" />
-            </div>
-            <span className="text-xs text-[#848484] mt-4 font-medium">
-              Versão principal — Fundo claro (#FFFFFF)
-            </span>
-          </div>
-
-          {/* Card B: Dark Background */}
-          <div className="bg-[#141414] rounded-xl border border-[#292929] p-8 sm:p-10 shadow-sm flex flex-col items-center justify-center min-h-[260px] group hover:shadow-md transition-shadow">
-            <div className="w-full max-w-[320px] py-4">
-              <ComvenLogoLockup theme="dark" showTagline={true} width="100%" />
-            </div>
-            <span className="text-xs text-[#848484] mt-4 font-medium">
-              Versão oficial — Fundo escuro (#141414)
-            </span>
-          </div>
-        </div>
-
-        {/* Divider + Somente marca (sem tagline) */}
-        <div className="pt-6">
-          <div className="mb-4">
-            <h3 className="text-lg font-bold text-[#141414]">Somente marca (sem tagline)</h3>
-            <p className="text-xs text-[#666666]">Aplicação simplificada sem o texto de apoio</p>
+        {/* Grupo 2: Versões sem Tagline (Somente Wordmark - 4 variações) */}
+        <div className="space-y-4 pt-4">
+          <div>
+            <h3 className="text-lg font-bold text-[#141414] flex items-center gap-2">
+              <span>Versões sem Tagline (Somente Wordmark)</span>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded bg-gray-100 text-[#666666]">
+                Reduções &amp; UI
+              </span>
+            </h3>
+            <p className="text-xs text-[#666666] mt-0.5">
+              Aplicações compactas para navegação, headers, footers e locais com restrição de
+              altura.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Light plain */}
-            <div className="bg-white rounded-xl border border-[#EBEBEB] p-6 flex flex-col items-center justify-center min-h-[140px]">
-              <ComvenLogoLockup theme="light" showTagline={false} width={180} />
-              <span className="text-[11px] text-[#848484] mt-3">Fundo claro</span>
+            {/* 5. Light Mode Colorida sem Tagline */}
+            <div className="bg-white rounded-xl border border-[#EBEBEB] p-6 shadow-sm flex flex-col justify-between min-h-[200px] group hover:shadow-md transition-all">
+              <span className="text-[11px] font-bold text-[#004185] uppercase tracking-wider">
+                Fundo Claro · Colorida
+              </span>
+              <div className="w-full py-4 flex items-center justify-center">
+                <ComvenOfficialLogo variant="light-colorida" showTagline={false} width={180} />
+              </div>
+              <div className="pt-2 border-t border-gray-100">
+                <div className="text-xs font-bold text-[#141414]">Light Colorida</div>
+                <div className="text-[10px] text-[#848484]">Wordmark com check verde/amarelo</div>
+              </div>
             </div>
 
-            {/* Dark plain */}
-            <div className="bg-[#141414] rounded-xl border border-[#292929] p-6 flex flex-col items-center justify-center min-h-[140px]">
-              <ComvenLogoLockup theme="dark" showTagline={false} width={180} />
-              <span className="text-[11px] text-[#848484] mt-3">Fundo escuro</span>
+            {/* 6. Dark Mode Colorida sem Tagline */}
+            <div className="bg-[#141414] rounded-xl border border-[#292929] p-6 shadow-sm flex flex-col justify-between min-h-[200px] group hover:shadow-md transition-all">
+              <span className="text-[11px] font-bold text-[#9DC6F3] uppercase tracking-wider">
+                Fundo Escuro · Colorida
+              </span>
+              <div className="w-full py-4 flex items-center justify-center">
+                <ComvenOfficialLogo variant="dark-colorida" showTagline={false} width={180} />
+              </div>
+              <div className="pt-2 border-t border-[#292929]">
+                <div className="text-xs font-bold text-white">Dark Colorida</div>
+                <div className="text-[10px] text-[#848484]">Wordmark oficial no fundo escuro</div>
+              </div>
             </div>
 
-            {/* Light plain compact */}
-            <div className="bg-white rounded-xl border border-[#EBEBEB] p-6 flex flex-col items-center justify-center min-h-[140px]">
-              <ComvenLogo variant="light" showTagline={false} scale={0.7} />
-              <span className="text-[11px] text-[#848484] mt-3">Versão condensada</span>
+            {/* 7. Light Mode 1 Cor sem Tagline */}
+            <div className="bg-white rounded-xl border border-[#EBEBEB] p-6 shadow-sm flex flex-col justify-between min-h-[200px] group hover:shadow-md transition-all">
+              <span className="text-[11px] font-bold text-[#666666] uppercase tracking-wider">
+                Fundo Claro · 1 Cor
+              </span>
+              <div className="w-full py-4 flex items-center justify-center">
+                <ComvenOfficialLogo variant="light-1cor" showTagline={false} width={180} />
+              </div>
+              <div className="pt-2 border-t border-gray-100">
+                <div className="text-xs font-bold text-[#141414]">Light 1 Cor</div>
+                <div className="text-[10px] text-[#848484]">Azul institucional #004185</div>
+              </div>
             </div>
 
-            {/* Dark plain compact */}
-            <div className="bg-[#141414] rounded-xl border border-[#292929] p-6 flex flex-col items-center justify-center min-h-[140px]">
-              <ComvenLogo variant="dark" showTagline={false} scale={0.7} />
-              <span className="text-[11px] text-[#848484] mt-3">Compacto invertido</span>
+            {/* 8. Dark Mode 1 Cor sem Tagline */}
+            <div className="bg-[#141414] rounded-xl border border-[#292929] p-6 shadow-sm flex flex-col justify-between min-h-[200px] group hover:shadow-md transition-all">
+              <span className="text-[11px] font-bold text-[#DCDCDC] uppercase tracking-wider">
+                Fundo Escuro · 1 Cor
+              </span>
+              <div className="w-full py-4 flex items-center justify-center">
+                <ComvenOfficialLogo variant="dark-1cor" showTagline={false} width={180} />
+              </div>
+              <div className="pt-2 border-t border-[#292929]">
+                <div className="text-xs font-bold text-white">Dark 1 Cor</div>
+                <div className="text-[10px] text-[#848484]">Monocromático branco #FFFFFF</div>
+              </div>
             </div>
           </div>
         </div>

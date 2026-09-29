@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-[#F5F7FA] text-[#141414]">
       <div className="bg-white p-8 sm:p-12 rounded-2xl border border-[#EBEBEB] shadow-sm max-w-md w-full text-center space-y-6">
-        <ComvenLogo variant="light" showTagline={false} scale={0.8} />
+        <ComvenLogo variant="light-colorida" showTagline={true} width={220} />
 
         <div className="space-y-2">
           <span className="text-4xl font-bold text-[#004185]">404</span>
