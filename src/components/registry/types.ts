@@ -43,104 +43,87 @@ export interface ComponentDefinition<TConfig> {
 export function generateButtonCss(config: ButtonConfig): string {
   const { type, size, state, icon } = config
 
-  // Comment header
-  const comment = `/* Type=${type}, Size=${size}, State=${state}, Icon=${icon === 'Com ícone' ? 'Show' : 'Hide'} */`
+  // Comment header matching screenshot: /* Type=Primary, Size=Large, State=Default, Icon=Show */
+  const iconStatus = icon === 'Com ícone' ? 'Show' : 'Hide'
+  const comment = `/* Type=${type}, Size=${size}, State=${state}, Icon=${iconStatus} */`
 
   // Padding based on size
   let padding = '12px 20px'
-  if (size === 'Medium') padding = '10px 16px'
-  if (size === 'Small') padding = '8px 12px'
-
-  // Background and borders based on type and state
-  let bgRule = 'background-color: #004185;'
-  let borderRule = ''
-  let stateRules = ''
-
-  if (state === 'Disabled') {
-    if (type === 'Primary') {
-      bgRule = 'background-color: #8BB7E7;'
-    } else if (type === 'Secondary') {
-      bgRule = 'background-color: transparent;'
-      borderRule = '\n  border: 2px solid #8BB7E7;'
-    } else if (type === 'Tertiary') {
-      bgRule = 'background-color: #F5F7FA;'
-    } else if (type === 'Link') {
-      bgRule = 'background-color: transparent;'
-      borderRule = '\n  text-decoration: underline;'
-    }
-    stateRules = `\n  opacity: 0.6;\n  cursor: not-allowed;`
-  } else {
-    if (type === 'Primary') {
-      bgRule = 'background-color: #004185;'
-    } else if (type === 'Secondary') {
-      bgRule = 'background-color: transparent;'
-      borderRule = '\n  border: 2px solid #004185;'
-    } else if (type === 'Tertiary') {
-      bgRule = 'background-color: #E6FAED;'
-    } else if (type === 'Link') {
-      bgRule = 'background-color: transparent;'
-      borderRule = '\n  text-decoration: underline;'
-    }
-  }
-
-  // Label styling
   let fontSize = '16px'
-  let lineHeight = '24px'
+  let iconDim = '20px'
+
   if (size === 'Medium') {
+    padding = '10px 16px'
     fontSize = '14px'
-    lineHeight = '20px'
-  }
-  if (size === 'Small') {
+    iconDim = '18px'
+  } else if (size === 'Small') {
+    padding = '8px 12px'
     fontSize = '12px'
-    lineHeight = '16px'
+    iconDim = '16px'
   }
 
-  const fontWeight = type === 'Tertiary' || type === 'Link' ? '600' : '700'
+  // Core properties for .button
+  const lines: string[] = [
+    '  display: flex;',
+    '  align-items: center;',
+    '  gap: 8px;',
+    `  padding: ${padding};`,
+    '  border-radius: 8px;',
+  ]
 
   let labelColor = '#FFFFFF'
-  if (state === 'Disabled') {
-    if (type === 'Primary') {
-      labelColor = '#FFFFFF'
-    } else if (type === 'Secondary') {
-      labelColor = '#8BB7E7'
-    } else if (type === 'Tertiary') {
-      labelColor = '#848484'
-    } else if (type === 'Link') {
-      labelColor = '#8BB7E7'
-    }
-  } else {
-    if (type === 'Primary') {
+  const fontWeight = '700'
+
+  if (type === 'Primary') {
+    if (state === 'Disabled') {
+      lines.push('  background-color: #A9BFDA;')
+      lines.push('  cursor: not-allowed;')
       labelColor = '#FFFFFF'
     } else {
+      lines.push('  background-color: #004185;')
+      labelColor = '#FFFFFF'
+    }
+  } else if (type === 'Secondary') {
+    if (state === 'Disabled') {
+      lines.push('  background-color: transparent;')
+      lines.push('  border: 1.5px solid #A9BFDA;')
+      lines.push('  cursor: not-allowed;')
+      labelColor = '#A9BFDA'
+    } else {
+      lines.push('  background-color: transparent;')
+      lines.push('  border: 1.5px solid #004185;')
+      labelColor = '#004185'
+    }
+  } else if (type === 'Tertiary') {
+    if (state === 'Disabled') {
+      lines.push('  background-color: transparent;')
+      lines.push('  cursor: not-allowed;')
+      labelColor = '#A9BFDA'
+    } else {
+      lines.push('  background-color: transparent;')
+      labelColor = '#004185'
+    }
+  } else if (type === 'Link') {
+    if (state === 'Disabled') {
+      lines.push('  background-color: transparent;')
+      lines.push('  text-decoration: underline;')
+      lines.push('  cursor: not-allowed;')
+      labelColor = '#A9BFDA'
+    } else {
+      lines.push('  background-color: transparent;')
+      lines.push('  text-decoration: underline;')
       labelColor = '#004185'
     }
   }
 
-  // Icon sizing
-  let iconDim = '20px'
-  if (size === 'Medium') iconDim = '18px'
-  if (size === 'Small') iconDim = '16px'
+  const buttonBlock = `.button {\n${lines.join('\n')}\n}`
+
+  const labelBlock = `.button__label {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: ${fontWeight};\n  font-size: ${fontSize};\n  color: ${labelColor};\n}`
 
   let iconBlock = ''
   if (icon === 'Com ícone') {
-    iconBlock = `\n\n.button .icon {\n  width: ${iconDim};\n  height: ${iconDim};\n}`
+    iconBlock = `\n\n.button__icon {\n  width: ${iconDim};\n  height: ${iconDim};\n}`
   }
 
-  return `${comment}
-.button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: ${padding};
-  border-radius: 8px;
-  ${bgRule}${borderRule}${stateRules}
-}
-
-.button .label {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: ${fontWeight};
-  font-size: ${fontSize};
-  line-height: ${lineHeight};
-  color: ${labelColor};
-}${iconBlock}`
+  return `${comment}\n${buttonBlock}\n\n${labelBlock}${iconBlock}`
 }
