@@ -35,22 +35,6 @@ export default function Index() {
             Referência oficial de marca e identidade visual para uso interno — logotipo, cores,
             tipografia, iconografia e boas práticas de aplicação.
           </p>
-
-          {/* Figma Prototype Link */}
-          <div className="mt-6 pt-4 border-t border-white/10 flex flex-wrap items-center gap-4 text-xs text-[#9DC6F3]">
-            <span>Versão 1.0</span>
-            <span>•</span>
-            <span>Agosto de 2026</span>
-            <span>•</span>
-            <a
-              href="https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="inline-flex items-center gap-1.5 text-white/90 hover:text-white underline font-medium transition-colors"
-            >
-              <span>↗ Protótipo Figma (node 34:1734)</span>
-            </a>
-          </div>
         </div>
       </section>
 
