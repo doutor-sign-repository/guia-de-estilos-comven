@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { InputConfig, InputState, InputSize, InputIconOption, generateInputCss } from './types'
 import { INPUT_SIZE_METRICS } from './types'
+import { PlaygroundControlGroup } from './PlaygroundControlGroup'
 import { useToast } from '@/hooks/use-toast'
 
 export interface InputPlaygroundProps {
@@ -85,111 +86,91 @@ export const InputPlayground: React.FC<InputPlaygroundProps> = ({ initialConfig 
           </p>
         </div>
 
-        {/* Controls: STATE, SIZE, ÍCONES */}
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-8 gap-y-4">
+        {/* Controls: STATE, SIZE, ÍCONE ESQUERDO, ÍCONE AUXILIAR — flex-wrap por grupo indivisível (cabe em 1 linha em telas largas; quebra de grupo inteiro ao reduzir) */}
+        <div className="mt-6 flex flex-wrap items-start gap-x-8 gap-y-4">
           {/* STATE */}
-          <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
-              STATE
-            </div>
-            <div className="inline-flex flex-wrap items-center gap-1.5">
-              {STATUSES.map((st) => {
-                const isSelected = state === st
-                return (
-                  <button
-                    key={st}
-                    type="button"
-                    onClick={() => setState(st)}
-                    className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
-                      isSelected
-                        ? 'bg-[#004185] text-white shadow-xs'
-                        : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
-                    }`}
-                  >
-                    {st}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
+          <PlaygroundControlGroup label="STATE">
+            {STATUSES.map((st) => {
+              const isSelected = state === st
+              return (
+                <button
+                  key={st}
+                  type="button"
+                  onClick={() => setState(st)}
+                  className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
+                    isSelected
+                      ? 'bg-[#004185] text-white shadow-xs'
+                      : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                  }`}
+                >
+                  {st}
+                </button>
+              )
+            })}
+          </PlaygroundControlGroup>
 
           {/* SIZE */}
-          <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
-              SIZE
-            </div>
-            <div className="inline-flex flex-wrap items-center gap-1.5">
-              {SIZES.map((s) => {
-                const isSelected = size === s
-                return (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => setSize(s)}
-                    className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
-                      isSelected
-                        ? 'bg-[#004185] text-white shadow-xs'
-                        : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
-                    }`}
-                  >
-                    {s}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
+          <PlaygroundControlGroup label="SIZE">
+            {SIZES.map((s) => {
+              const isSelected = size === s
+              return (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setSize(s)}
+                  className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
+                    isSelected
+                      ? 'bg-[#004185] text-white shadow-xs'
+                      : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                  }`}
+                >
+                  {s}
+                </button>
+              )
+            })}
+          </PlaygroundControlGroup>
 
           {/* ÍCONE ESQUERDO */}
-          <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
-              ÍCONE ESQUERDO
-            </div>
-            <div className="inline-flex flex-wrap items-center gap-1.5">
-              {ICON_OPTIONS.map((ic) => {
-                const isSelected = leftIcon === ic
-                return (
-                  <button
-                    key={ic}
-                    type="button"
-                    onClick={() => setLeftIcon(ic)}
-                    className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
-                      isSelected
-                        ? 'bg-[#004185] text-white shadow-xs'
-                        : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
-                    }`}
-                  >
-                    {ic}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
+          <PlaygroundControlGroup label="ÍCONE ESQUERDO">
+            {ICON_OPTIONS.map((ic) => {
+              const isSelected = leftIcon === ic
+              return (
+                <button
+                  key={ic}
+                  type="button"
+                  onClick={() => setLeftIcon(ic)}
+                  className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
+                    isSelected
+                      ? 'bg-[#004185] text-white shadow-xs'
+                      : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                  }`}
+                >
+                  {ic}
+                </button>
+              )
+            })}
+          </PlaygroundControlGroup>
 
           {/* ÍCONE AUXILIAR DIREITO */}
-          <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
-              ÍCONE AUXILIAR
-            </div>
-            <div className="inline-flex flex-wrap items-center gap-1.5">
-              {ICON_OPTIONS.map((ic) => {
-                const isSelected = rightIcon === ic
-                return (
-                  <button
-                    key={ic}
-                    type="button"
-                    onClick={() => setRightIcon(ic)}
-                    className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
-                      isSelected
-                        ? 'bg-[#004185] text-white shadow-xs'
-                        : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
-                    }`}
-                  >
-                    {ic}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
+          <PlaygroundControlGroup label="ÍCONE AUXILIAR">
+            {ICON_OPTIONS.map((ic) => {
+              const isSelected = rightIcon === ic
+              return (
+                <button
+                  key={ic}
+                  type="button"
+                  onClick={() => setRightIcon(ic)}
+                  className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
+                    isSelected
+                      ? 'bg-[#004185] text-white shadow-xs'
+                      : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                  }`}
+                >
+                  {ic}
+                </button>
+              )
+            })}
+          </PlaygroundControlGroup>
         </div>
 
         {/* Live Preview Container */}
@@ -217,13 +198,13 @@ export const InputPlayground: React.FC<InputPlaygroundProps> = ({ initialConfig 
             </div>
           </div>
 
-          {/* Text edit controls: LABEL, PLACEHOLDER, SUPPORTING TEXT */}
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Text edit controls: LABEL, PLACEHOLDER, SUPPORTING TEXT — flex-wrap por campo indivisível */}
+          <div className="mt-6 flex flex-wrap items-start gap-4">
             {/* LABEL */}
-            <div>
+            <div className="flex-1 min-w-[200px]">
               <label
                 htmlFor="input-playground-label"
-                className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5 block"
+                className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5 block select-none"
               >
                 LABEL
               </label>
@@ -238,10 +219,10 @@ export const InputPlayground: React.FC<InputPlaygroundProps> = ({ initialConfig 
             </div>
 
             {/* PLACEHOLDER */}
-            <div>
+            <div className="flex-1 min-w-[200px]">
               <label
                 htmlFor="input-playground-placeholder"
-                className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5 block"
+                className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5 block select-none"
               >
                 PLACEHOLDER
               </label>
@@ -256,10 +237,10 @@ export const InputPlayground: React.FC<InputPlaygroundProps> = ({ initialConfig 
             </div>
 
             {/* SUPPORTING TEXT */}
-            <div>
+            <div className="flex-1 min-w-[200px]">
               <label
                 htmlFor="input-playground-supporting"
-                className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5 block"
+                className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5 block select-none"
               >
                 SUPPORTING TEXT
               </label>

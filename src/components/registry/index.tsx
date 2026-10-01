@@ -94,3 +94,4 @@ export const INPUT_DEFINITION: ComponentDefinition<InputConfig> = {
 }
 
 export { ButtonPlayground, InputPlayground }
+export { PlaygroundControlGroup } from './PlaygroundControlGroup'

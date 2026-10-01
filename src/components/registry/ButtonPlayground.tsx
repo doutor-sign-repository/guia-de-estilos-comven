@@ -7,6 +7,7 @@ import {
   ButtonIconOption,
   generateButtonCss,
 } from './types'
+import { PlaygroundControlGroup } from './PlaygroundControlGroup'
 import { useToast } from '@/hooks/use-toast'
 
 export interface ButtonPlaygroundProps {
@@ -127,111 +128,91 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
           </p>
         </div>
 
-        {/* Controls: TYPE, SIZE, STATE, ÍCONE — grid responsivo, lado a lado quando houver espaço */}
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-8 gap-y-4">
+        {/* Controls: TYPE, SIZE, STATE, ÍCONE — flex-wrap por grupo indivisível (cabe em 1 linha em telas largas; quebra de grupo inteiro ao reduzir) */}
+        <div className="mt-6 flex flex-wrap items-start gap-x-8 gap-y-4">
           {/* TYPE */}
-          <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
-              TYPE
-            </div>
-            <div className="inline-flex flex-wrap items-center gap-1.5">
-              {(['Primary', 'Secondary', 'Tertiary', 'Link'] as ButtonType[]).map((t) => {
-                const isSelected = type === t
-                return (
-                  <button
-                    key={t}
-                    type="button"
-                    onClick={() => setType(t)}
-                    className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
-                      isSelected
-                        ? 'bg-[#004185] text-white shadow-xs'
-                        : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
-                    }`}
-                  >
-                    {t}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
+          <PlaygroundControlGroup label="TYPE">
+            {(['Primary', 'Secondary', 'Tertiary', 'Link'] as ButtonType[]).map((t) => {
+              const isSelected = type === t
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setType(t)}
+                  className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
+                    isSelected
+                      ? 'bg-[#004185] text-white shadow-xs'
+                      : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                  }`}
+                >
+                  {t}
+                </button>
+              )
+            })}
+          </PlaygroundControlGroup>
 
           {/* SIZE */}
-          <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
-              SIZE
-            </div>
-            <div className="inline-flex flex-wrap items-center gap-1.5">
-              {(['Large', 'Medium', 'Small'] as ButtonSize[]).map((s) => {
-                const isSelected = size === s
-                return (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => setSize(s)}
-                    className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
-                      isSelected
-                        ? 'bg-[#004185] text-white shadow-xs'
-                        : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
-                    }`}
-                  >
-                    {s}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
+          <PlaygroundControlGroup label="SIZE">
+            {(['Large', 'Medium', 'Small'] as ButtonSize[]).map((s) => {
+              const isSelected = size === s
+              return (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setSize(s)}
+                  className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
+                    isSelected
+                      ? 'bg-[#004185] text-white shadow-xs'
+                      : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                  }`}
+                >
+                  {s}
+                </button>
+              )
+            })}
+          </PlaygroundControlGroup>
 
           {/* STATE */}
-          <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
-              STATE
-            </div>
-            <div className="inline-flex flex-wrap items-center gap-1.5">
-              {(['Default', 'Disabled'] as ButtonState[]).map((st) => {
-                const isSelected = state === st
-                return (
-                  <button
-                    key={st}
-                    type="button"
-                    onClick={() => setState(st)}
-                    className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
-                      isSelected
-                        ? 'bg-[#004185] text-white shadow-xs'
-                        : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
-                    }`}
-                  >
-                    {st}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
+          <PlaygroundControlGroup label="STATE">
+            {(['Default', 'Disabled'] as ButtonState[]).map((st) => {
+              const isSelected = state === st
+              return (
+                <button
+                  key={st}
+                  type="button"
+                  onClick={() => setState(st)}
+                  className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
+                    isSelected
+                      ? 'bg-[#004185] text-white shadow-xs'
+                      : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                  }`}
+                >
+                  {st}
+                </button>
+              )
+            })}
+          </PlaygroundControlGroup>
 
           {/* ÍCONE */}
-          <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
-              ÍCONE
-            </div>
-            <div className="inline-flex flex-wrap items-center gap-1.5">
-              {(['Com ícone', 'Sem ícone'] as ButtonIconOption[]).map((ic) => {
-                const isSelected = icon === ic
-                return (
-                  <button
-                    key={ic}
-                    type="button"
-                    onClick={() => setIcon(ic)}
-                    className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
-                      isSelected
-                        ? 'bg-[#004185] text-white shadow-xs'
-                        : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
-                    }`}
-                  >
-                    {ic}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
+          <PlaygroundControlGroup label="ÍCONE">
+            {(['Com ícone', 'Sem ícone'] as ButtonIconOption[]).map((ic) => {
+              const isSelected = icon === ic
+              return (
+                <button
+                  key={ic}
+                  type="button"
+                  onClick={() => setIcon(ic)}
+                  className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
+                    isSelected
+                      ? 'bg-[#004185] text-white shadow-xs'
+                      : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                  }`}
+                >
+                  {ic}
+                </button>
+              )
+            })}
+          </PlaygroundControlGroup>
         </div>
 
         {/* Live Preview Container (Soft blue-gray box) */}
