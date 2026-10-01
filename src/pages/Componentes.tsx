@@ -19,8 +19,8 @@ export default function Componentes() {
 
           {/* Subtitle / Paragraph */}
           <p className="max-w-3xl text-sm sm:text-base lg:text-[17px] leading-relaxed text-[#D2E4F7] font-normal">
-            Biblioteca de componentes reutilizáveis para os produtos digitais COMVEN. Explore a
-            matriz completa de variantes e interaja com o playground configurável.
+            Biblioteca de componentes reutilizáveis para os produtos digitais COMVEN. Interaja com o
+            playground configurável para explorar tipos, tamanhos e estados dos componentes.
           </p>
         </div>
       </section>
