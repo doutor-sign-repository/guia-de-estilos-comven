@@ -198,18 +198,18 @@ export default function Layout() {
                       <button
                         type="button"
                         onClick={() => handleGuiaItemClick(item.id)}
-                        className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-150 group ${
+                        className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
                           isActive
                             ? 'text-[#F2CB05] font-semibold'
-                            : 'text-white hover:text-[#9DC6F3]'
+                            : 'text-white hover:text-[#F2CB05]'
                         }`}
                       >
-                        {/* Circular number badge */}
+                        {/* Circular number badge: no hover/active preenchido em amarelo com número escuro */}
                         <span
-                          className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-colors ${
+                          className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
                             isActive
                               ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                              : 'border border-white/25 text-white/90 group-hover:border-white/50 group-hover:text-white'
+                              : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
                           }`}
                         >
                           {item.number}
@@ -239,18 +239,18 @@ export default function Layout() {
                   <button
                     type="button"
                     onClick={handleComponentesClick}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-150 group ${
+                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
                       isComponentesPage
                         ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#9DC6F3]'
+                        : 'text-white hover:text-[#F2CB05]'
                     }`}
                   >
-                    {/* Circular number badge */}
+                    {/* Circular number badge: no hover/active preenchido em amarelo com número escuro */}
                     <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-colors ${
+                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
                         isComponentesPage
                           ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:border-white/50 group-hover:text-white'
+                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
                       }`}
                     >
                       1
