@@ -1,6 +1,5 @@
 import React from 'react'
 import { LOGO_ASSETS } from '@/data/logos'
-import { ComvenLogoColoridaSemTagline, ComvenLogoColoridaComTagline } from './ComvenLogoVectors'
 
 export interface ComvenLogoProps {
   /**
@@ -32,9 +31,8 @@ export interface ComvenLogoProps {
 }
 
 /**
- * ComvenOfficialLogo renders the official brand logo using the highest quality asset:
- * - Official PNG uploaded assets for the 6 dark and 1-cor variations
- * - High-fidelity Vector SVGs for the light-colorida variations (com e sem tagline)
+ * ComvenOfficialLogo renders the official brand logo using the official PNG assets
+ * for all 8 variations (light/dark, colorida/1cor, com/sem tagline).
  */
 export const ComvenOfficialLogo: React.FC<ComvenLogoProps> = ({
   variant = 'dark-colorida',
@@ -52,52 +50,18 @@ export const ComvenOfficialLogo: React.FC<ComvenLogoProps> = ({
     resolvedVariant = 'light-colorida'
   }
 
-  // Render appropriate official asset
+  let src = LOGO_ASSETS.darkColoridaComTagline
+
   if (resolvedVariant === 'light-colorida') {
-    if (showTagline) {
-      return (
-        <div className={`inline-flex items-center justify-center ${className}`}>
-          <ComvenLogoColoridaComTagline width={width || 280} height={height} />
-        </div>
-      )
-    }
-    return (
-      <div className={`inline-flex items-center justify-center ${className}`}>
-        <ComvenLogoColoridaSemTagline width={width || 240} height={height} />
-      </div>
-    )
+    src = showTagline ? LOGO_ASSETS.lightColoridaComTagline : LOGO_ASSETS.lightColoridaSemTagline
+  } else if (resolvedVariant === 'light-1cor') {
+    src = showTagline ? LOGO_ASSETS.light1CorComTagline : LOGO_ASSETS.light1CorSemTagline
+  } else if (resolvedVariant === 'dark-1cor') {
+    src = showTagline ? LOGO_ASSETS.dark1CorComTagline : LOGO_ASSETS.dark1CorSemTagline
+  } else {
+    // dark-colorida / default
+    src = showTagline ? LOGO_ASSETS.darkColoridaComTagline : LOGO_ASSETS.darkColoridaSemTagline
   }
-
-  if (resolvedVariant === 'light-1cor') {
-    const src = showTagline ? LOGO_ASSETS.light1CorComTagline : LOGO_ASSETS.light1CorSemTagline
-    return (
-      <img
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        className={`max-w-full h-auto object-contain select-none ${className}`}
-        loading="lazy"
-      />
-    )
-  }
-
-  if (resolvedVariant === 'dark-1cor') {
-    const src = showTagline ? LOGO_ASSETS.dark1CorComTagline : LOGO_ASSETS.dark1CorSemTagline
-    return (
-      <img
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        className={`max-w-full h-auto object-contain select-none ${className}`}
-        loading="lazy"
-      />
-    )
-  }
-
-  // Default: dark-colorida (official)
-  const src = showTagline ? LOGO_ASSETS.darkColoridaComTagline : LOGO_ASSETS.darkColoridaSemTagline
 
   return (
     <img
@@ -160,4 +124,33 @@ export const ComvenLogoLockup: React.FC<{
   )
 }
 
-export { ComvenLogoColoridaComTagline, ComvenLogoColoridaSemTagline }
+/**
+ * Backwards compatibility wrappers for any external consumer
+ */
+export const ComvenLogoColoridaComTagline: React.FC<{
+  className?: string
+  width?: number | string
+  height?: number | string
+}> = ({ className = '', width, height }) => (
+  <ComvenOfficialLogo
+    variant="light-colorida"
+    showTagline={true}
+    width={width}
+    height={height}
+    className={className}
+  />
+)
+
+export const ComvenLogoColoridaSemTagline: React.FC<{
+  className?: string
+  width?: number | string
+  height?: number | string
+}> = ({ className = '', width, height }) => (
+  <ComvenOfficialLogo
+    variant="light-colorida"
+    showTagline={false}
+    width={width}
+    height={height}
+    className={className}
+  />
+)

@@ -1,7 +1,6 @@
 /**
  * COMVEN Official Logo Assets & Definitions
- * Contains URLs for the 6 official user-uploaded PNG assets, plus SVG components
- * for the remaining variations and pure vector rendering.
+ * Contains URLs for all 8 official user-uploaded PNG assets.
  */
 
 export interface LogoVariation {
@@ -17,7 +16,7 @@ export interface LogoVariation {
 }
 
 export const LOGO_ASSETS = {
-  // Official uploaded PNG assets
+  // Official uploaded PNG assets (8 official variations)
   dark1CorComTagline:
     'https://dagtlwojkqyivnjgveda.supabase.co/storage/v1/object/public/message-attachments/5a642d8f-ff0b-414d-816c-79f76194a2e0/logotipo-dark-mode-1-cor-com-tagline-633cf.png',
   dark1CorSemTagline:
@@ -30,6 +29,10 @@ export const LOGO_ASSETS = {
     'https://dagtlwojkqyivnjgveda.supabase.co/storage/v1/object/public/message-attachments/5a642d8f-ff0b-414d-816c-79f76194a2e0/logotipo-light-mode-1-cor-com-tagline-835f1.png',
   light1CorSemTagline:
     'https://dagtlwojkqyivnjgveda.supabase.co/storage/v1/object/public/message-attachments/5a642d8f-ff0b-414d-816c-79f76194a2e0/logotipo-light-mode-1-cor-sem-tagline-493c2.png',
+  lightColoridaComTagline:
+    'https://dagtlwojkqyivnjgveda.supabase.co/storage/v1/object/public/message-attachments/5a642d8f-ff0b-414d-816c-79f76194a2e0/logotipo-light-mode-colorida-com-tagline-29a5e.png',
+  lightColoridaSemTagline:
+    'https://dagtlwojkqyivnjgveda.supabase.co/storage/v1/object/public/message-attachments/5a642d8f-ff0b-414d-816c-79f76194a2e0/logotipo-light-mode-colorida-sem-tagline-dd8d1.png',
 }
 
 export const LOGO_VARIATIONS: LogoVariation[] = [
@@ -92,6 +95,7 @@ export const LOGO_VARIATIONS: LogoVariation[] = [
     mode: 'light',
     colorScheme: 'colorida',
     hasTagline: true,
+    src: LOGO_ASSETS.lightColoridaComTagline,
     bg: '#FFFFFF',
     description:
       'Versão institucional principal em fundo claro: azul #004185, verde #06D04D e check amarelo.',
@@ -104,6 +108,7 @@ export const LOGO_VARIATIONS: LogoVariation[] = [
     mode: 'light',
     colorScheme: 'colorida',
     hasTagline: false,
+    src: LOGO_ASSETS.lightColoridaSemTagline,
     bg: '#FFFFFF',
     description: 'Versão colorida compacta sem tagline para produtos digitais em fundo claro.',
     badgeText: 'Fundo Claro · Colorida',
