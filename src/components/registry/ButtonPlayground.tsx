@@ -160,14 +160,17 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
   // Preview button styling
   const isDisabled = state === 'Disabled'
 
-  // Size styling
+  // Size styling: controls typography and icon dimensions consistently across all variants
   let paddingClass = 'px-5 py-3 text-[16px] rounded-[8px]'
+  let fontSizePx = 16
   let iconSize = 20
   if (size === 'Medium') {
     paddingClass = 'px-4 py-2.5 text-[14px] rounded-[8px]'
+    fontSizePx = 14
     iconSize = 18
   } else if (size === 'Small') {
     paddingClass = 'px-3 py-2 text-[12px] rounded-[8px]'
+    fontSizePx = 12
     iconSize = 16
   }
 
@@ -175,6 +178,7 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
   let dynamicButtonStyles: React.CSSProperties = {
     fontFamily: "'Open Sans', sans-serif",
     fontWeight: 700,
+    fontSize: `${fontSizePx}px`,
   }
 
   if (type === 'Primary') {
@@ -242,15 +246,20 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
                   <button
                     type="button"
                     tabIndex={-1}
-                    className={`inline-flex items-center justify-center text-sm font-bold select-none cursor-default transition-all ${
+                    className={`inline-flex items-center justify-center font-bold select-none cursor-default transition-all ${
                       row.type === 'Link'
                         ? 'h-auto p-0 bg-transparent border-0 hover:underline'
-                        : 'h-10 px-6 rounded-lg active:scale-95'
+                        : size === 'Medium'
+                          ? 'h-9 px-4 rounded-lg active:scale-95'
+                          : size === 'Small'
+                            ? 'h-8 px-3 rounded-lg active:scale-95'
+                            : 'h-10 px-6 rounded-lg active:scale-95'
                     }`}
                     style={{
                       backgroundColor: item.bg,
                       color: item.color,
                       border: item.border || 'none',
+                      fontSize: `${fontSizePx}px`,
                     }}
                   >
                     Label
@@ -258,7 +267,7 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
                 </div>
               ))}
             </div>
-          ))}
+          ))}{' '}
         </div>
       </div>
 
@@ -394,7 +403,10 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
               <button
                 type="button"
                 disabled={isDisabled}
-                style={dynamicButtonStyles}
+                style={{
+                  ...dynamicButtonStyles,
+                  fontSize: `${fontSizePx}px`,
+                }}
                 className={`inline-flex items-center gap-2 font-bold transition-colors select-none ${
                   type === 'Link'
                     ? 'p-0 bg-transparent border-0 ' +
@@ -416,7 +428,7 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
                     search
                   </span>
                 )}
-                <span style={{ color: 'inherit' }}>Buscar</span>
+                <span style={{ color: 'inherit', fontSize: `${fontSizePx}px` }}>Buscar</span>
               </button>
             </div>
 

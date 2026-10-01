@@ -47,7 +47,7 @@ export function generateButtonCss(config: ButtonConfig): string {
   const iconStatus = icon === 'Com ícone' ? 'Show' : 'Hide'
   const comment = `/* Type=${type}, Size=${size}, State=${state}, Icon=${iconStatus} */`
 
-  // Padding based on size
+  // Dimensions based on size (consistent across all types including Link)
   let padding = '12px 20px'
   let fontSize = '16px'
   let iconDim = '20px'
@@ -63,13 +63,12 @@ export function generateButtonCss(config: ButtonConfig): string {
   }
 
   // Core properties for .button
-  const lines: string[] = [
-    '  display: flex;',
-    '  align-items: center;',
-    '  gap: 8px;',
-    `  padding: ${padding};`,
-    '  border-radius: 8px;',
-  ]
+  const lines: string[] = ['  display: flex;', '  align-items: center;', '  gap: 8px;']
+
+  if (type !== 'Link') {
+    lines.push(`  padding: ${padding};`)
+    lines.push('  border-radius: 8px;')
+  }
 
   let labelColor = '#FFFFFF'
   const fontWeight = '700'
