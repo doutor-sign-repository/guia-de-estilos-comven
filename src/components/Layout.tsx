@@ -1,67 +1,33 @@
 import React, { useState, useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate, Link } from 'react-router-dom'
 import { ComvenLogo } from './ComvenLogo'
 
-interface NavItem {
+interface GuiaNavItem {
   id: string
   label: string
-  number?: string
-  group: 'guia' | 'componentes'
+  number: string
 }
 
-const NAV_ITEMS: NavItem[] = [
-  { id: 'logotipo', label: 'Logotipo', number: '1', group: 'guia' },
-  { id: 'cores', label: 'Cores', number: '2', group: 'guia' },
-  { id: 'tipografia', label: 'Tipografia', number: '3', group: 'guia' },
-  { id: 'iconografia', label: 'Iconografia', number: '4', group: 'guia' },
-  { id: 'area-de-protecao', label: 'Área de proteção', number: '5', group: 'guia' },
-  { id: 'aplicacoes-incorretas', label: 'Aplicações incorretas', number: '6', group: 'guia' },
-  { id: 'button', label: 'Button', number: '1', group: 'componentes' },
+const GUIA_ITEMS: GuiaNavItem[] = [
+  { id: 'logotipo', label: 'Logotipo', number: '1' },
+  { id: 'cores', label: 'Cores', number: '2' },
+  { id: 'tipografia', label: 'Tipografia', number: '3' },
+  { id: 'iconografia', label: 'Iconografia', number: '4' },
+  { id: 'area-de-protecao', label: 'Área de proteção', number: '5' },
+  { id: 'aplicacoes-incorretas', label: 'Aplicações incorretas', number: '6' },
 ]
 
 export default function Layout() {
+  const location = useLocation()
+  const navigate = useNavigate()
   const [activeSection, setActiveSection] = useState<string>('logotipo')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  // Sync with Hash & IntersectionObserver
-  useEffect(() => {
-    // If hash on load, navigate
-    const hash = window.location.hash.replace('#', '')
-    if (hash) {
-      setActiveSection(hash)
-    }
+  const isGuiaPage = location.pathname === '/'
+  const isComponentesPage = location.pathname.startsWith('/componentes')
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.id
-            if (id) {
-              setActiveSection(id)
-              // Update hash smoothly without jumping
-              history.replaceState(null, '', `#${id}`)
-            }
-          }
-        })
-      },
-      {
-        rootMargin: '-20% 0px -70% 0px',
-        threshold: 0,
-      },
-    )
-
-    const sections = NAV_ITEMS.map((item) => document.getElementById(item.id)).filter(Boolean)
-    sections.forEach((el) => {
-      if (el) observer.observe(el)
-    })
-
-    return () => observer.disconnect()
-  }, [])
-
-  const scrollToSection = (id: string) => {
-    setActiveSection(id)
-    setMobileMenuOpen(false)
-    history.pushState(null, '', `#${id}`)
+  // Smooth scroll helper
+  const scrollToTargetElement = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
       const topOffset = 30
@@ -74,20 +40,81 @@ export default function Layout() {
     }
   }
 
-  const guiaItems = NAV_ITEMS.filter((i) => i.group === 'guia')
-  const componentesItems = NAV_ITEMS.filter((i) => i.group === 'componentes')
+  // Handle clicking a Guia item
+  const handleGuiaItemClick = (id: string) => {
+    setMobileMenuOpen(false)
+    if (!isGuiaPage) {
+      // If we are on another page, navigate to home with hash
+      navigate(`/#${id}`)
+      // Short delay to allow route change before scrolling
+      setTimeout(() => {
+        scrollToTargetElement(id)
+        setActiveSection(id)
+      }, 100)
+    } else {
+      setActiveSection(id)
+      history.pushState(null, '', `#${id}`)
+      scrollToTargetElement(id)
+    }
+  }
+
+  // Handle clicking Componentes Button item
+  const handleComponentesClick = () => {
+    setMobileMenuOpen(false)
+    if (!isComponentesPage) {
+      navigate('/componentes')
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // On Guia page: IntersectionObserver to sync active section with scroll
+  useEffect(() => {
+    if (!isGuiaPage) return
+
+    const hash = window.location.hash.replace('#', '')
+    if (hash) {
+      setActiveSection(hash)
+      // Slight delay for initial scroll if needed
+      setTimeout(() => scrollToTargetElement(hash), 150)
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id
+            if (id) {
+              setActiveSection(id)
+              history.replaceState(null, '', `#${id}`)
+            }
+          }
+        })
+      },
+      {
+        rootMargin: '-20% 0px -70% 0px',
+        threshold: 0,
+      },
+    )
+
+    const sections = GUIA_ITEMS.map((item) => document.getElementById(item.id)).filter(Boolean)
+    sections.forEach((el) => {
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
+  }, [isGuiaPage, location.pathname])
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-[#F5F7FA]">
       {/* Mobile Top Header */}
       <header className="lg:hidden sticky top-0 z-40 bg-[#062446] text-white px-4 py-3 flex items-center justify-between border-b border-[#0d3663] shadow-md">
-        <div className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3">
           <ComvenLogo variant="dark-colorida" showTagline={false} width={110} />
           <div className="h-4 w-px bg-[#194575]" />
           <span className="text-xs font-semibold text-[#8BB7E7] uppercase tracking-wider">
             Design System
           </span>
-        </div>
+        </Link>
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -116,11 +143,19 @@ export default function Layout() {
       >
         {/* Top Brand Section & Navigation Items */}
         <div className="pt-9 px-6 pb-2 flex-1 flex flex-col overflow-hidden">
-          {/* Official COMVEN Logo for Dark Background with Tagline */}
+          {/* Official COMVEN Logo for Dark Background with Tagline - clicking it goes to Home */}
           <div className="flex items-center justify-between">
-            <div className="flex flex-col items-start text-left w-full max-w-[210px]">
+            <Link
+              to="/"
+              onClick={() => {
+                setMobileMenuOpen(false)
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }}
+              className="flex flex-col items-start text-left w-full max-w-[210px] group transition-opacity hover:opacity-90"
+              title="Voltar ao início do Guia de Estilos"
+            >
               <ComvenLogo variant="dark-colorida" showTagline={true} width={190} />
-            </div>
+            </Link>
 
             {/* Mobile close button inside drawer */}
             <button
@@ -147,19 +182,31 @@ export default function Layout() {
           <nav className="space-y-7 overflow-y-auto flex-1 pr-1 scrollbar-thin">
             {/* Group 1: GUIA DE ESTILOS */}
             <div>
-              <div className="px-2 mb-3">
-                <span className="text-[12px] font-bold tracking-[0.14em] text-white uppercase">
+              <div className="px-2 mb-3 flex items-center justify-between">
+                <Link
+                  to="/"
+                  onClick={() => {
+                    setMobileMenuOpen(false)
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                  }}
+                  className={`text-[12px] font-bold tracking-[0.14em] uppercase transition-colors ${
+                    isGuiaPage ? 'text-white' : 'text-[#8BB7E7] hover:text-white'
+                  }`}
+                >
                   GUIA DE ESTILOS
-                </span>
+                </Link>
+                {isGuiaPage && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#F2CB05]" title="Página ativa" />
+                )}
               </div>
               <ul className="space-y-2">
-                {guiaItems.map((item) => {
-                  const isActive = activeSection === item.id
+                {GUIA_ITEMS.map((item) => {
+                  const isActive = isGuiaPage && activeSection === item.id
                   return (
                     <li key={item.id}>
                       <button
                         type="button"
-                        onClick={() => scrollToSection(item.id)}
+                        onClick={() => handleGuiaItemClick(item.id)}
                         className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-150 group ${
                           isActive
                             ? 'text-[#F2CB05] font-semibold'
@@ -188,42 +235,46 @@ export default function Layout() {
 
             {/* Group 2: COMPONENTES */}
             <div>
-              <div className="px-2 mb-3">
-                <span className="text-[12px] font-bold tracking-[0.14em] text-white uppercase">
+              <div className="px-2 mb-3 flex items-center justify-between">
+                <Link
+                  to="/componentes"
+                  onClick={handleComponentesClick}
+                  className={`text-[12px] font-bold tracking-[0.14em] uppercase transition-colors ${
+                    isComponentesPage ? 'text-white' : 'text-[#8BB7E7] hover:text-white'
+                  }`}
+                >
                   COMPONENTES
-                </span>
+                </Link>
+                {isComponentesPage && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#F2CB05]" title="Página ativa" />
+                )}
               </div>
               <ul className="space-y-2">
-                {componentesItems.map((item) => {
-                  const isActive = activeSection === item.id
-                  return (
-                    <li key={item.id}>
-                      <button
-                        type="button"
-                        onClick={() => scrollToSection(item.id)}
-                        className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-150 group ${
-                          isActive
-                            ? 'text-[#F2CB05] font-semibold'
-                            : 'text-white hover:text-[#9DC6F3]'
-                        }`}
-                      >
-                        {/* Circular number badge */}
-                        <span
-                          className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-colors ${
-                            isActive
-                              ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                              : 'border border-white/25 text-white/90 group-hover:border-white/50 group-hover:text-white'
-                          }`}
-                        >
-                          {item.number}
-                        </span>
-                        <span className="text-[14px] leading-snug tracking-normal truncate">
-                          {item.label}
-                        </span>
-                      </button>
-                    </li>
-                  )
-                })}
+                <li>
+                  <button
+                    type="button"
+                    onClick={handleComponentesClick}
+                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-150 group ${
+                      isComponentesPage
+                        ? 'text-[#F2CB05] font-semibold'
+                        : 'text-white hover:text-[#9DC6F3]'
+                    }`}
+                  >
+                    {/* Circular number badge */}
+                    <span
+                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-colors ${
+                        isComponentesPage
+                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
+                          : 'border border-white/25 text-white/90 group-hover:border-white/50 group-hover:text-white'
+                      }`}
+                    >
+                      1
+                    </span>
+                    <span className="text-[14px] leading-snug tracking-normal truncate">
+                      Button
+                    </span>
+                  </button>
+                </li>
               </ul>
             </div>
           </nav>
@@ -241,7 +292,7 @@ export default function Layout() {
           <Outlet />
         </main>
 
-        {/* Global Footer */}
+        {/* Global Footer (present on both pages) */}
         <footer className="w-full border-t border-[#EBEBEB] bg-white py-6 px-6 text-xs text-[#666666]">
           <div className="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
