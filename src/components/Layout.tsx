@@ -237,7 +237,7 @@ export default function Layout() {
 
       {/* Main Content Area */}
       <div className="flex-1 lg:pl-[280px] flex flex-col min-h-screen">
-        <main className="flex-1 w-full max-w-[1200px] mx-auto p-4 sm:p-6 lg:p-10">
+        <main className="flex-1 w-full flex flex-col">
           <Outlet />
         </main>
 
