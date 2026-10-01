@@ -16,9 +16,9 @@ export default function Index() {
 
   return (
     <div className="w-full">
-      {/* Top Banner / Hero matching Figma screenshot */}
-      <section className="w-full bg-[#004185] text-white py-14 sm:py-16 lg:py-20 px-6 sm:px-10 lg:px-14">
-        <div className="max-w-[1200px] mx-auto">
+      {/* Top Banner / Hero fluido com padding generoso e proporcional */}
+      <section className="w-full bg-[#004185] text-white py-14 sm:py-16 lg:py-20 px-6 sm:px-10 md:px-12 lg:px-16 xl:px-20 2xl:px-24">
+        <div className="w-full">
           {/* Badge / Pill */}
           <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#205898] text-[#E8F1FC] text-[11px] font-semibold tracking-[0.12em] uppercase mb-7 select-none shadow-sm">
             DESIGN SYSTEM
@@ -30,15 +30,15 @@ export default function Index() {
           </h1>
 
           {/* Subtitle / Paragraph */}
-          <p className="max-w-3xl text-base sm:text-lg lg:text-[19px] leading-relaxed text-[#D2E4F7] font-normal">
+          <p className="max-w-4xl text-base sm:text-lg lg:text-[19px] leading-relaxed text-[#D2E4F7] font-normal">
             Referência oficial de marca e identidade visual para uso interno — logotipo, cores,
             tipografia, iconografia e boas práticas de aplicação.
           </p>
         </div>
       </section>
 
-      {/* Main Content Sections: each section lives inside its own generous white box/card with rounded corners */}
-      <div className="max-w-[1200px] mx-auto p-4 sm:p-6 lg:p-10 space-y-8 lg:space-y-10 pb-16">
+      {/* Main Content Sections: fluida com padding proporcional */}
+      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 2xl:px-24 py-8 lg:py-10 space-y-8 lg:space-y-10 pb-16">
         {/* ======================================================== */}
         {/* SEÇÃO 1: LOGOTIPO                                        */}
         {/* ======================================================== */}
@@ -92,7 +92,7 @@ export default function Index() {
                     Oficial #1
                   </span>
                 </div>
-                <div className="w-full max-w-[340px] mx-auto py-8 flex items-center justify-center">
+                <div className="w-full max-w-[420px] mx-auto py-8 flex items-center justify-center">
                   <ComvenOfficialLogo variant="light-colorida" showTagline={true} width="100%" />
                 </div>
                 <div className="pt-2 text-[11px] text-[#666666]">
@@ -111,7 +111,7 @@ export default function Index() {
                     Fundo Escuro #0B2A52
                   </span>
                 </div>
-                <div className="w-full max-w-[340px] mx-auto py-8 flex items-center justify-center">
+                <div className="w-full max-w-[420px] mx-auto py-8 flex items-center justify-center">
                   <ComvenOfficialLogo variant="dark-colorida" showTagline={true} width="100%" />
                 </div>
                 <div className="pt-2 text-[11px] text-[#A6C4E7]">
@@ -131,7 +131,7 @@ export default function Index() {
                   </span>
                   <span className="text-[11px] font-mono text-[#666666]">#004185</span>
                 </div>
-                <div className="w-full max-w-[340px] mx-auto py-8 flex items-center justify-center">
+                <div className="w-full max-w-[420px] mx-auto py-8 flex items-center justify-center">
                   <ComvenOfficialLogo variant="light-1cor" showTagline={true} width="100%" />
                 </div>
                 <div className="pt-2 text-[11px] text-[#666666]">
@@ -148,7 +148,7 @@ export default function Index() {
                   </span>
                   <span className="text-[11px] font-mono text-[#A6C4E7]">#FFFFFF</span>
                 </div>
-                <div className="w-full max-w-[340px] mx-auto py-8 flex items-center justify-center">
+                <div className="w-full max-w-[420px] mx-auto py-8 flex items-center justify-center">
                   <ComvenOfficialLogo variant="dark-1cor" showTagline={true} width="100%" />
                 </div>
                 <div className="pt-2 text-[11px] text-[#A6C4E7]">
@@ -608,7 +608,7 @@ export default function Index() {
               <div className="text-xs font-bold uppercase tracking-wider text-[#666666] mb-4">
                 Comparativo de Estilos (Outline × Filled)
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 2xl:grid-cols-8 gap-3">
                 {[
                   { name: 'search', label: 'search' },
                   { name: 'home', label: 'home' },
@@ -824,7 +824,7 @@ export default function Index() {
           </div>
 
           {/* Grid 6 Incorrect Application Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 gap-6">
             {/* 1. Distorção / esticar */}
             <div className="bg-[#FAFBFD] rounded-2xl border border-[#EBEBEB] p-5 shadow-xs relative overflow-hidden flex flex-col justify-between">
               <div className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#FF0000] text-white flex items-center justify-center text-xs font-bold shadow-sm">

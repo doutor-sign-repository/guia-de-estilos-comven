@@ -4,9 +4,9 @@ import { ButtonPlayground } from '@/components/registry/ButtonPlayground'
 export default function Componentes() {
   return (
     <div className="w-full">
-      {/* Top Banner / Hero matching Guia de Estilos style */}
-      <section className="w-full bg-[#004185] text-white py-12 sm:py-14 lg:py-16 px-6 sm:px-10 lg:px-14">
-        <div className="max-w-[1200px] mx-auto">
+      {/* Top Banner / Hero fluido com padding generoso e proporcional */}
+      <section className="w-full bg-[#004185] text-white py-12 sm:py-14 lg:py-16 px-6 sm:px-10 md:px-12 lg:px-16 xl:px-20 2xl:px-24">
+        <div className="w-full">
           {/* Badge / Pill */}
           <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#205898] text-[#E8F1FC] text-[11px] font-semibold tracking-[0.12em] uppercase mb-5 select-none shadow-sm">
             COMPONENTES
@@ -18,16 +18,16 @@ export default function Componentes() {
           </h1>
 
           {/* Subtitle / Paragraph */}
-          <p className="max-w-3xl text-sm sm:text-base lg:text-[17px] leading-relaxed text-[#D2E4F7] font-normal">
+          <p className="max-w-4xl text-sm sm:text-base lg:text-[17px] leading-relaxed text-[#D2E4F7] font-normal">
             Biblioteca de componentes reutilizáveis para os produtos digitais COMVEN. Interaja com o
             playground configurável para explorar tipos, tamanhos e estados dos componentes.
           </p>
         </div>
       </section>
 
-      {/* Main Content with box cards */}
-      <div className="max-w-[1200px] mx-auto p-4 sm:p-6 lg:p-10 space-y-8 pb-16">
-        <section id="button">
+      {/* Main Content fluido com padding proporcional */}
+      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 2xl:px-24 py-8 lg:py-10 space-y-8 pb-16">
+        <section id="button" className="w-full">
           <ButtonPlayground />
         </section>
       </div>
