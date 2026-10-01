@@ -110,23 +110,23 @@ export default function Layout() {
 
       {/* Sidebar Navigation (Fixed on Desktop, Drawer on Mobile) */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-[280px] bg-[#141414] text-white flex flex-col justify-between transition-transform duration-300 ease-in-out border-r border-[#292929] ${
+        className={`fixed inset-y-0 left-0 z-50 w-[280px] bg-[#141414] text-white flex flex-col justify-between transition-transform duration-300 ease-in-out border-r border-[#292929] shadow-xl ${
           mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
         {/* Top Brand Section */}
-        <div className="p-6 pb-4">
+        <div className="p-6 pb-2">
           <div className="flex items-center justify-between">
             {/* Official COMVEN Logo for Dark Background with Tagline */}
             <div className="flex flex-col items-start text-left w-full max-w-[210px]">
-              <ComvenLogo variant="dark-colorida" showTagline={true} width={200} />
+              <ComvenLogo variant="dark-colorida" showTagline={true} width={190} />
             </div>
 
             {/* Mobile close button inside drawer */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              className="lg:hidden p-1 text-[#848484] hover:text-white"
+              className="lg:hidden p-1.5 text-[#848484] hover:text-white rounded-lg hover:bg-[#292929] transition-colors"
             >
               <span className="material-symbols-rounded" style={{ fontSize: '20px' }}>
                 close
@@ -134,18 +134,24 @@ export default function Layout() {
             </button>
           </div>
 
-          <div className="text-[11px] text-[#848484] mt-2 font-medium">
-            Design System · v1.0 — Ago/2026
+          <div className="flex items-center justify-between mt-3 text-[11px] text-[#848484] font-medium">
+            <span>Design System v1.0</span>
+            <span className="px-1.5 py-0.5 rounded bg-[#292929] text-[10px] text-[#9DC6F3] font-mono">
+              Figma 34:1734
+            </span>
           </div>
 
-          <div className="h-px bg-[#292929] my-5" />
+          <div className="h-px bg-[#292929] my-4" />
 
           {/* Navigation Links Scrollable Area */}
           <nav className="space-y-6 overflow-y-auto max-h-[calc(100vh-230px)] pr-1">
             {/* Group 1: GUIA DE ESTILOS */}
             <div>
-              <div className="text-[11px] font-bold tracking-widest text-[#848484] uppercase mb-2 px-2">
-                GUIA DE ESTILOS
+              <div className="flex items-center justify-between px-3 mb-2.5">
+                <span className="text-[11px] font-bold tracking-widest text-[#848484] uppercase">
+                  GUIA DE ESTILOS
+                </span>
+                <span className="text-[10px] text-[#666666] font-mono">6</span>
               </div>
               <ul className="space-y-1">
                 {guiaItems.map((item) => {
@@ -155,22 +161,36 @@ export default function Layout() {
                       <button
                         type="button"
                         onClick={() => scrollToSection(item.id)}
-                        className={`w-full text-left px-3 py-2 text-sm font-semibold rounded-r-lg flex items-center gap-2.5 transition-all duration-150 relative ${
+                        className={`w-full text-left px-3 py-2.5 text-sm font-medium rounded-lg flex items-center justify-between transition-all duration-150 relative group ${
                           isActive
-                            ? 'text-[#9DC6F3] bg-[#004185]/20 font-bold'
-                            : 'text-[#DCDCDC] hover:text-white hover:bg-[#222222]'
+                            ? 'text-white bg-[#004185] font-semibold shadow-sm'
+                            : 'text-[#BFBFBF] hover:text-white hover:bg-[#222222]'
                         }`}
                       >
-                        {/* Rounded blue bar indicator on active item */}
+                        {/* Rounded light blue bar indicator on active item */}
                         {isActive && (
-                          <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-[#004185] rounded-r-full shadow-sm" />
+                          <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#9DC6F3] rounded-r-full shadow-sm" />
                         )}
-                        <span
-                          className={`text-xs ${isActive ? 'text-[#9DC6F3]' : 'text-[#848484]'}`}
-                        >
-                          {item.number}
-                        </span>
-                        <span className="truncate">{item.label}</span>
+                        <div className="flex items-center gap-2.5 truncate">
+                          <span
+                            className={`w-5 h-5 rounded flex items-center justify-center text-[11px] font-bold ${
+                              isActive
+                                ? 'bg-white/20 text-white'
+                                : 'bg-[#292929] text-[#848484] group-hover:text-white'
+                            }`}
+                          >
+                            {item.number}
+                          </span>
+                          <span className="truncate">{item.label}</span>
+                        </div>
+                        {isActive && (
+                          <span
+                            className="material-symbols-rounded text-xs text-[#9DC6F3]"
+                            style={{ fontSize: '14px' }}
+                          >
+                            arrow_right
+                          </span>
+                        )}
                       </button>
                     </li>
                   )
@@ -180,8 +200,11 @@ export default function Layout() {
 
             {/* Group 2: COMPONENTES */}
             <div>
-              <div className="text-[11px] font-bold tracking-widest text-[#848484] uppercase mb-2 px-2">
-                COMPONENTES
+              <div className="flex items-center justify-between px-3 mb-2.5">
+                <span className="text-[11px] font-bold tracking-widest text-[#848484] uppercase">
+                  COMPONENTES
+                </span>
+                <span className="text-[10px] text-[#666666] font-mono">1</span>
               </div>
               <ul className="space-y-1">
                 {componentesItems.map((item) => {
@@ -191,21 +214,35 @@ export default function Layout() {
                       <button
                         type="button"
                         onClick={() => scrollToSection(item.id)}
-                        className={`w-full text-left px-3 py-2 text-sm font-semibold rounded-r-lg flex items-center gap-2.5 transition-all duration-150 relative ${
+                        className={`w-full text-left px-3 py-2.5 text-sm font-medium rounded-lg flex items-center justify-between transition-all duration-150 relative group ${
                           isActive
-                            ? 'text-[#9DC6F3] bg-[#004185]/20 font-bold'
-                            : 'text-[#DCDCDC] hover:text-white hover:bg-[#222222]'
+                            ? 'text-white bg-[#004185] font-semibold shadow-sm'
+                            : 'text-[#BFBFBF] hover:text-white hover:bg-[#222222]'
                         }`}
                       >
                         {isActive && (
-                          <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-[#004185] rounded-r-full shadow-sm" />
+                          <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#9DC6F3] rounded-r-full shadow-sm" />
                         )}
-                        <span
-                          className={`text-xs ${isActive ? 'text-[#9DC6F3]' : 'text-[#848484]'}`}
-                        >
-                          {item.number}
-                        </span>
-                        <span className="truncate">{item.label}</span>
+                        <div className="flex items-center gap-2.5 truncate">
+                          <span
+                            className={`w-5 h-5 rounded flex items-center justify-center text-[11px] font-bold ${
+                              isActive
+                                ? 'bg-white/20 text-white'
+                                : 'bg-[#292929] text-[#848484] group-hover:text-white'
+                            }`}
+                          >
+                            {item.number}
+                          </span>
+                          <span className="truncate">{item.label}</span>
+                        </div>
+                        {isActive && (
+                          <span
+                            className="material-symbols-rounded text-xs text-[#9DC6F3]"
+                            style={{ fontSize: '14px' }}
+                          >
+                            arrow_right
+                          </span>
+                        )}
                       </button>
                     </li>
                   )
@@ -216,9 +253,14 @@ export default function Layout() {
         </div>
 
         {/* Sidebar Footer */}
-        <div className="p-6 border-t border-[#292929] bg-[#141414]">
-          <div className="text-xs text-[#848484] font-medium">COMVEN © 2026</div>
-          <div className="text-[10px] text-[#666666] mt-0.5">Todos os direitos reservados.</div>
+        <div className="p-5 border-t border-[#292929] bg-[#141414] space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-white font-semibold">COMVEN</span>
+            <span className="text-[10px] text-[#848484]">v1.0 Oficial</span>
+          </div>
+          <div className="text-[10px] text-[#666666] leading-tight">
+            Comunicação de venda em tempo real. Todos os direitos reservados © 2026.
+          </div>
         </div>
       </aside>
 

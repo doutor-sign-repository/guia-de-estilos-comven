@@ -57,14 +57,18 @@ export function generateButtonCss(config: ButtonConfig): string {
   let stateRules = ''
 
   if (state === 'Disabled') {
-    bgRule =
-      type === 'Secondary' || type === 'Link'
-        ? 'background-color: transparent;'
-        : 'background-color: #666666;'
-    stateRules = `\n  opacity: 0.4;\n  cursor: not-allowed;`
-    if (type === 'Secondary') {
-      borderRule = '\n  border: 2px solid #666666;'
+    if (type === 'Primary') {
+      bgRule = 'background-color: #8BB7E7;'
+    } else if (type === 'Secondary') {
+      bgRule = 'background-color: transparent;'
+      borderRule = '\n  border: 2px solid #8BB7E7;'
+    } else if (type === 'Tertiary') {
+      bgRule = 'background-color: #F5F7FA;'
+    } else if (type === 'Link') {
+      bgRule = 'background-color: transparent;'
+      borderRule = '\n  text-decoration: underline;'
     }
+    stateRules = `\n  opacity: 0.6;\n  cursor: not-allowed;`
   } else {
     if (type === 'Primary') {
       bgRule = 'background-color: #004185;'
@@ -81,14 +85,29 @@ export function generateButtonCss(config: ButtonConfig): string {
 
   // Label styling
   let fontSize = '16px'
-  if (size === 'Medium') fontSize = '14px'
-  if (size === 'Small') fontSize = '12px'
+  let lineHeight = '24px'
+  if (size === 'Medium') {
+    fontSize = '14px'
+    lineHeight = '20px'
+  }
+  if (size === 'Small') {
+    fontSize = '12px'
+    lineHeight = '16px'
+  }
 
   const fontWeight = type === 'Tertiary' || type === 'Link' ? '600' : '700'
 
   let labelColor = '#FFFFFF'
   if (state === 'Disabled') {
-    labelColor = type === 'Secondary' || type === 'Link' ? '#666666' : '#FFFFFF'
+    if (type === 'Primary') {
+      labelColor = '#FFFFFF'
+    } else if (type === 'Secondary') {
+      labelColor = '#8BB7E7'
+    } else if (type === 'Tertiary') {
+      labelColor = '#848484'
+    } else if (type === 'Link') {
+      labelColor = '#8BB7E7'
+    }
   } else {
     if (type === 'Primary') {
       labelColor = '#FFFFFF'
@@ -121,6 +140,7 @@ export function generateButtonCss(config: ButtonConfig): string {
   font-family: 'Open Sans', sans-serif;
   font-weight: ${fontWeight};
   font-size: ${fontSize};
+  line-height: ${lineHeight};
   color: ${labelColor};
 }${iconBlock}`
 }

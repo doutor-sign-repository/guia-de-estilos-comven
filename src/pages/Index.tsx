@@ -36,6 +36,15 @@ export default function Index() {
             <span>Agosto de 2026</span>
             <span>•</span>
             <span>Comunicação de venda em tempo real</span>
+            <span>•</span>
+            <a
+              href="https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="inline-flex items-center gap-1 text-white hover:text-[#9DC6F3] underline font-semibold transition-colors"
+            >
+              <span>↗ Protótipo Figma (node 34:1734)</span>
+            </a>
           </div>
         </div>
 
@@ -275,7 +284,7 @@ export default function Index() {
           <div className="text-xs font-bold uppercase tracking-wider text-[#666666] mb-3">
             Cores Principais
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {BRAND_COLORS.map((c) => {
               const isDarkText = !c.textLight
               return (
@@ -1043,90 +1052,412 @@ export default function Index() {
             </div>
           </div>
 
-          {/* Decorative Label Strip matching the PDF presentation playfully */}
-          <div className="bg-white rounded-xl border border-[#EBEBEB] p-6 shadow-sm overflow-hidden">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-[#848484] mb-3">
-              Matriz de Variantes — Labels
+          {/* Matriz Completa de Instâncias do Button — Type × Size × State × Ícone */}
+          <div className="bg-white rounded-xl border border-[#EBEBEB] p-6 lg:p-8 shadow-sm space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#EBEBEB] gap-2">
+              <div>
+                <h4 className="text-lg font-bold text-[#141414] flex items-center gap-2">
+                  <span>Matriz de Variantes do Componente</span>
+                  <span className="text-xs px-2 py-0.5 rounded bg-[#004185]/10 text-[#004185] font-semibold">
+                    Figma Node 34:1734
+                  </span>
+                </h4>
+                <p className="text-xs text-[#666666] mt-0.5">
+                  Visualização sistemática de todas as instâncias: Primary, Secondary, Tertiary e
+                  Link em Default e Disabled, com e sem ícone.
+                </p>
+              </div>
+              <span className="text-xs font-mono text-[#848484]">Raio padrão: 8px · Gap: 8px</span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-              {/* Row 1 */}
-              <div className="px-4 py-2 bg-[#004185] text-white rounded-lg text-center font-bold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 bg-[#8BB7E7] text-white rounded-lg text-center font-bold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 bg-[#004185] text-white rounded-lg text-center font-bold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 bg-[#8BB7E7] text-white rounded-lg text-center font-bold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 bg-[#004185] text-white rounded-lg text-center font-bold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 bg-[#8BB7E7] text-white rounded-lg text-center font-bold text-sm">
-                Label
+
+            {/* Matriz em Grid com 4 Categorias (Types) */}
+            <div className="space-y-6">
+              {/* Type: Primary */}
+              <div className="bg-[#F5F7FA] rounded-xl p-5 border border-[#EBEBEB] space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#004185]">
+                      Type: Primary
+                    </span>
+                    <span className="text-[11px] text-[#666666]">
+                      (Fundo #004185 · Texto #FFFFFF · Disabled #8BB7E7)
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#848484]">Ação principal</span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 items-center">
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-[#004185] text-white font-bold text-base shadow-sm"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '20px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Large / Default / Ícone</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#004185] text-white font-bold text-sm shadow-sm"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '18px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Medium / Default / Ícone</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#004185] text-white font-bold text-xs shadow-sm"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '16px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Small / Default / Ícone</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center px-5 py-3 rounded-lg bg-[#004185] text-white font-bold text-base shadow-sm"
+                    >
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Large / Sem ícone</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      disabled
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#8BB7E7] text-white font-bold text-sm cursor-not-allowed"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '18px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Medium / Disabled</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      disabled
+                      className="inline-flex items-center px-4 py-2.5 rounded-lg bg-[#8BB7E7] text-white font-bold text-sm cursor-not-allowed"
+                    >
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Disabled / Sem ícone</span>
+                  </div>
+                </div>
               </div>
 
-              {/* Row 2 */}
-              <div className="px-4 py-2 border-2 border-[#004185] text-[#004185] rounded-lg text-center font-bold text-sm bg-transparent">
-                Label
-              </div>
-              <div className="px-4 py-2 border-2 border-[#8BB7E7] text-[#8BB7E7] rounded-lg text-center font-bold text-sm bg-transparent">
-                Label
-              </div>
-              <div className="px-4 py-2 border-2 border-[#004185] text-[#004185] rounded-lg text-center font-bold text-sm bg-transparent">
-                Label
-              </div>
-              <div className="px-4 py-2 border-2 border-[#8BB7E7] text-[#8BB7E7] rounded-lg text-center font-bold text-sm bg-transparent">
-                Label
-              </div>
-              <div className="px-4 py-2 border-2 border-[#004185] text-[#004185] rounded-lg text-center font-bold text-sm bg-transparent">
-                Label
-              </div>
-              <div className="px-4 py-2 border-2 border-[#8BB7E7] text-[#8BB7E7] rounded-lg text-center font-bold text-sm bg-transparent">
-                Label
+              {/* Type: Secondary */}
+              <div className="bg-[#F5F7FA] rounded-xl p-5 border border-[#EBEBEB] space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#004185]">
+                      Type: Secondary
+                    </span>
+                    <span className="text-[11px] text-[#666666]">
+                      (Transparente · Borda 2px #004185 · Texto #004185 · Disabled #8BB7E7)
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#848484]">Ação secundária</span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 items-center">
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border-2 border-[#004185] text-[#004185] font-bold text-base bg-transparent"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '20px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Large / Default</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 border-[#004185] text-[#004185] font-bold text-sm bg-transparent"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '18px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Medium / Default</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border-2 border-[#004185] text-[#004185] font-bold text-xs bg-transparent"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '16px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Small / Default</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center px-5 py-3 rounded-lg border-2 border-[#004185] text-[#004185] font-bold text-base bg-transparent"
+                    >
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Large / Sem ícone</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      disabled
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 border-[#8BB7E7] text-[#8BB7E7] font-bold text-sm bg-transparent cursor-not-allowed"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '18px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Medium / Disabled</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      disabled
+                      className="inline-flex items-center px-4 py-2.5 rounded-lg border-2 border-[#8BB7E7] text-[#8BB7E7] font-bold text-sm bg-transparent cursor-not-allowed"
+                    >
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Disabled / Sem ícone</span>
+                  </div>
+                </div>
               </div>
 
-              {/* Row 3 */}
-              <div className="px-4 py-2 bg-[#E6FAED] text-[#004185] rounded-lg text-center font-semibold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 bg-[#E6FAED] text-[#8BB7E7] rounded-lg text-center font-semibold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 bg-[#E6FAED] text-[#004185] rounded-lg text-center font-semibold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 bg-[#E6FAED] text-[#8BB7E7] rounded-lg text-center font-semibold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 bg-[#E6FAED] text-[#004185] rounded-lg text-center font-semibold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 bg-[#E6FAED] text-[#8BB7E7] rounded-lg text-center font-semibold text-sm">
-                Label
+              {/* Type: Tertiary */}
+              <div className="bg-[#F5F7FA] rounded-xl p-5 border border-[#EBEBEB] space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#004185]">
+                      Type: Tertiary
+                    </span>
+                    <span className="text-[11px] text-[#666666]">
+                      (Fundo suave #E6FAED · Texto #004185 · Disabled #F5F7FA / #848484)
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#848484]">Ação de suporte</span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 items-center">
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-[#E6FAED] text-[#004185] font-semibold text-base"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '20px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Large / Default</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#E6FAED] text-[#004185] font-semibold text-sm"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '18px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Medium / Default</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#E6FAED] text-[#004185] font-semibold text-xs"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '16px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Small / Default</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center px-5 py-3 rounded-lg bg-[#E6FAED] text-[#004185] font-semibold text-base"
+                    >
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Large / Sem ícone</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      disabled
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#F5F7FA] text-[#848484] border border-[#EBEBEB] font-semibold text-sm cursor-not-allowed"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '18px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Medium / Disabled</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      disabled
+                      className="inline-flex items-center px-4 py-2.5 rounded-lg bg-[#F5F7FA] text-[#848484] border border-[#EBEBEB] font-semibold text-sm cursor-not-allowed"
+                    >
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Disabled / Sem ícone</span>
+                  </div>
+                </div>
               </div>
 
-              {/* Row 4 */}
-              <div className="px-4 py-2 text-[#004185] underline rounded-lg text-center font-semibold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 text-[#8BB7E7] underline rounded-lg text-center font-semibold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 text-[#004185] underline rounded-lg text-center font-semibold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 text-[#8BB7E7] underline rounded-lg text-center font-semibold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 text-[#004185] underline rounded-lg text-center font-semibold text-sm">
-                Label
-              </div>
-              <div className="px-4 py-2 text-[#8BB7E7] underline rounded-lg text-center font-semibold text-sm">
-                Label
+              {/* Type: Link */}
+              <div className="bg-[#F5F7FA] rounded-xl p-5 border border-[#EBEBEB] space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#004185]">
+                      Type: Link
+                    </span>
+                    <span className="text-[11px] text-[#666666]">
+                      (Transparente · Sublinhado · Texto #004185 · Disabled #8BB7E7)
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#848484]">Navegação inline</span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 items-center">
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-lg text-[#004185] underline underline-offset-4 font-semibold text-base"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '20px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Large / Default</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-[#004185] underline underline-offset-4 font-semibold text-sm"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '18px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Medium / Default</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-[#004185] underline underline-offset-4 font-semibold text-xs"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '16px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Small / Default</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      className="inline-flex items-center px-5 py-3 rounded-lg text-[#004185] underline underline-offset-4 font-semibold text-base"
+                    >
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Large / Sem ícone</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      disabled
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-[#8BB7E7] underline underline-offset-4 font-semibold text-sm cursor-not-allowed"
+                    >
+                      <span
+                        className="material-symbols-rounded icon-outline"
+                        style={{ fontSize: '18px' }}
+                      >
+                        search
+                      </span>
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Medium / Disabled</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 p-3 bg-white rounded-lg border border-[#EBEBEB]">
+                    <button
+                      type="button"
+                      disabled
+                      className="inline-flex items-center px-4 py-2.5 rounded-lg text-[#8BB7E7] underline underline-offset-4 font-semibold text-sm cursor-not-allowed"
+                    >
+                      <span>Label</span>
+                    </button>
+                    <span className="text-[10px] text-[#848484]">Disabled / Sem ícone</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
