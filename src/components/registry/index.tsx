@@ -1,6 +1,13 @@
 import React from 'react'
-import { ButtonConfig, ComponentDefinition, generateButtonCss } from './types'
+import {
+  ButtonConfig,
+  InputConfig,
+  ComponentDefinition,
+  generateButtonCss,
+  generateInputCss,
+} from './types'
 import { ButtonPlayground } from './ButtonPlayground'
+import { InputPlayground } from './InputPlayground'
 
 export interface ComponentRegistryItem {
   id: string
@@ -24,6 +31,15 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
       '4 tipos × 3 tamanhos × 2 estados — com ícone e texto configuráveis via painel de propriedades',
     category: 'COMPONENTES',
     component: ButtonPlayground,
+  },
+  input: {
+    id: 'input',
+    name: 'Input',
+    number: '2',
+    subtitle:
+      '4 estados × 4 tamanhos — com ícone de busca, ícone auxiliar, label e supporting text configuráveis',
+    category: 'COMPONENTES',
+    component: InputPlayground,
   },
 }
 
@@ -50,3 +66,31 @@ export const BUTTON_DEFINITION: ComponentDefinition<ButtonConfig> = {
     return React.createElement(ButtonPlayground, { initialConfig: config })
   },
 }
+
+export const INPUT_DEFINITION: ComponentDefinition<InputConfig> = {
+  id: 'input',
+  name: 'Input',
+  number: '02',
+  category: 'COMPONENTES',
+  subtitle:
+    '4 estados × 4 tamanhos — com ícone de busca, ícone auxiliar, label e supporting text configuráveis',
+  description:
+    'Campo de entrada de texto padrão para formulários, filtros e buscas nos produtos digitais COMVEN.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    state: 'Default',
+    size: 'Large',
+    leftIcon: 'Com ícone',
+    rightIcon: 'Com ícone',
+    label: 'Label',
+    placeholder: 'Input',
+    supportingText: 'Supporting text',
+  },
+  generateCss: generateInputCss,
+  renderPreview: (config) => {
+    return React.createElement(InputPlayground, { initialConfig: config })
+  },
+}
+
+export { ButtonPlayground, InputPlayground }

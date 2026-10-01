@@ -127,90 +127,87 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
           </p>
         </div>
 
-        {/* Controls: TYPE, SIZE, STATE, ÍCONE */}
-        <div className="mt-6 space-y-4">
-          {/* Top row of controls: TYPE, SIZE, STATE */}
-          <div className="flex flex-wrap items-start gap-x-8 gap-y-4">
-            {/* TYPE */}
-            <div>
-              <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
-                TYPE
-              </div>
-              <div className="inline-flex flex-wrap items-center gap-1.5">
-                {(['Primary', 'Secondary', 'Tertiary', 'Link'] as ButtonType[]).map((t) => {
-                  const isSelected = type === t
-                  return (
-                    <button
-                      key={t}
-                      type="button"
-                      onClick={() => setType(t)}
-                      className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
-                        isSelected
-                          ? 'bg-[#004185] text-white shadow-xs'
-                          : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
-                      }`}
-                    >
-                      {t}
-                    </button>
-                  )
-                })}
-              </div>
+        {/* Controls: TYPE, SIZE, STATE, ÍCONE — grid responsivo, lado a lado quando houver espaço */}
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-8 gap-y-4">
+          {/* TYPE */}
+          <div>
+            <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
+              TYPE
             </div>
-
-            {/* SIZE */}
-            <div>
-              <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
-                SIZE
-              </div>
-              <div className="inline-flex flex-wrap items-center gap-1.5">
-                {(['Large', 'Medium', 'Small'] as ButtonSize[]).map((s) => {
-                  const isSelected = size === s
-                  return (
-                    <button
-                      key={s}
-                      type="button"
-                      onClick={() => setSize(s)}
-                      className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
-                        isSelected
-                          ? 'bg-[#004185] text-white shadow-xs'
-                          : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
-                      }`}
-                    >
-                      {s}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* STATE */}
-            <div>
-              <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
-                STATE
-              </div>
-              <div className="inline-flex flex-wrap items-center gap-1.5">
-                {(['Default', 'Disabled'] as ButtonState[]).map((st) => {
-                  const isSelected = state === st
-                  return (
-                    <button
-                      key={st}
-                      type="button"
-                      onClick={() => setState(st)}
-                      className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
-                        isSelected
-                          ? 'bg-[#004185] text-white shadow-xs'
-                          : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
-                      }`}
-                    >
-                      {st}
-                    </button>
-                  )
-                })}
-              </div>
+            <div className="inline-flex flex-wrap items-center gap-1.5">
+              {(['Primary', 'Secondary', 'Tertiary', 'Link'] as ButtonType[]).map((t) => {
+                const isSelected = type === t
+                return (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setType(t)}
+                    className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
+                      isSelected
+                        ? 'bg-[#004185] text-white shadow-xs'
+                        : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                    }`}
+                  >
+                    {t}
+                  </button>
+                )
+              })}
             </div>
           </div>
 
-          {/* Second row: ÍCONE */}
+          {/* SIZE */}
+          <div>
+            <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
+              SIZE
+            </div>
+            <div className="inline-flex flex-wrap items-center gap-1.5">
+              {(['Large', 'Medium', 'Small'] as ButtonSize[]).map((s) => {
+                const isSelected = size === s
+                return (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => setSize(s)}
+                    className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
+                      isSelected
+                        ? 'bg-[#004185] text-white shadow-xs'
+                        : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                    }`}
+                  >
+                    {s}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* STATE */}
+          <div>
+            <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
+              STATE
+            </div>
+            <div className="inline-flex flex-wrap items-center gap-1.5">
+              {(['Default', 'Disabled'] as ButtonState[]).map((st) => {
+                const isSelected = state === st
+                return (
+                  <button
+                    key={st}
+                    type="button"
+                    onClick={() => setState(st)}
+                    className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none ${
+                      isSelected
+                        ? 'bg-[#004185] text-white shadow-xs'
+                        : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                    }`}
+                  >
+                    {st}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* ÍCONE */}
           <div>
             <div className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5">
               ÍCONE

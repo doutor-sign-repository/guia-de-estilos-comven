@@ -13,6 +13,20 @@ export interface ButtonConfig {
   label: string
 }
 
+export type InputState = 'Default' | 'Focus' | 'Error' | 'Disabled'
+export type InputSize = 'Large' | 'Medium' | 'Small' | 'XSmall'
+export type InputIconOption = 'Com ícone' | 'Sem ícone'
+
+export interface InputConfig {
+  state: InputState
+  size: InputSize
+  leftIcon: InputIconOption
+  rightIcon: InputIconOption
+  label: string
+  placeholder: string
+  supportingText: string
+}
+
 export interface ComponentDefinition<TConfig> {
   id: string
   name: string
@@ -126,4 +140,146 @@ export function generateButtonCss(config: ButtonConfig): string {
   }
 
   return `${comment}\n${buttonBlock}\n\n${labelBlock}${iconBlock}`
+}
+
+export interface InputSizeMetrics {
+  height: number
+  fontSize: number
+  labelSize: number
+  supportingSize: number
+  iconSize: number
+  radius: number
+  paddingX: number
+  gap: number
+}
+
+export const INPUT_SIZE_METRICS: Record<InputSize, InputSizeMetrics> = {
+  Large: {
+    height: 48,
+    fontSize: 16,
+    labelSize: 14,
+    supportingSize: 12,
+    iconSize: 20,
+    radius: 8,
+    paddingX: 16,
+    gap: 8,
+  },
+  Medium: {
+    height: 40,
+    fontSize: 14,
+    labelSize: 13,
+    supportingSize: 12,
+    iconSize: 18,
+    radius: 8,
+    paddingX: 14,
+    gap: 8,
+  },
+  Small: {
+    height: 36,
+    fontSize: 13,
+    labelSize: 12,
+    supportingSize: 11,
+    iconSize: 16,
+    radius: 8,
+    paddingX: 12,
+    gap: 6,
+  },
+  XSmall: {
+    height: 32,
+    fontSize: 12,
+    labelSize: 11,
+    supportingSize: 10,
+    iconSize: 14,
+    radius: 6,
+    paddingX: 10,
+    gap: 6,
+  },
+}
+
+/**
+ * CSS Generator for the Input/Text Field component matching the COMVEN Figma specification:
+ *
+ * .text-field-container { ... }
+ * .text-field-label { ... }
+ * .text-field { ... }
+ * .text-field__input { ... }
+ * .text-field__icon { ... }
+ * .text-field-supporting-text { ... }
+ */
+export function generateInputCss(config: InputConfig): string {
+  const { state, size, leftIcon, rightIcon } = config
+  const metrics = INPUT_SIZE_METRICS[size] || INPUT_SIZE_METRICS.Large
+
+  const leftIconStatus = leftIcon === 'Com ícone' ? 'Show' : 'Hide'
+  const rightIconStatus = rightIcon === 'Com ícone' ? 'Show' : 'Hide'
+  const comment = `/* State=${state}, Size=${size}, LeftIcon=${leftIconStatus}, RightIcon=${rightIconStatus} */`
+
+  let borderColor = '#D0D5DD'
+  let borderWidth = '1px'
+  let bgColor = '#FFFFFF'
+  let textColor = '#141414'
+  let placeholderColor = '#667085'
+  let iconColor = '#667085'
+  let labelColor = '#344054'
+  let supportingColor = '#667085'
+  let focusRing = ''
+  let cursor = 'text'
+
+  if (state === 'Focus') {
+    borderColor = '#004185'
+    borderWidth = '1.5px'
+    labelColor = '#004185'
+    iconColor = '#004185'
+    focusRing = '\n  box-shadow: 0 0 0 3px rgba(0, 65, 133, 0.15);'
+  } else if (state === 'Error') {
+    borderColor = '#E11D48'
+    borderWidth = '1.5px'
+    labelColor = '#E11D48'
+    supportingColor = '#E11D48'
+    iconColor = '#E11D48'
+    focusRing = '\n  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.12);'
+  } else if (state === 'Disabled') {
+    borderColor = '#E5E7EB'
+    bgColor = '#E5E7EB'
+    textColor = '#9CA3AF'
+    placeholderColor = '#9CA3AF'
+    iconColor = '#9CA3AF'
+    labelColor = '#9CA3AF'
+    supportingColor = '#9CA3AF'
+    cursor = 'not-allowed'
+  }
+
+  const containerBlock = `.text-field-container {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  width: 100%;\n}`
+
+  const labelBlock = `.text-field-label {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 700;\n  font-size: ${metrics.labelSize}px;\n  color: ${labelColor};\n}`
+
+  const fieldLines = [
+    '  display: flex;',
+    '  align-items: center;',
+    `  height: ${metrics.height}px;`,
+    `  padding: 0 ${metrics.paddingX}px;`,
+    `  gap: ${metrics.gap}px;`,
+    `  background-color: ${bgColor};`,
+    `  border: ${borderWidth} solid ${borderColor};`,
+    `  border-radius: ${metrics.radius}px;`,
+  ]
+  if (focusRing) {
+    fieldLines.push(focusRing.trim())
+  }
+  if (cursor !== 'text') {
+    fieldLines.push(`  cursor: ${cursor};`)
+  }
+  const fieldBlock = `.text-field {\n${fieldLines.join('\n')}\n}`
+
+  const inputBlock = `.text-field__input {\n  flex: 1;\n  border: none;\n  background: transparent;\n  font-family: 'Open Sans', sans-serif;\n  font-size: ${metrics.fontSize}px;\n  color: ${textColor};\n  outline: none;\n}`
+  const placeholderBlock = `.text-field__input::placeholder {\n  color: ${placeholderColor};\n}`
+
+  let iconsBlock = ''
+  if (leftIcon === 'Com ícone' || rightIcon === 'Com ícone') {
+    iconsBlock = `\n\n.text-field__icon {\n  font-size: ${metrics.iconSize}px;\n  color: ${iconColor};\n  user-select: none;\n}`
+  }
+
+  const supportingBlock = `.text-field-supporting-text {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 400;\n  font-size: ${metrics.supportingSize}px;\n  color: ${supportingColor};\n}`
+
+  return `${comment}\n${containerBlock}\n\n${labelBlock}\n\n${fieldBlock}\n\n${inputBlock}\n\n${placeholderBlock}${iconsBlock}\n\n${supportingBlock}`
 }

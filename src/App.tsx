@@ -20,7 +20,7 @@ const App = () => (
         <Route element={<Layout />}>
           <Route path="/" element={<Index />} />
           <Route path="/componentes" element={<Componentes />} />
-          <Route path="/componentes/button" element={<Componentes />} />
+          <Route path="/componentes/:componentId" element={<Componentes />} />
           {/* ADD ALL CUSTOM ROUTES MUST BE ADDED HERE */}
         </Route>
         <Route path="*" element={<NotFound />} />
