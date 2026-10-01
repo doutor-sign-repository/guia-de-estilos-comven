@@ -182,19 +182,10 @@ export default function Layout() {
           <nav className="space-y-7 overflow-y-auto flex-1 pr-1 scrollbar-thin">
             {/* Group 1: GUIA DE ESTILOS */}
             <div>
-              <div className="px-2 mb-3 flex items-center justify-between">
-                <Link
-                  to="/"
-                  onClick={() => {
-                    setMobileMenuOpen(false)
-                    window.scrollTo({ top: 0, behavior: 'smooth' })
-                  }}
-                  className={`text-[12px] font-bold tracking-[0.14em] uppercase transition-colors ${
-                    isGuiaPage ? 'text-white' : 'text-[#8BB7E7] hover:text-white'
-                  }`}
-                >
+              <div className="px-2 mb-3 flex items-center justify-between select-none">
+                <span className="text-[12px] font-bold tracking-[0.14em] uppercase text-white cursor-default">
                   GUIA DE ESTILOS
-                </Link>
+                </span>
                 {isGuiaPage && (
                   <span className="w-1.5 h-1.5 rounded-full bg-[#F2CB05]" title="Página ativa" />
                 )}
@@ -235,16 +226,10 @@ export default function Layout() {
 
             {/* Group 2: COMPONENTES */}
             <div>
-              <div className="px-2 mb-3 flex items-center justify-between">
-                <Link
-                  to="/componentes"
-                  onClick={handleComponentesClick}
-                  className={`text-[12px] font-bold tracking-[0.14em] uppercase transition-colors ${
-                    isComponentesPage ? 'text-white' : 'text-[#8BB7E7] hover:text-white'
-                  }`}
-                >
+              <div className="px-2 mb-3 flex items-center justify-between select-none">
+                <span className="text-[12px] font-bold tracking-[0.14em] uppercase text-white cursor-default">
                   COMPONENTES
-                </Link>
+                </span>
                 {isComponentesPage && (
                   <span className="w-1.5 h-1.5 rounded-full bg-[#F2CB05]" title="Página ativa" />
                 )}
@@ -291,18 +276,6 @@ export default function Layout() {
         <main className="flex-1 w-full flex flex-col">
           <Outlet />
         </main>
-
-        {/* Global Footer (present on both pages) */}
-        <footer className="w-full border-t border-[#EBEBEB] bg-white py-6 px-6 text-xs text-[#666666]">
-          <div className="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <ComvenLogo variant="light-1cor" showTagline={false} width={100} />
-              <div className="h-4 w-px bg-gray-200 hidden sm:block" />
-              <span>COMVEN © 2026 — Design System v1.0 · Ago/2026</span>
-            </div>
-            <span className="text-[#848484]">Referência oficial de marca para uso interno</span>
-          </div>
-        </footer>
       </div>
     </div>
   )

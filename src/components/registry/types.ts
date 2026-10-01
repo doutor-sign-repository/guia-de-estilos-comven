@@ -104,14 +104,15 @@ export function generateButtonCss(config: ButtonConfig): string {
       labelColor = '#004185'
     }
   } else if (type === 'Link') {
+    lines.push('  background-color: transparent;')
+    lines.push('  border: none;')
+    lines.push('  padding: 0;')
+    lines.push('  text-decoration: none;')
     if (state === 'Disabled') {
-      lines.push('  background-color: transparent;')
-      lines.push('  text-decoration: underline;')
       lines.push('  cursor: not-allowed;')
       labelColor = '#A9BFDA'
     } else {
-      lines.push('  background-color: transparent;')
-      lines.push('  text-decoration: underline;')
+      lines.push('  cursor: pointer;')
       labelColor = '#004185'
     }
   }

@@ -204,7 +204,9 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
       ...dynamicButtonStyles,
       backgroundColor: 'transparent',
       color: isDisabled ? '#A9BFDA' : '#004185',
-      textDecoration: 'underline',
+      border: 'none',
+      padding: '0px',
+      textDecoration: 'none',
       cursor: isDisabled ? 'not-allowed' : 'pointer',
     }
   }
@@ -240,7 +242,11 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
                   <button
                     type="button"
                     tabIndex={-1}
-                    className="inline-flex items-center justify-center h-10 px-6 rounded-lg text-sm font-bold select-none cursor-default transition-transform active:scale-95"
+                    className={`inline-flex items-center justify-center text-sm font-bold select-none cursor-default transition-all ${
+                      row.type === 'Link'
+                        ? 'h-auto p-0 bg-transparent border-0 hover:underline'
+                        : 'h-10 px-6 rounded-lg active:scale-95'
+                    }`}
                     style={{
                       backgroundColor: item.bg,
                       color: item.color,
@@ -389,17 +395,28 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
                 type="button"
                 disabled={isDisabled}
                 style={dynamicButtonStyles}
-                className={`inline-flex items-center gap-2 font-bold transition-all select-none ${paddingClass}`}
+                className={`inline-flex items-center gap-2 font-bold transition-colors select-none ${
+                  type === 'Link'
+                    ? 'p-0 bg-transparent border-0 ' +
+                      (isDisabled
+                        ? 'text-[#A9BFDA]'
+                        : 'text-[#004185] hover:text-[#00346A] active:text-[#002B59]')
+                    : paddingClass
+                }`}
               >
                 {icon === 'Com ícone' && (
                   <span
                     className="material-symbols-rounded shrink-0"
-                    style={{ fontSize: `${iconSize}px`, lineHeight: 1 }}
+                    style={{
+                      fontSize: `${iconSize}px`,
+                      lineHeight: 1,
+                      color: 'inherit',
+                    }}
                   >
                     search
                   </span>
                 )}
-                <span>Buscar</span>
+                <span style={{ color: 'inherit' }}>Buscar</span>
               </button>
             </div>
 
