@@ -2,12 +2,21 @@ import React from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ButtonPlayground } from '@/components/registry/ButtonPlayground'
 import { InputPlayground } from '@/components/registry/InputPlayground'
+import { SelectPlayground } from '@/components/registry/SelectPlayground'
 
 export default function Componentes() {
   const { componentId } = useParams<{ componentId?: string }>()
 
   // Normalize: defaults to 'button' when accessing /componentes directly
-  const current = componentId === 'input' ? 'input' : 'button'
+  let current: 'button' | 'input' | 'select' = 'button'
+  if (componentId === 'input') current = 'input'
+  else if (componentId === 'select') current = 'select'
+
+  const titleMap = {
+    button: 'Button',
+    input: 'Input (Text Field)',
+    select: 'Select (Dropdown)',
+  }
 
   return (
     <div className="w-full">
@@ -21,7 +30,7 @@ export default function Componentes() {
 
           {/* Title */}
           <h1 className="text-3xl sm:text-4xl lg:text-[44px] leading-[1.15] font-bold tracking-tight text-white mb-4">
-            Componentes · {current === 'input' ? 'Input (Text Field)' : 'Button'}
+            Componentes · {titleMap[current]}
           </h1>
 
           {/* Subtitle / Paragraph */}
@@ -31,7 +40,7 @@ export default function Componentes() {
           </p>
 
           {/* Component Tabs for quick switching inside the page */}
-          <div className="mt-8 flex items-center gap-2">
+          <div className="mt-8 flex items-center gap-2 flex-wrap">
             <Link
               to="/componentes/button"
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
@@ -67,19 +76,43 @@ export default function Componentes() {
               </span>
               <span>Input</span>
             </Link>
+
+            <Link
+              to="/componentes/select"
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                current === 'select'
+                  ? 'bg-white text-[#004185] shadow-sm'
+                  : 'bg-[#00346A] text-white/90 hover:bg-[#002D5C] hover:text-white'
+              }`}
+            >
+              <span
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
+                  current === 'select' ? 'bg-[#004185] text-white' : 'bg-white/20 text-white'
+                }`}
+              >
+                3
+              </span>
+              <span>Select</span>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Main Content fluido com padding proporcional */}
       <div className="w-full px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 2xl:px-24 py-8 lg:py-10 space-y-8 pb-16">
-        {current === 'button' ? (
+        {current === 'button' && (
           <section id="button" className="w-full">
             <ButtonPlayground />
           </section>
-        ) : (
+        )}
+        {current === 'input' && (
           <section id="input" className="w-full">
             <InputPlayground />
+          </section>
+        )}
+        {current === 'select' && (
+          <section id="select" className="w-full">
+            <SelectPlayground />
           </section>
         )}
       </div>

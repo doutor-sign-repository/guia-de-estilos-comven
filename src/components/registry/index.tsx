@@ -2,12 +2,15 @@ import React from 'react'
 import {
   ButtonConfig,
   InputConfig,
+  SelectConfig,
   ComponentDefinition,
   generateButtonCss,
   generateInputCss,
+  generateSelectCss,
 } from './types'
 import { ButtonPlayground } from './ButtonPlayground'
 import { InputPlayground } from './InputPlayground'
+import { SelectPlayground } from './SelectPlayground'
 
 export interface ComponentRegistryItem {
   id: string
@@ -40,6 +43,15 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
       '4 estados × 4 tamanhos — com ícone de busca, ícone auxiliar, label e supporting text configuráveis',
     category: 'COMPONENTES',
     component: InputPlayground,
+  },
+  select: {
+    id: 'select',
+    name: 'Select',
+    number: '3',
+    subtitle:
+      '5 estados × 4 tamanhos — com label, seta dropdown expansível e supporting text configuráveis',
+    category: 'COMPONENTES',
+    component: SelectPlayground,
   },
 }
 
@@ -93,5 +105,29 @@ export const INPUT_DEFINITION: ComponentDefinition<InputConfig> = {
   },
 }
 
-export { ButtonPlayground, InputPlayground }
+export const SELECT_DEFINITION: ComponentDefinition<SelectConfig> = {
+  id: 'select',
+  name: 'Select',
+  number: '03',
+  category: 'COMPONENTES',
+  subtitle:
+    '5 estados × 4 tamanhos — com label, seta dropdown expansível e supporting text configuráveis',
+  description:
+    'Componente dropdown de seleção de opções para formulários, filtros e seletores nos produtos digitais COMVEN.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    state: 'Default',
+    size: 'Large',
+    label: 'Label',
+    placeholder: 'Input',
+    supportingText: 'Supporting text',
+  },
+  generateCss: generateSelectCss,
+  renderPreview: (config) => {
+    return React.createElement(SelectPlayground, { initialConfig: config })
+  },
+}
+
+export { ButtonPlayground, InputPlayground, SelectPlayground }
 export { PlaygroundControlGroup } from './PlaygroundControlGroup'

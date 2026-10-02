@@ -142,6 +142,17 @@ export function generateButtonCss(config: ButtonConfig): string {
   return `${comment}\n${buttonBlock}\n\n${labelBlock}${iconBlock}`
 }
 
+export type SelectState = 'Default' | 'Focus' | 'Hover' | 'Error' | 'Disabled'
+export type SelectSize = 'Large' | 'Medium' | 'Small' | 'XSmall'
+
+export interface SelectConfig {
+  state: SelectState
+  size: SelectSize
+  label: string
+  placeholder: string
+  supportingText: string
+}
+
 export interface InputSizeMetrics {
   height: number
   fontSize: number
@@ -282,4 +293,93 @@ export function generateInputCss(config: InputConfig): string {
   const supportingBlock = `.text-field-supporting-text {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 400;\n  font-size: ${metrics.supportingSize}px;\n  color: ${supportingColor};\n}`
 
   return `${comment}\n${containerBlock}\n\n${labelBlock}\n\n${fieldBlock}\n\n${inputBlock}\n\n${placeholderBlock}${iconsBlock}\n\n${supportingBlock}`
+}
+
+export type SelectSizeMetrics = InputSizeMetrics
+export const SELECT_SIZE_METRICS: Record<SelectSize, SelectSizeMetrics> = INPUT_SIZE_METRICS
+
+/**
+ * CSS Generator for the Select (Dropdown) component matching the COMVEN Figma specification:
+ *
+ * .select-container { ... }
+ * .select-label { ... }
+ * .select { ... }
+ * .select__trigger { ... }
+ * .select__arrow { ... }
+ * .select-supporting-text { ... }
+ */
+export function generateSelectCss(config: SelectConfig): string {
+  const { state, size } = config
+  const metrics = SELECT_SIZE_METRICS[size] || SELECT_SIZE_METRICS.Large
+
+  const comment = `/* State=${state}, Size=${size} */`
+
+  let borderColor = '#D0D5DD'
+  let borderWidth = '1px'
+  let bgColor = '#FFFFFF'
+  let textColor = '#141414'
+  let placeholderColor = '#667085'
+  let arrowColor = '#141414'
+  let labelColor = '#344054'
+  let supportingColor = '#667085'
+  let focusRing = ''
+  let cursor = 'pointer'
+
+  if (state === 'Hover') {
+    borderColor = '#98A2B3'
+    borderWidth = '1px'
+    arrowColor = '#004185'
+  } else if (state === 'Focus') {
+    borderColor = '#004185'
+    borderWidth = '1.5px'
+    labelColor = '#004185'
+    arrowColor = '#004185'
+    focusRing = '\n  box-shadow: 0 0 0 3px rgba(0, 65, 133, 0.15);'
+  } else if (state === 'Error') {
+    borderColor = '#E11D48'
+    borderWidth = '1.5px'
+    labelColor = '#E11D48'
+    supportingColor = '#E11D48'
+    arrowColor = '#E11D48'
+    focusRing = '\n  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.12);'
+  } else if (state === 'Disabled') {
+    borderColor = '#E5E7EB'
+    bgColor = '#E5E7EB'
+    textColor = '#9CA3AF'
+    placeholderColor = '#9CA3AF'
+    arrowColor = '#9CA3AF'
+    labelColor = '#9CA3AF'
+    supportingColor = '#9CA3AF'
+    cursor = 'not-allowed'
+  }
+
+  const containerBlock = `.select-container {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  width: 100%;\n}`
+
+  const labelBlock = `.select-label {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 700;\n  font-size: ${metrics.labelSize}px;\n  color: ${labelColor};\n}`
+
+  const fieldLines = [
+    '  display: flex;',
+    '  align-items: center;',
+    '  justify-content: space-between;',
+    `  height: ${metrics.height}px;`,
+    `  padding: 0 ${metrics.paddingX}px;`,
+    `  gap: ${metrics.gap}px;`,
+    `  background-color: ${bgColor};`,
+    `  border: ${borderWidth} solid ${borderColor};`,
+    `  border-radius: ${metrics.radius}px;`,
+  ]
+  if (focusRing) {
+    fieldLines.push(focusRing.trim())
+  }
+  fieldLines.push(`  cursor: ${cursor};`)
+  fieldLines.push('  user-select: none;')
+  const selectBlock = `.select {\n${fieldLines.join('\n')}\n}`
+
+  const triggerBlock = `.select__trigger {\n  flex: 1;\n  font-family: 'Open Sans', sans-serif;\n  font-size: ${metrics.fontSize}px;\n  color: ${placeholderColor};\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}`
+
+  const arrowBlock = `.select__arrow {\n  width: ${metrics.iconSize}px;\n  height: ${metrics.iconSize}px;\n  color: ${arrowColor};\n  transition: transform 0.2s ease;\n}`
+
+  const supportingBlock = `.select-supporting-text {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 400;\n  font-size: ${metrics.supportingSize}px;\n  color: ${supportingColor};\n}`
+
+  return `${comment}\n${containerBlock}\n\n${labelBlock}\n\n${selectBlock}\n\n${triggerBlock}\n\n${arrowBlock}\n\n${supportingBlock}`
 }
