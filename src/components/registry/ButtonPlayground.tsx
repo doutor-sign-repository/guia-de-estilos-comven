@@ -21,9 +21,10 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
   const [size, setSize] = useState<ButtonSize>(initialConfig?.size || 'Large')
   const [state, setState] = useState<ButtonState>(initialConfig?.state || 'Default')
   const [icon, setIcon] = useState<ButtonIconOption>(initialConfig?.icon || 'Com ícone')
+  const [label, setLabel] = useState<string>(initialConfig?.label ?? 'Buscar')
   const [copied, setCopied] = useState(false)
 
-  const config: ButtonConfig = { type, size, state, icon, label: 'Buscar' }
+  const config: ButtonConfig = { type, size, state, icon, label }
   const cssCode = generateButtonCss(config)
 
   const copyCss = () => {
@@ -213,6 +214,25 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
               )
             })}
           </PlaygroundControlGroup>
+
+          {/* LABEL (campo de edição de texto ao vivo) */}
+          <div className="flex-1 min-w-[200px]">
+            <label
+              htmlFor="button-playground-label"
+              className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] mb-1.5 block select-none"
+            >
+              LABEL
+            </label>
+            <input
+              id="button-playground-label"
+              type="text"
+              value={label}
+              onChange={(e) => setLabel(e.target.value)}
+              placeholder="Digite o label do botão"
+              maxLength={40}
+              className="w-full h-8 px-3 rounded-md border border-[#D5DCE5] bg-white text-xs font-semibold text-[#141414] outline-none focus:border-[#004185] focus:ring-2 focus:ring-[#004185]/15 transition-colors placeholder:font-normal placeholder:text-[#9CA3AF]"
+            />
+          </div>
         </div>
 
         {/* Live Preview Container (Soft blue-gray box) */}
@@ -249,7 +269,9 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
                     search
                   </span>
                 )}
-                <span style={{ color: 'inherit', fontSize: `${fontSizePx}px` }}>Buscar</span>
+                {label && (
+                  <span style={{ color: 'inherit', fontSize: `${fontSizePx}px` }}>{label}</span>
+                )}
               </button>
             </div>
 
