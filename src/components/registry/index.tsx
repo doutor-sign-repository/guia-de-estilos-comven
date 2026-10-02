@@ -31,7 +31,7 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
     name: 'Button',
     number: '1',
     subtitle:
-      '4 tipos × 3 tamanhos × 2 estados — com ícone e texto configuráveis via painel de propriedades',
+      '4 tipos × 3 tamanhos × 4 estados — com ícone e texto configuráveis via painel de propriedades',
     category: 'COMPONENTES',
     component: ButtonPlayground,
   },
@@ -61,7 +61,7 @@ export const BUTTON_DEFINITION: ComponentDefinition<ButtonConfig> = {
   number: '01',
   category: 'COMPONENTES',
   subtitle:
-    '4 tipos × 3 tamanhos × 2 estados — com ícone e texto configuráveis via painel de propriedades',
+    '4 tipos × 3 tamanhos × 4 estados — com ícone e texto configuráveis via painel de propriedades',
   description:
     'Botão padrão para ações primárias, secundárias e links nos produtos digitais COMVEN.',
   figmaUrl:

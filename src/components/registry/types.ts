@@ -2,7 +2,7 @@ import React from 'react'
 
 export type ButtonType = 'Primary' | 'Secondary' | 'Tertiary' | 'Link'
 export type ButtonSize = 'Large' | 'Medium' | 'Small'
-export type ButtonState = 'Default' | 'Disabled'
+export type ButtonState = 'Default' | 'Hover' | 'Active/Focus' | 'Disabled'
 export type ButtonIconOption = 'Com ícone' | 'Sem ícone'
 
 export interface ButtonConfig {
@@ -89,31 +89,63 @@ export function generateButtonCss(config: ButtonConfig): string {
 
   if (type === 'Primary') {
     if (state === 'Disabled') {
-      lines.push('  background-color: #A9BFDA;')
+      lines.push('  background-color: #8BB7E7;')
       lines.push('  cursor: not-allowed;')
+      labelColor = '#FFFFFF'
+    } else if (state === 'Hover') {
+      lines.push('  background-color: #00346A;')
+      lines.push('  cursor: pointer;')
+      labelColor = '#FFFFFF'
+    } else if (state === 'Active/Focus') {
+      lines.push('  background-color: #002750;')
+      lines.push('  box-shadow: 0 0 0 3px rgba(139, 183, 231, 0.4);')
+      lines.push('  cursor: pointer;')
       labelColor = '#FFFFFF'
     } else {
       lines.push('  background-color: #004185;')
+      lines.push('  cursor: pointer;')
       labelColor = '#FFFFFF'
     }
   } else if (type === 'Secondary') {
     if (state === 'Disabled') {
       lines.push('  background-color: transparent;')
-      lines.push('  border: 1.5px solid #A9BFDA;')
+      lines.push('  border: 2px solid #8BB7E7;')
       lines.push('  cursor: not-allowed;')
-      labelColor = '#A9BFDA'
+      labelColor = '#8BB7E7'
+    } else if (state === 'Hover') {
+      lines.push('  background-color: rgba(255, 255, 255, 0.08);')
+      lines.push('  border: 2px solid #3B82F6;')
+      lines.push('  cursor: pointer;')
+      labelColor = '#FFFFFF'
+    } else if (state === 'Active/Focus') {
+      lines.push('  background-color: rgba(255, 255, 255, 0.15);')
+      lines.push('  border: 2px solid #FFFFFF;')
+      lines.push('  box-shadow: 0 0 0 3px rgba(139, 183, 231, 0.35);')
+      lines.push('  cursor: pointer;')
+      labelColor = '#FFFFFF'
     } else {
       lines.push('  background-color: transparent;')
-      lines.push('  border: 1.5px solid #004185;')
+      lines.push('  border: 2px solid #004185;')
+      lines.push('  cursor: pointer;')
       labelColor = '#004185'
     }
   } else if (type === 'Tertiary') {
     if (state === 'Disabled') {
-      lines.push('  background-color: transparent;')
+      lines.push('  background-color: rgba(230, 250, 237, 0.35);')
       lines.push('  cursor: not-allowed;')
-      labelColor = '#A9BFDA'
+      labelColor = '#94A3B8'
+    } else if (state === 'Hover') {
+      lines.push('  background-color: #D2F5DC;')
+      lines.push('  cursor: pointer;')
+      labelColor = '#004185'
+    } else if (state === 'Active/Focus') {
+      lines.push('  background-color: #BEEECB;')
+      lines.push('  box-shadow: 0 0 0 3px rgba(0, 65, 133, 0.2);')
+      lines.push('  cursor: pointer;')
+      labelColor = '#002750'
     } else {
-      lines.push('  background-color: transparent;')
+      lines.push('  background-color: #E6FAED;')
+      lines.push('  cursor: pointer;')
       labelColor = '#004185'
     }
   } else if (type === 'Link') {
@@ -123,7 +155,17 @@ export function generateButtonCss(config: ButtonConfig): string {
     lines.push('  text-decoration: none;')
     if (state === 'Disabled') {
       lines.push('  cursor: not-allowed;')
-      labelColor = '#A9BFDA'
+      labelColor = '#8BB7E7'
+    } else if (state === 'Hover') {
+      lines.push('  cursor: pointer;')
+      lines.push('  text-decoration: underline;')
+      labelColor = '#60A5FA'
+    } else if (state === 'Active/Focus') {
+      lines.push('  cursor: pointer;')
+      lines.push('  text-decoration: underline;')
+      lines.push('  outline: 2px solid #8BB7E7;')
+      lines.push('  outline-offset: 2px;')
+      labelColor = '#93C5FD'
     } else {
       lines.push('  cursor: pointer;')
       labelColor = '#004185'

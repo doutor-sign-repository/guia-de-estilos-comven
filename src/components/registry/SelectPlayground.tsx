@@ -262,8 +262,8 @@ export const SelectPlayground: React.FC<SelectPlaygroundProps> = ({ initialConfi
             </div>
 
             {/* Light Code Box matching screenshot */}
-            <div className="bg-white rounded-xl border border-[#E2E6EB] p-5 sm:p-6 overflow-x-auto shadow-2xs">
-              <pre className="text-xs sm:text-[13px] font-mono leading-relaxed text-[#1F2328] m-0 selection:bg-[#D2E4F7]">
+            <div className="bg-white rounded-xl border border-[#E2E6EB] p-5 sm:p-6 shadow-2xs">
+              <pre className="text-xs sm:text-[13px] font-mono leading-relaxed text-[#1F2328] m-0 whitespace-pre-wrap break-words selection:bg-[#D2E4F7]">
                 <code>{cssCode}</code>
               </pre>
             </div>
@@ -547,41 +547,39 @@ function SelectStateGallery({
         </p>
       </div>
 
-      <div className="mt-5 rounded-2xl overflow-hidden border border-[#0d3663] bg-[#062446] shadow-md p-6 sm:p-8">
-        <div className="overflow-x-auto">
-          <div className="min-w-[760px] space-y-6">
-            {/* Header row with sizes matching column widths */}
-            <div className="grid grid-cols-4 gap-6 pb-2 border-b border-[#113C68] text-[11px] font-bold uppercase tracking-wider text-[#8BB7E7]">
-              <div>Large (48px)</div>
-              <div>Medium (40px)</div>
-              <div>Small (36px)</div>
-              <div>XSmall (32px)</div>
-            </div>
-
-            {/* 5 Rows by state */}
-            {rows.map((row) => (
-              <div key={row.state} className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-[#F2CB05] tracking-wide uppercase">
-                    {row.badge}
-                  </span>
-                  <div className="flex-1 h-px bg-[#113C68]/60" />
-                </div>
-                <div className="grid grid-cols-4 gap-6 items-start">
-                  {SIZES.map((sz) => (
-                    <DarkSelectCell
-                      key={`${row.state}-${sz}`}
-                      state={row.state}
-                      size={sz}
-                      label={label || 'Label'}
-                      placeholder={placeholder || 'Input'}
-                      supportingText={supportingText || 'Supporting text'}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
+      <div className="mt-5 rounded-2xl border border-[#0d3663] bg-[#062446] shadow-md p-6 sm:p-8">
+        <div className="w-full space-y-6">
+          {/* Header row with sizes matching column widths */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-2 border-b border-[#113C68] text-[11px] font-bold uppercase tracking-wider text-[#8BB7E7]">
+            <div>Large (48px)</div>
+            <div>Medium (40px)</div>
+            <div>Small (36px)</div>
+            <div>XSmall (32px)</div>
           </div>
+
+          {/* 5 Rows by state */}
+          {rows.map((row) => (
+            <div key={row.state} className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-semibold text-[#F2CB05] tracking-wide uppercase">
+                  {row.badge}
+                </span>
+                <div className="flex-1 h-px bg-[#113C68]/60" />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
+                {SIZES.map((sz) => (
+                  <DarkSelectCell
+                    key={`${row.state}-${sz}`}
+                    state={row.state}
+                    size={sz}
+                    label={label || 'Label'}
+                    placeholder={placeholder || 'Input'}
+                    supportingText={supportingText || 'Supporting text'}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
