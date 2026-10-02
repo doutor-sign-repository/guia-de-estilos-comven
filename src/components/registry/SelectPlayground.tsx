@@ -202,7 +202,7 @@ export const SelectPlayground: React.FC<SelectPlaygroundProps> = ({ initialConfi
                 value={label}
                 onChange={(e) => setLabel(e.target.value)}
                 maxLength={40}
-                className="w-full h-9 px-3 rounded-md border border-[#D5DCE5] bg-white text-sm text-[#141414] outline-none focus:border-[#004185] focus:ring-2 focus:ring-[#004185]/15 transition-colors"
+                className="w-full h-9 px-3 rounded-md border border-[#D5DCE5] bg-white text-sm text-[#141414] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors"
               />
             </div>
 
@@ -220,7 +220,7 @@ export const SelectPlayground: React.FC<SelectPlaygroundProps> = ({ initialConfi
                 value={placeholder}
                 onChange={(e) => setPlaceholder(e.target.value)}
                 maxLength={40}
-                className="w-full h-9 px-3 rounded-md border border-[#D5DCE5] bg-white text-sm text-[#141414] outline-none focus:border-[#004185] focus:ring-2 focus:ring-[#004185]/15 transition-colors"
+                className="w-full h-9 px-3 rounded-md border border-[#D5DCE5] bg-white text-sm text-[#141414] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors"
               />
             </div>
 
@@ -238,7 +238,7 @@ export const SelectPlayground: React.FC<SelectPlaygroundProps> = ({ initialConfi
                 value={supportingText}
                 onChange={(e) => setSupportingText(e.target.value)}
                 maxLength={60}
-                className="w-full h-9 px-3 rounded-md border border-[#D5DCE5] bg-white text-sm text-[#141414] outline-none focus:border-[#004185] focus:ring-2 focus:ring-[#004185]/15 transition-colors"
+                className="w-full h-9 px-3 rounded-md border border-[#D5DCE5] bg-white text-sm text-[#141414] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors"
               />
             </div>
           </div>
@@ -313,7 +313,7 @@ function getSelectStateStyle(state: SelectState): {
       arrowColor: '#004185',
       labelColor: '#004185',
       supportingColor: '#667085',
-      boxShadow: '0 0 0 3px rgba(0, 65, 133, 0.15)',
+      boxShadow: '0 0 0 1px #004185',
       cursor: 'pointer',
     }
   }
@@ -327,7 +327,7 @@ function getSelectStateStyle(state: SelectState): {
       arrowColor: '#E11D48',
       labelColor: '#E11D48',
       supportingColor: '#E11D48',
-      boxShadow: '0 0 0 3px rgba(225, 29, 72, 0.12)',
+      boxShadow: '0 0 0 1px #E11D48',
       cursor: 'pointer',
     }
   }
@@ -410,7 +410,7 @@ function InteractiveSelectPreview({
           backgroundColor: s.backgroundColor,
           border: `${s.borderWidth}px solid ${s.borderColor}`,
           borderRadius: metrics.radius,
-          boxShadow: isOpen ? '0 0 0 3px rgba(0, 65, 133, 0.18)' : s.boxShadow,
+          boxShadow: isOpen ? '0 0 0 1px #004185' : s.boxShadow,
           cursor: s.cursor,
         }}
       >
@@ -618,21 +618,21 @@ function DarkSelectCell({
     labelColor = '#FFFFFF'
     supportingColor = '#8BB7E7'
     arrowColor = '#004185'
-    shadow = '0 0 0 3px rgba(139, 183, 231, 0.35)'
+    shadow = '0 0 0 1px #8BB7E7'
   } else if (state === 'Hover') {
     borderColor = '#CBD5E1'
     borderWidth = 1.5
     labelColor = '#FFFFFF'
     supportingColor = '#8BB7E7'
     arrowColor = '#004185'
-    shadow = '0 1px 3px rgba(0,0,0,0.2)'
+    shadow = '0 1px 2px rgba(0,0,0,0.1)'
   } else if (state === 'Error') {
     borderColor = '#E11D48'
     borderWidth = 1.5
     labelColor = '#FFFFFF'
     supportingColor = '#FDA4AF'
     arrowColor = '#E11D48'
-    shadow = '0 0 0 3px rgba(225, 29, 72, 0.25)'
+    shadow = '0 0 0 1px #FDA4AF'
   } else if (state === 'Disabled') {
     borderColor = '#94A3B8'
     borderWidth = 1

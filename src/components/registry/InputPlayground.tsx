@@ -214,7 +214,7 @@ export const InputPlayground: React.FC<InputPlaygroundProps> = ({ initialConfig 
                 value={label}
                 onChange={(e) => setLabel(e.target.value)}
                 maxLength={40}
-                className="w-full h-9 px-3 rounded-md border border-[#D5DCE5] bg-white text-sm text-[#141414] outline-none focus:border-[#004185] focus:ring-2 focus:ring-[#004185]/15 transition-colors"
+                className="w-full h-9 px-3 rounded-md border border-[#D5DCE5] bg-white text-sm text-[#141414] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors"
               />
             </div>
 
@@ -232,7 +232,7 @@ export const InputPlayground: React.FC<InputPlaygroundProps> = ({ initialConfig 
                 value={placeholder}
                 onChange={(e) => setPlaceholder(e.target.value)}
                 maxLength={40}
-                className="w-full h-9 px-3 rounded-md border border-[#D5DCE5] bg-white text-sm text-[#141414] outline-none focus:border-[#004185] focus:ring-2 focus:ring-[#004185]/15 transition-colors"
+                className="w-full h-9 px-3 rounded-md border border-[#D5DCE5] bg-white text-sm text-[#141414] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors"
               />
             </div>
 
@@ -250,7 +250,7 @@ export const InputPlayground: React.FC<InputPlaygroundProps> = ({ initialConfig 
                 value={supportingText}
                 onChange={(e) => setSupportingText(e.target.value)}
                 maxLength={60}
-                className="w-full h-9 px-3 rounded-md border border-[#D5DCE5] bg-white text-sm text-[#141414] outline-none focus:border-[#004185] focus:ring-2 focus:ring-[#004185]/15 transition-colors"
+                className="w-full h-9 px-3 rounded-md border border-[#D5DCE5] bg-white text-sm text-[#141414] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors"
               />
             </div>
           </div>
@@ -312,7 +312,7 @@ function getInputStateStyle(state: InputState): {
       iconColor: '#004185',
       labelColor: '#004185',
       supportingColor: '#667085',
-      boxShadow: '0 0 0 3px rgba(0, 65, 133, 0.15)',
+      boxShadow: '0 0 0 1px #004185',
       cursor: 'text',
     }
   }
@@ -326,7 +326,7 @@ function getInputStateStyle(state: InputState): {
       iconColor: '#E11D48',
       labelColor: '#E11D48',
       supportingColor: '#E11D48',
-      boxShadow: '0 0 0 3px rgba(225, 29, 72, 0.12)',
+      boxShadow: '0 0 0 1px #E11D48',
       cursor: 'text',
     }
   }
@@ -527,13 +527,13 @@ function DarkInputCell({
     borderWidth = 1.5
     labelColor = '#FFFFFF'
     supportingColor = '#8BB7E7'
-    shadow = '0 0 0 3px rgba(139, 183, 231, 0.35)'
+    shadow = '0 0 0 1px #8BB7E7'
   } else if (state === 'Error') {
     borderColor = '#E11D48'
     borderWidth = 1.5
     labelColor = '#FFFFFF'
     supportingColor = '#FDA4AF'
-    shadow = '0 0 0 3px rgba(225, 29, 72, 0.25)'
+    shadow = '0 0 0 1px #FDA4AF'
   } else if (state === 'Disabled') {
     borderColor = '#94A3B8'
     borderWidth = 1

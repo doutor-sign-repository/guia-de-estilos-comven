@@ -86,7 +86,12 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
                 <button
                   key={t}
                   type="button"
-                  onClick={() => setType(t)}
+                  onClick={() => {
+                    setType(t)
+                    if (t === 'Link' && (state === 'Hover' || state === 'Active/Focus')) {
+                      setState('Default')
+                    }
+                  }}
                   className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
                     isSelected
                       ? 'bg-[#004185] text-white shadow-xs'
@@ -124,6 +129,20 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
           <PlaygroundControlGroup label="STATE">
             {BUTTON_STATES.map((st) => {
               const isSelected = state === st
+              const isNotApplicable = type === 'Link' && (st === 'Hover' || st === 'Active/Focus')
+
+              if (isNotApplicable) {
+                return (
+                  <span
+                    key={st}
+                    title="Não aplicável para o tipo Link"
+                    className="h-8 px-3.5 rounded-md text-xs font-medium inline-flex items-center text-[#9CA3AF] bg-[#F5F7FA] border border-dashed border-[#D5DCE5] cursor-not-allowed select-none shrink-0"
+                  >
+                    {st} (N/A)
+                  </span>
+                )
+              }
+
               return (
                 <button
                   key={st}
@@ -177,8 +196,8 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
               onChange={(e) => setLabel(e.target.value)}
               placeholder="Digite o label do botão"
               maxLength={40}
-              className="w-full h-8 px-3 rounded-md border border-[#D5DCE5] bg-white text-xs font-semibold text-[#141414] outline-none focus:border-[#004185] focus:ring-2 focus:ring-[#004185]/15 transition-colors placeholder:font-normal placeholder:text-[#9CA3AF]"
-            />
+              className="w-full h-8 px-3 rounded-md border border-[#D5DCE5] bg-white text-xs font-semibold text-[#141414] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors placeholder:font-normal placeholder:text-[#9CA3AF]"
+            />{' '}
           </div>
         </div>
 
@@ -290,7 +309,7 @@ function getButtonPreviewStyle(type: ButtonType, state: ButtonState): React.CSSP
       return {
         backgroundColor: '#002750',
         color: '#FFFFFF',
-        boxShadow: '0 0 0 3px rgba(0, 65, 133, 0.25)',
+        boxShadow: '0 0 0 1px #004185',
         cursor: 'pointer',
       }
     }
@@ -323,7 +342,7 @@ function getButtonPreviewStyle(type: ButtonType, state: ButtonState): React.CSSP
         backgroundColor: '#D2E4F7',
         color: '#002750',
         border: '2px solid #002750',
-        boxShadow: '0 0 0 3px rgba(0, 65, 133, 0.2)',
+        boxShadow: '0 0 0 1px #002750',
         cursor: 'pointer',
       }
     }
@@ -345,16 +364,16 @@ function getButtonPreviewStyle(type: ButtonType, state: ButtonState): React.CSSP
     }
     if (state === 'Hover') {
       return {
-        backgroundColor: '#D2F5DC',
+        backgroundColor: '#CDF6DB',
         color: '#004185',
         cursor: 'pointer',
       }
     }
     if (state === 'Active/Focus') {
       return {
-        backgroundColor: '#BEEECB',
+        backgroundColor: '#9BECB8',
         color: '#002750',
-        boxShadow: '0 0 0 3px rgba(0, 65, 133, 0.15)',
+        boxShadow: '0 0 0 1px #004185',
         cursor: 'pointer',
       }
     }
@@ -365,7 +384,7 @@ function getButtonPreviewStyle(type: ButtonType, state: ButtonState): React.CSSP
     }
   }
 
-  // Link
+  // Link: sem hover e sem active (o usuário pediu textualmente)
   if (state === 'Disabled') {
     return {
       backgroundColor: 'transparent',
@@ -373,28 +392,6 @@ function getButtonPreviewStyle(type: ButtonType, state: ButtonState): React.CSSP
       border: 'none',
       padding: 0,
       cursor: 'not-allowed',
-    }
-  }
-  if (state === 'Hover') {
-    return {
-      backgroundColor: 'transparent',
-      color: '#00346A',
-      border: 'none',
-      padding: 0,
-      textDecoration: 'underline',
-      cursor: 'pointer',
-    }
-  }
-  if (state === 'Active/Focus') {
-    return {
-      backgroundColor: 'transparent',
-      color: '#002750',
-      border: 'none',
-      padding: 0,
-      textDecoration: 'underline',
-      outline: '2px solid #004185',
-      outlineOffset: '2px',
-      cursor: 'pointer',
     }
   }
   return {
@@ -467,7 +464,7 @@ function getDarkButtonMatrixStyle(type: ButtonType, state: ButtonState): React.C
       return {
         backgroundColor: '#002750',
         color: '#FFFFFF',
-        boxShadow: '0 0 0 3px rgba(139, 183, 231, 0.45)',
+        boxShadow: '0 0 0 1px #8BB7E7',
         cursor: 'pointer',
       }
     }
@@ -501,7 +498,7 @@ function getDarkButtonMatrixStyle(type: ButtonType, state: ButtonState): React.C
         backgroundColor: 'rgba(255, 255, 255, 0.18)',
         color: '#FFFFFF',
         border: '2px solid #FFFFFF',
-        boxShadow: '0 0 0 3px rgba(139, 183, 231, 0.45)',
+        boxShadow: '0 0 0 1px #8BB7E7',
         cursor: 'pointer',
       }
     }
@@ -523,16 +520,16 @@ function getDarkButtonMatrixStyle(type: ButtonType, state: ButtonState): React.C
     }
     if (state === 'Hover') {
       return {
-        backgroundColor: '#D2F5DC',
+        backgroundColor: '#CDF6DB',
         color: '#002750',
         cursor: 'pointer',
       }
     }
     if (state === 'Active/Focus') {
       return {
-        backgroundColor: '#BEEECB',
+        backgroundColor: '#9BECB8',
         color: '#002750',
-        boxShadow: '0 0 0 3px rgba(230, 250, 237, 0.35)',
+        boxShadow: '0 0 0 1px #047D2E',
         cursor: 'pointer',
       }
     }
@@ -543,7 +540,7 @@ function getDarkButtonMatrixStyle(type: ButtonType, state: ButtonState): React.C
     }
   }
 
-  // Link
+  // Link: sem hover e sem active (o usuário pediu textualmente)
   if (state === 'Disabled') {
     return {
       backgroundColor: 'transparent',
@@ -552,28 +549,6 @@ function getDarkButtonMatrixStyle(type: ButtonType, state: ButtonState): React.C
       padding: 0,
       cursor: 'not-allowed',
       opacity: 0.5,
-    }
-  }
-  if (state === 'Hover') {
-    return {
-      backgroundColor: 'transparent',
-      color: '#FFFFFF',
-      border: 'none',
-      padding: 0,
-      textDecoration: 'underline',
-      cursor: 'pointer',
-    }
-  }
-  if (state === 'Active/Focus') {
-    return {
-      backgroundColor: 'transparent',
-      color: '#93C5FD',
-      border: 'none',
-      padding: 0,
-      textDecoration: 'underline',
-      outline: '2px solid #8BB7E7',
-      outlineOffset: '2px',
-      cursor: 'pointer',
     }
   }
   return {
@@ -658,12 +633,14 @@ const TYPE_BLOCKS: TypeBlockInfo[] = [
   {
     type: 'Tertiary',
     badge: '3. Tertiary (Fundo verde-suave #E6FAED)',
-    description: 'Ações alternativas; fundo verde-suave #E6FAED com texto azul #004185.',
+    description:
+      'Ações alternativas; fundo verde-suave #E6FAED com texto azul #004185, hover verde-claro #CDF6DB.',
   },
   {
     type: 'Link',
     badge: '4. Link (Texto azul com ícone de lupa)',
-    description: 'Navegação inline e links de texto; sem borda ou padding, sublinhado no hover.',
+    description:
+      'Navegação inline e links de texto; sem borda ou padding, sem estado de hover ou active.',
   },
 ]
 
@@ -682,95 +659,105 @@ function ButtonStateGallery({ label }: { label: string }) {
     <div className="mt-10 pt-8 border-t border-[#F0F2F5]">
       <div>
         <h3 className="text-base sm:text-lg font-bold text-[#141414]">
-          Matriz completa de variações — Figma (4 tipos × 4 estados × 3 tamanhos × com/sem ícone)
+          Matriz completa de variações — Figma (4 tipos × estados × 3 tamanhos × com/sem ícone)
         </h3>
         <p className="text-xs sm:text-sm text-[#7A7A7A] mt-1 font-normal">
           Visualização em grid sobre o fundo azul-marinho oficial COMVEN (#062446), organizada em
           blocos por tipo de botão, com todas as combinações de estados, tamanhos e ícones sem barra
-          de scroll.
+          de scroll. (Nota: a variante Link não possui hover nem active).
         </p>
       </div>
 
       <div className="mt-5 space-y-6">
-        {TYPE_BLOCKS.map((block) => (
-          <div
-            key={block.type}
-            className="rounded-2xl border border-[#0d3663] bg-[#062446] shadow-md p-6 sm:p-8"
-          >
-            {/* Block Header */}
-            <div className="pb-4 border-b border-[#113C68]">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="text-sm sm:text-base font-bold text-[#F2CB05] tracking-wide uppercase">
-                  {block.badge}
-                </span>
-                <span className="text-xs text-[#8BB7E7] font-medium">
-                  3 tamanhos × 4 estados × com/sem ícone
-                </span>
-              </div>
-              <p className="text-xs text-[#D2E4F7] mt-1 font-normal">{block.description}</p>
-            </div>
+        {TYPE_BLOCKS.map((block) => {
+          // Link omite Hover e Active/Focus conforme requisito
+          const statesForBlock =
+            block.type === 'Link'
+              ? BUTTON_STATES.filter((st) => st !== 'Hover' && st !== 'Active/Focus')
+              : BUTTON_STATES
 
-            {/* Column Headers: 3 sizes (Large, Medium, Small) */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 pb-2 border-b border-[#113C68]/60 text-[11px] font-bold uppercase tracking-wider text-[#8BB7E7]">
-              <div>Large (16px / ícone 20px)</div>
-              <div>Medium (14px / ícone 18px)</div>
-              <div>Small (12px / ícone 16px)</div>
-            </div>
-
-            {/* Rows by State */}
-            <div className="divide-y divide-[#113C68]/40">
-              {BUTTON_STATES.map((st) => (
-                <div key={st} className="py-5 space-y-3">
-                  {/* State badge */}
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-[#F2CB05] tracking-wide uppercase">
-                      {STATE_BADGES[st]}
-                    </span>
-                    <div className="flex-1 h-px bg-[#113C68]/60" />
-                  </div>
-
-                  {/* Sub-row: COM ÍCONE */}
-                  <div className="space-y-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#8BB7E7]/80">
-                      • Com ícone
-                    </span>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
-                      {BUTTON_SIZES.map((sz) => (
-                        <DarkButtonCell
-                          key={`${block.type}-${st}-${sz}-com-icone`}
-                          type={block.type}
-                          size={sz}
-                          state={st}
-                          icon="Com ícone"
-                          label={displayLabel}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Sub-row: SEM ÍCONE */}
-                  <div className="space-y-1 pt-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#8BB7E7]/80">
-                      • Sem ícone
-                    </span>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
-                      {BUTTON_SIZES.map((sz) => (
-                        <DarkButtonCell
-                          key={`${block.type}-${st}-${sz}-sem-icone`}
-                          type={block.type}
-                          size={sz}
-                          state={st}
-                          icon="Sem ícone"
-                          label={displayLabel}
-                        />
-                      ))}
-                    </div>
-                  </div>
+          return (
+            <div
+              key={block.type}
+              className="rounded-2xl border border-[#0d3663] bg-[#062446] shadow-md p-6 sm:p-8"
+            >
+              {/* Block Header */}
+              <div className="pb-4 border-b border-[#113C68]">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-sm sm:text-base font-bold text-[#F2CB05] tracking-wide uppercase">
+                    {block.badge}
+                  </span>
+                  <span className="text-xs text-[#8BB7E7] font-medium">
+                    {block.type === 'Link'
+                      ? '3 tamanhos × 2 estados (Default e Disabled) × com/sem ícone'
+                      : '3 tamanhos × 4 estados × com/sem ícone'}
+                  </span>
                 </div>
-              ))}
+                <p className="text-xs text-[#D2E4F7] mt-1 font-normal">{block.description}</p>
+              </div>
+
+              {/* Column Headers: 3 sizes (Large, Medium, Small) */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 pb-2 border-b border-[#113C68]/60 text-[11px] font-bold uppercase tracking-wider text-[#8BB7E7]">
+                <div>Large (16px / ícone 20px)</div>
+                <div>Medium (14px / ícone 18px)</div>
+                <div>Small (12px / ícone 16px)</div>
+              </div>
+
+              {/* Rows by State */}
+              <div className="divide-y divide-[#113C68]/40">
+                {statesForBlock.map((st) => (
+                  <div key={st} className="py-5 space-y-3">
+                    {/* State badge */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-semibold text-[#F2CB05] tracking-wide uppercase">
+                        {STATE_BADGES[st]}
+                      </span>
+                      <div className="flex-1 h-px bg-[#113C68]/60" />
+                    </div>
+
+                    {/* Sub-row: COM ÍCONE */}
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#8BB7E7]/80">
+                        • Com ícone
+                      </span>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
+                        {BUTTON_SIZES.map((sz) => (
+                          <DarkButtonCell
+                            key={`${block.type}-${st}-${sz}-com-icone`}
+                            type={block.type}
+                            size={sz}
+                            state={st}
+                            icon="Com ícone"
+                            label={displayLabel}
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Sub-row: SEM ÍCONE */}
+                    <div className="space-y-1 pt-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#8BB7E7]/80">
+                        • Sem ícone
+                      </span>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
+                        {BUTTON_SIZES.map((sz) => (
+                          <DarkButtonCell
+                            key={`${block.type}-${st}-${sz}-sem-icone`}
+                            type={block.type}
+                            size={sz}
+                            state={st}
+                            icon="Sem ícone"
+                            label={displayLabel}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )

@@ -98,7 +98,7 @@ export function generateButtonCss(config: ButtonConfig): string {
       labelColor = '#FFFFFF'
     } else if (state === 'Active/Focus') {
       lines.push('  background-color: #002750;')
-      lines.push('  box-shadow: 0 0 0 3px rgba(139, 183, 231, 0.4);')
+      lines.push('  box-shadow: 0 0 0 1px rgba(139, 183, 231, 0.6);')
       lines.push('  cursor: pointer;')
       labelColor = '#FFFFFF'
     } else {
@@ -120,7 +120,7 @@ export function generateButtonCss(config: ButtonConfig): string {
     } else if (state === 'Active/Focus') {
       lines.push('  background-color: rgba(255, 255, 255, 0.15);')
       lines.push('  border: 2px solid #FFFFFF;')
-      lines.push('  box-shadow: 0 0 0 3px rgba(139, 183, 231, 0.35);')
+      lines.push('  box-shadow: 0 0 0 1px rgba(139, 183, 231, 0.6);')
       lines.push('  cursor: pointer;')
       labelColor = '#FFFFFF'
     } else {
@@ -135,12 +135,12 @@ export function generateButtonCss(config: ButtonConfig): string {
       lines.push('  cursor: not-allowed;')
       labelColor = '#94A3B8'
     } else if (state === 'Hover') {
-      lines.push('  background-color: #D2F5DC;')
+      lines.push('  background-color: #CDF6DB;')
       lines.push('  cursor: pointer;')
       labelColor = '#004185'
     } else if (state === 'Active/Focus') {
-      lines.push('  background-color: #BEEECB;')
-      lines.push('  box-shadow: 0 0 0 3px rgba(0, 65, 133, 0.2);')
+      lines.push('  background-color: #9BECB8;')
+      lines.push('  box-shadow: 0 0 0 1px rgba(0, 65, 133, 0.4);')
       lines.push('  cursor: pointer;')
       labelColor = '#002750'
     } else {
@@ -156,17 +156,8 @@ export function generateButtonCss(config: ButtonConfig): string {
     if (state === 'Disabled') {
       lines.push('  cursor: not-allowed;')
       labelColor = '#8BB7E7'
-    } else if (state === 'Hover') {
-      lines.push('  cursor: pointer;')
-      lines.push('  text-decoration: underline;')
-      labelColor = '#60A5FA'
-    } else if (state === 'Active/Focus') {
-      lines.push('  cursor: pointer;')
-      lines.push('  text-decoration: underline;')
-      lines.push('  outline: 2px solid #8BB7E7;')
-      lines.push('  outline-offset: 2px;')
-      labelColor = '#93C5FD'
     } else {
+      // Tipo Link: sem hover e sem active (o usuário pediu textualmente)
       lines.push('  cursor: pointer;')
       labelColor = '#004185'
     }
@@ -283,14 +274,14 @@ export function generateInputCss(config: InputConfig): string {
     borderWidth = '1.5px'
     labelColor = '#004185'
     iconColor = '#004185'
-    focusRing = '\n  box-shadow: 0 0 0 3px rgba(0, 65, 133, 0.15);'
+    focusRing = '\n  box-shadow: 0 0 0 1px #004185;'
   } else if (state === 'Error') {
     borderColor = '#E11D48'
     borderWidth = '1.5px'
     labelColor = '#E11D48'
     supportingColor = '#E11D48'
     iconColor = '#E11D48'
-    focusRing = '\n  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.12);'
+    focusRing = '\n  box-shadow: 0 0 0 1px #E11D48;'
   } else if (state === 'Disabled') {
     borderColor = '#E5E7EB'
     bgColor = '#E5E7EB'
@@ -376,14 +367,14 @@ export function generateSelectCss(config: SelectConfig): string {
     borderWidth = '1.5px'
     labelColor = '#004185'
     arrowColor = '#004185'
-    focusRing = '\n  box-shadow: 0 0 0 3px rgba(0, 65, 133, 0.15);'
+    focusRing = '\n  box-shadow: 0 0 0 1px #004185;'
   } else if (state === 'Error') {
     borderColor = '#E11D48'
     borderWidth = '1.5px'
     labelColor = '#E11D48'
     supportingColor = '#E11D48'
     arrowColor = '#E11D48'
-    focusRing = '\n  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.12);'
+    focusRing = '\n  box-shadow: 0 0 0 1px #E11D48;'
   } else if (state === 'Disabled') {
     borderColor = '#E5E7EB'
     bgColor = '#E5E7EB'
