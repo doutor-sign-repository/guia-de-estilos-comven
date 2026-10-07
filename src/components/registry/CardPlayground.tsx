@@ -56,11 +56,8 @@ export const CardPlayground: React.FC<CardPlaygroundProps> = ({ initialConfig })
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#EBEBEB] shadow-sm">
-      {/* 11 Card Section Header */}
+      {/* Card Section Header */}
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-base shrink-0 select-none">
-          11
-        </div>
         <div className="pt-0.5">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#141414] leading-tight tracking-tight">
             Card (Conteúdo Genérico)
@@ -441,25 +438,24 @@ function CardStateGallery({
     description: string
   }> = [
     {
-      variant: 'Elevada',
-      badge: '1. Variante Elevada (Sombra suave)',
+      variant: 'Elevated',
+      badge: 'Variante Elevada (Sombra suave)',
       description:
-        'Apropriada para destacar blocos principais em fundos neutros com sensação tátil de profundidade.',
+        'Sombra suave para destaque na interface, ideal para cards clicáveis ou dashboards.',
     },
     {
-      variant: 'Borda',
-      badge: '2. Variante com Borda (Outline)',
+      variant: 'Outlined',
+      badge: 'Variante com Borda (Outline)',
       description:
-        'Delimitação nítida com borda neutra; ganha contorno azul COMVEN #004185 no estado Destaque.',
+        'Borda neutra sutil sem sombra, perfeita para listas densas e composições estruturadas.',
     },
     {
-      variant: 'Simples',
-      badge: '3. Variante Simples (Fundo Neutro #F5F7FA)',
+      variant: 'Flat',
+      badge: 'Variante Simples (Fundo Neutro #F5F7FA)',
       description:
-        'Card discreto com preenchimento cinza claro para agrupamentos secundários e formulários.',
+        'Fundo cinza suave sem borda nem elevação, indicado para blocos de leitura e agrupamento leve.',
     },
   ]
-
   return (
     <div className="mt-10 pt-8 border-t border-[#F0F2F5]">
       <div>

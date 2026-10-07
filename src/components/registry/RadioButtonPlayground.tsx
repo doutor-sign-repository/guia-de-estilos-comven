@@ -109,11 +109,8 @@ export const RadioButtonPlayground: React.FC<RadioButtonPlaygroundProps> = ({ in
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#EBEBEB] shadow-sm">
-      {/* 10 Radio Button Section Header */}
+      {/* Radio Button Section Header */}
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-base shrink-0 select-none">
-          05
-        </div>
         <div className="pt-0.5">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#141414] leading-tight tracking-tight">
             Radio Button (Botão de Opção)
@@ -522,36 +519,35 @@ export function SingleRadioButtonItem({
 /** Complete variation matrix for Radio Button over #062446 navy background without internal scroll */
 function RadioStateGallery({ options }: { options: RadioOption[] }) {
   const blocks: Array<{
-    state: RadioState
+    variant: RadioButtonState
     badge: string
     description: string
   }> = [
     {
-      state: 'Default',
-      badge: '1. Estado Default (Padrão)',
+      variant: 'Default',
+      badge: 'Estado Default (Padrão)',
       description:
-        'Aparência padrão em repouso. Círculo neutro com borda suave para opção desmarcada e azul primário COMVEN #004185 com ponto central para a opção selecionada.',
+        'Estado inicial de repouso com borda neutra e ponto central visível quando selecionado.',
     },
     {
-      state: 'Hover',
-      badge: '2. Estado Hover (Ao passar o cursor)',
+      variant: 'Hover',
+      badge: 'Estado Hover (Ao passar o cursor)',
       description:
-        'Feedback visual imediato com borda e rótulo no azul primário COMVEN #004185, indicando interatividade.',
+        'Borda realçada e fundo sutilmente iluminado em azul-gelo indicando que a opção é selecionável.',
     },
     {
-      state: 'Focado',
-      badge: '3. Estado Focado (Active / Foco por Teclado)',
+      variant: 'Focado',
+      badge: 'Estado Focado (Active / Foco por Teclado)',
       description:
-        'Outline acessível de exatamente 1px em azul COMVEN #004185 (regra rígida do guia de estilos: sempre 1px, nunca maior) com offset de 2px.',
+        'Foco por anel azul COMVEN (#004185 de 1px) garantindo conformidade de acessibilidade WCAG.',
     },
     {
-      state: 'Disabled',
-      badge: '4. Estado Disabled (Desabilitado)',
+      variant: 'Disabled',
+      badge: 'Estado Disabled (Desabilitado)',
       description:
-        'Opções bloqueadas e não interagíveis com preenchimento acinzentado suave, cursor not-allowed e texto atenuado.',
+        'Opacidade reduzida (50%), cursor não-permitido e cor atenuada para opções inoperantes.',
     },
   ]
-
   const displayOptions = options.slice(0, 3)
 
   return (

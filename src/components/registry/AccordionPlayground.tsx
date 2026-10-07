@@ -133,9 +133,6 @@ export const AccordionPlayground: React.FC<AccordionPlaygroundProps> = ({ initia
     <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#EBEBEB] shadow-sm">
       {/* Accordion Section Header */}
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-base shrink-0 select-none">
-          12
-        </div>
         <div className="pt-0.5">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#141414] leading-tight tracking-tight">
             Accordion (Acordeão)
@@ -589,36 +586,35 @@ function SingleAccordionItemRow({
 /** Complete variation matrix for Accordion over #062446 navy background without internal scroll */
 function AccordionStateGallery({ items }: { items: AccordionItemData[] }) {
   const blocks: Array<{
-    state: AccordionState
+    variant: AccordionState
     badge: string
     description: string
   }> = [
     {
-      state: 'Default',
-      badge: '1. Estado Default (Padrão)',
+      variant: 'Default',
+      badge: 'Estado Default (Padrão)',
       description:
-        'Aparência padrão com bordas suaves, contraste nítido, chevron no azul primário e suporte a itens colapsados e expandidos.',
+        'Estado inicial de repouso com fundo neutro claro e chevron na cor oficial #004185.',
     },
     {
-      state: 'Hover',
-      badge: '2. Estado Hover (Ao passar o cursor)',
+      variant: 'Hover',
+      badge: 'Estado Hover (Ao passar o cursor)',
       description:
-        'Feedback visual imediato ao passar o cursor sobre o cabeçalho, com destaque em azul COMVEN #004185 e fundo atenuado.',
+        'Fundo sutilmente realçado em azul-gelo com chevron em azul escuro indicando interatividade.',
     },
     {
-      state: 'Focado',
-      badge: '3. Estado Focado (Active / Foco por Teclado)',
+      variant: 'Focado',
+      badge: 'Estado Focado (Active / Foco por Teclado)',
       description:
-        'Outline acessível de exatamente 1px em azul COMVEN #004185 (regra rígida do guia de estilos: sempre 1px, nunca maior) ao redor do cabeçalho focado.',
+        'Outline acessível estritamente COMVEN de 1px em azul #004185 (sem halos grossos de 2px ou 3px).',
     },
     {
-      state: 'Disabled',
-      badge: '4. Estado Disabled (Desabilitado)',
+      variant: 'Disabled',
+      badge: 'Estado Disabled (Desabilitado)',
       description:
-        'Acordeão bloqueado e não interagível com preenchimento acinzentado suave, cursor not-allowed e texto atenuado.',
+        'Opacidade reduzida, cursor não-permitido e texto atenuado para itens inoperantes.',
     },
   ]
-
   const item1 = items[0] || DEFAULT_ITEMS[0]
   const item2 = items[1] || DEFAULT_ITEMS[1]
 

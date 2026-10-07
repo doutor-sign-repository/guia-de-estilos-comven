@@ -57,11 +57,8 @@ export const InputPlayground: React.FC<InputPlaygroundProps> = ({ initialConfig 
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#EBEBEB] shadow-sm">
-      {/* 02 Input — Section Header */}
+      {/* Input — Section Header */}
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-base shrink-0 select-none">
-          02
-        </div>
         <div className="pt-0.5">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#141414] leading-tight tracking-tight">
             Input

@@ -25,6 +25,11 @@ import {
   generateTooltipCss,
   generateCardCss,
   generateAccordionCss,
+  ModalVariant,
+  ModalSize,
+  ModalState,
+  ModalConfig,
+  generateModalCss,
 } from './types'
 import { ButtonPlayground } from './ButtonPlayground'
 import { InputPlayground } from './InputPlayground'
@@ -38,11 +43,12 @@ import { InfoCardPlayground } from './InfoCardPlayground'
 import { TooltipPlayground } from './TooltipPlayground'
 import { CardPlayground } from './CardPlayground'
 import { AccordionPlayground } from './AccordionPlayground'
+import { ModalPlayground } from './ModalPlayground'
 
 export interface ComponentRegistryItem {
   id: string
   name: string
-  number: string
+  number?: string
   subtitle: string
   category: 'COMPONENTES'
   component: React.ComponentType
@@ -51,16 +57,15 @@ export interface ComponentRegistryItem {
 /**
  * Scalable Components Registry
  * Reorganized by design system domain hierarchy:
- * 1-5: Formulários e Seleção (Button, Input, Select, Checkbox, Radio Button)
- * 6-9: Feedback e Status (Badge, Tag, Toast, InfoCard)
- * 10-12: Overlays e Estrutura de Conteúdo (Tooltip, Card, Accordion)
+ * Formulários e Seleção (Button, Input, Select, Checkbox, Radio Button)
+ * Feedback e Status (Badge, Tag, Toast, InfoCard)
+ * Overlays e Estrutura de Conteúdo (Tooltip, Card, Accordion, Modal)
  */
 export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   // --- Formulários & Seleção ---
   button: {
     id: 'button',
     name: 'Button',
-    number: '1',
     subtitle:
       '4 tipos × 3 tamanhos × 4 estados — com ícone e texto configuráveis via painel de propriedades',
     category: 'COMPONENTES',
@@ -69,7 +74,6 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   input: {
     id: 'input',
     name: 'Input',
-    number: '2',
     subtitle:
       '4 estados × 4 tamanhos — com ícone de busca, ícone auxiliar, label e supporting text configuráveis',
     category: 'COMPONENTES',
@@ -78,7 +82,6 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   select: {
     id: 'select',
     name: 'Select',
-    number: '3',
     subtitle:
       '5 estados × 4 tamanhos — com label, seta dropdown expansível e supporting text configuráveis',
     category: 'COMPONENTES',
@@ -87,7 +90,6 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   checkbox: {
     id: 'checkbox',
     name: 'Checkbox',
-    number: '4',
     subtitle:
       '4 estados × 3 tamanhos × 2 orientações — múltipla seleção com estado indeterminado e foco COMVEN (1px)',
     category: 'COMPONENTES',
@@ -96,7 +98,6 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   'radio-button': {
     id: 'radio-button',
     name: 'Radio Button',
-    number: '5',
     subtitle:
       '4 estados × 3 tamanhos × 2 orientações — seleção exclusiva com foco acessível COMVEN #004185 (1px)',
     category: 'COMPONENTES',
@@ -107,7 +108,6 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   badge: {
     id: 'badge',
     name: 'Badge',
-    number: '6',
     subtitle:
       '6 variantes × 4 tamanhos × 3 estados — explorando a escala de cores COMVEN, incluindo o amarelo de alerta',
     category: 'COMPONENTES',
@@ -116,7 +116,6 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   tag: {
     id: 'tag',
     name: 'Tag',
-    number: '7',
     subtitle:
       '6 variantes × 3 tamanhos × 3 estados — chip compacto para categorização com remoção opcional',
     category: 'COMPONENTES',
@@ -125,7 +124,6 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   toast: {
     id: 'toast',
     name: 'Toast',
-    number: '8',
     subtitle:
       '5 variantes × 3 tamanhos × 2 estados — notificação flutuante com botão de ação estilo Link e fechar',
     category: 'COMPONENTES',
@@ -134,7 +132,6 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   infocard: {
     id: 'infocard',
     name: 'InfoCard',
-    number: '9',
     subtitle:
       '5 variantes × 3 tamanhos × 2 estados — card informativo com ícone + título + texto descritivo',
     category: 'COMPONENTES',
@@ -145,7 +142,6 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   tooltip: {
     id: 'tooltip',
     name: 'Tooltip',
-    number: '10',
     subtitle:
       '4 posicionamentos × 2 temas × 3 tamanhos — balão de dica contextual acionado ao hover/foco do gatilho',
     category: 'COMPONENTES',
@@ -154,7 +150,6 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   card: {
     id: 'card',
     name: 'Card',
-    number: '11',
     subtitle:
       '3 variantes × 3 tamanhos × 2 estados — card de conteúdo genérico com header, corpo e ações opcionais',
     category: 'COMPONENTES',
@@ -163,11 +158,18 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   accordion: {
     id: 'accordion',
     name: 'Accordion',
-    number: '12',
     subtitle:
       '3 variantes × 3 tamanhos × 4 estados × 2 modos — seções colapsáveis com animação de rotação e foco COMVEN',
     category: 'COMPONENTES',
     component: AccordionPlayground,
+  },
+  modal: {
+    id: 'modal',
+    name: 'Modal',
+    subtitle:
+      '3 variantes × 3 tamanhos × 2 estados — overlay escuro com diálogo centralizado, header com fechar × e rodapé com ações',
+    category: 'COMPONENTES',
+    component: ModalPlayground,
   },
 }
 
@@ -520,6 +522,32 @@ export const ACCORDION_DEFINITION: ComponentDefinition<AccordionConfig> = {
   },
 }
 
+export const MODAL_DEFINITION: ComponentDefinition<ModalConfig> = {
+  id: 'modal',
+  name: 'Modal',
+  category: 'COMPONENTES',
+  subtitle:
+    '3 variantes × 3 tamanhos × 2 estados — overlay escuro com diálogo centralizado, header com fechar × e rodapé com ações',
+  description:
+    'Janela sobreposta com bloqueio de interface (overlay) para confirmações críticas, formulários modais e avisos imperativos nos produtos digitais COMVEN.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Completo',
+    size: 'Medium',
+    state: 'Default',
+    title: 'Confirmar Atualização de Tabela',
+    content:
+      'Deseja realmente aplicar as alterações tarifárias para toda a rede COMVEN? Esta ação sincronizará as tabelas de frete em tempo real e não poderá ser desfeita.',
+    cancelLabel: 'Cancelar',
+    confirmLabel: 'Confirmar',
+  },
+  generateCss: generateModalCss,
+  renderPreview: (config) => {
+    return React.createElement(ModalPlayground, { initialConfig: config })
+  },
+}
+
 export {
   ButtonPlayground,
   InputPlayground,
@@ -533,5 +561,7 @@ export {
   TooltipPlayground,
   CardPlayground,
   AccordionPlayground,
+  ModalPlayground,
 }
+export type { ModalVariant, ModalSize, ModalState, ModalConfig }
 export { PlaygroundControlGroup } from './PlaygroundControlGroup'

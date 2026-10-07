@@ -48,9 +48,6 @@ export default function Index() {
         >
           {/* Card Header matching reference screenshot */}
           <div className="flex items-start gap-4 pb-2 border-b border-[#F0F2F5]">
-            <div className="w-9 h-9 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-sm shrink-0 mt-0.5 shadow-sm">
-              1
-            </div>
             <div className="flex-1">
               <h2 className="text-2xl sm:text-3xl font-bold text-[#141414] tracking-tight">
                 Logotipo
@@ -243,9 +240,6 @@ export default function Index() {
         >
           {/* Card Header */}
           <div className="flex items-start gap-4 pb-2 border-b border-[#F0F2F5]">
-            <div className="w-9 h-9 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-sm shrink-0 mt-0.5 shadow-sm">
-              2
-            </div>
             <div>
               <h2 className="text-2xl sm:text-3xl font-bold text-[#141414] tracking-tight">
                 Cores
@@ -411,9 +405,6 @@ export default function Index() {
         >
           {/* Card Header */}
           <div className="flex items-start gap-4 pb-2 border-b border-[#F0F2F5]">
-            <div className="w-9 h-9 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-sm shrink-0 mt-0.5 shadow-sm">
-              3
-            </div>
             <div>
               <h2 className="text-2xl sm:text-3xl font-bold text-[#141414] tracking-tight">
                 Tipografia
@@ -554,9 +545,6 @@ export default function Index() {
         >
           {/* Card Header */}
           <div className="flex items-start gap-4 pb-2 border-b border-[#F0F2F5]">
-            <div className="w-9 h-9 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-sm shrink-0 mt-0.5 shadow-sm">
-              4
-            </div>
             <div>
               <h2 className="text-2xl sm:text-3xl font-bold text-[#141414] tracking-tight">
                 Iconografia
@@ -731,9 +719,6 @@ export default function Index() {
         >
           {/* Card Header */}
           <div className="flex items-start gap-4 pb-2 border-b border-[#F0F2F5]">
-            <div className="w-9 h-9 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-sm shrink-0 mt-0.5 shadow-sm">
-              5
-            </div>
             <div>
               <h2 className="text-2xl sm:text-3xl font-bold text-[#141414] tracking-tight">
                 Área de proteção
@@ -830,9 +815,6 @@ export default function Index() {
         >
           {/* Card Header */}
           <div className="flex items-start gap-4 pb-2 border-b border-[#F0F2F5]">
-            <div className="w-9 h-9 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-sm shrink-0 mt-0.5 shadow-sm">
-              6
-            </div>
             <div>
               <h2 className="text-2xl sm:text-3xl font-bold text-[#141414] tracking-tight">
                 Aplicações incorretas

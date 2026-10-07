@@ -47,11 +47,8 @@ export const ButtonPlayground: React.FC<ButtonPlaygroundProps> = ({ initialConfi
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#EBEBEB] shadow-sm">
-      {/* 01 Button Section Header */}
+      {/* Button Section Header */}
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-base shrink-0 select-none">
-          01
-        </div>
         <div className="pt-0.5">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#141414] leading-tight tracking-tight">
             Button
@@ -621,24 +618,24 @@ interface TypeBlockInfo {
 const TYPE_BLOCKS: TypeBlockInfo[] = [
   {
     type: 'Primary',
-    badge: '1. Primary (Fundo Azul-Marinho COMVEN #004185)',
+    badge: 'Primary (Fundo Azul-Marinho COMVEN #004185)',
     description:
       'Ação principal com alto contraste; hover #00346A, active #002750, disabled #8BB7E7.',
   },
   {
     type: 'Secondary',
-    badge: '2. Secondary (Transparente com borda 2px)',
+    badge: 'Secondary (Transparente com borda 2px)',
     description: 'Ações secundárias; borda 2px azul COMVEN #004185, hover com fundo translúcido.',
   },
   {
     type: 'Tertiary',
-    badge: '3. Tertiary (Fundo verde-suave #E6FAED)',
+    badge: 'Tertiary (Fundo verde-suave #E6FAED)',
     description:
       'Ações alternativas; fundo verde-suave #E6FAED com texto azul #004185, hover verde-claro #CDF6DB.',
   },
   {
     type: 'Link',
-    badge: '4. Link (Texto azul com ícone de lupa)',
+    badge: 'Link (Texto azul com ícone de lupa)',
     description:
       'Navegação inline e links de texto; sem borda ou padding, sem estado de hover ou active.',
   },

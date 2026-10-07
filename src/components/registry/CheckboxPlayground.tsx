@@ -132,9 +132,6 @@ export const CheckboxPlayground: React.FC<CheckboxPlaygroundProps> = ({ initialC
     <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#EBEBEB] shadow-sm">
       {/* Checkbox Section Header */}
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-base shrink-0 select-none">
-          04
-        </div>
         <div className="pt-0.5">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#141414] leading-tight tracking-tight">
             Checkbox (Caixa de Seleção)
@@ -589,36 +586,35 @@ export function SingleCheckboxItem({
 /** Complete variation matrix for Checkbox over #062446 navy background without internal scroll */
 function CheckboxStateGallery({ options }: { options: CheckboxOption[] }) {
   const blocks: Array<{
-    state: CheckboxState
+    variant: CheckboxState
     badge: string
     description: string
   }> = [
     {
-      state: 'Default',
-      badge: '1. Estado Default (Padrão)',
+      variant: 'Default',
+      badge: 'Estado Default (Padrão)',
       description:
-        'Aparência padrão em repouso. Caixa neutra com borda suave para desmarcado, azul primário COMVEN #004185 com ícone de check para marcado e traço central para indeterminado.',
+        'Estado inicial de repouso com borda neutra e fundo branco. Acessível e pronto para interação.',
     },
     {
-      state: 'Hover',
-      badge: '2. Estado Hover (Ao passar o cursor)',
+      variant: 'Hover',
+      badge: 'Estado Hover (Ao passar o cursor)',
       description:
-        'Feedback visual imediato com borda e rótulo no azul primário COMVEN #004185 e preenchimento intensificado para itens selecionados.',
+        'Borda realçada e fundo sutilmente iluminado em azul-gelo indicando que o controle é clicável.',
     },
     {
-      state: 'Focado',
-      badge: '3. Estado Focado (Active / Foco por Teclado)',
+      variant: 'Focado',
+      badge: 'Estado Focado (Active / Foco por Teclado)',
       description:
-        'Outline acessível de exatamente 1px em azul COMVEN #004185 (regra rígida do guia de estilos: sempre 1px, nunca maior) com offset de 2px.',
+        'Foco por anel azul COMVEN (#004185 de 1px) garantindo conformidade de acessibilidade WCAG.',
     },
     {
-      state: 'Disabled',
-      badge: '4. Estado Disabled (Desabilitado)',
+      variant: 'Disabled',
+      badge: 'Estado Disabled (Desabilitado)',
       description:
-        'Caixas de seleção bloqueadas e não interagíveis com preenchimento acinzentado suave, cursor not-allowed e texto atenuado.',
+        'Opacidade reduzida (50%), cursor não-permitido e cor atenuada para opções inoperantes.',
     },
   ]
-
   const displayLabel1 = options[0]?.label || 'Notificações ativas'
   const displayLabel2 = options[1]?.label || 'Seleção parcial (filhos)'
   const displayLabel3 = options[2]?.label || 'Opção não selecionada'

@@ -5,16 +5,15 @@ import { ComvenLogo } from './ComvenLogo'
 interface GuiaNavItem {
   id: string
   label: string
-  number: string
 }
 
 const GUIA_ITEMS: GuiaNavItem[] = [
-  { id: 'logotipo', label: 'Logotipo', number: '1' },
-  { id: 'cores', label: 'Cores', number: '2' },
-  { id: 'tipografia', label: 'Tipografia', number: '3' },
-  { id: 'iconografia', label: 'Iconografia', number: '4' },
-  { id: 'area-de-protecao', label: 'Área de proteção', number: '5' },
-  { id: 'aplicacoes-incorretas', label: 'Aplicações incorretas', number: '6' },
+  { id: 'logotipo', label: 'Logotipo' },
+  { id: 'cores', label: 'Cores' },
+  { id: 'tipografia', label: 'Tipografia' },
+  { id: 'iconografia', label: 'Iconografia' },
+  { id: 'area-de-protecao', label: 'Área de proteção' },
+  { id: 'aplicacoes-incorretas', label: 'Aplicações incorretas' },
 ]
 
 export default function Layout() {
@@ -188,7 +187,7 @@ export default function Layout() {
                   <span className="w-1.5 h-1.5 rounded-full bg-[#F2CB05]" title="Página ativa" />
                 )}
               </div>
-              <ul className="space-y-2">
+              <ul className="space-y-1">
                 {GUIA_ITEMS.map((item) => {
                   const isActive = isGuiaPage && activeSection === item.id
                   return (
@@ -196,23 +195,13 @@ export default function Layout() {
                       <button
                         type="button"
                         onClick={() => handleGuiaItemClick(item.id)}
-                        className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
+                        className={`w-full text-left px-3 py-2 rounded-lg flex items-center transition-colors duration-200 group ${
                           isActive
-                            ? 'text-[#F2CB05] font-semibold'
-                            : 'text-white hover:text-[#F2CB05]'
+                            ? 'text-[#F2CB05] font-semibold bg-white/5'
+                            : 'text-white hover:text-[#F2CB05] hover:bg-white/5'
                         }`}
                       >
-                        {/* Circular number badge: no hover/active preenchido em amarelo com número escuro */}
-                        <span
-                          className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                            isActive
-                              ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                              : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                          }`}
-                        >
-                          {item.number}
-                        </span>
-                        <span className="text-[14px] leading-snug tracking-normal truncate">
+                        <span className="text-[14px] leading-snug tracking-normal truncate w-full">
                           {item.label}
                         </span>
                       </button>
@@ -232,322 +221,48 @@ export default function Layout() {
                   <span className="w-1.5 h-1.5 rounded-full bg-[#F2CB05]" title="Página ativa" />
                 )}
               </div>
-              <ul className="space-y-2">
-                {/* 1. Button */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('button')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage &&
-                      (location.pathname === '/componentes' ||
+              <ul className="space-y-1">
+                {[
+                  { id: 'button', label: 'Button' },
+                  { id: 'input', label: 'Input' },
+                  { id: 'select', label: 'Select' },
+                  { id: 'checkbox', label: 'Checkbox' },
+                  { id: 'radio-button', label: 'Radio Button' },
+                  { id: 'badge', label: 'Badge' },
+                  { id: 'tag', label: 'Tag' },
+                  { id: 'toast', label: 'Toast' },
+                  { id: 'infocard', label: 'InfoCard' },
+                  { id: 'tooltip', label: 'Tooltip' },
+                  { id: 'card', label: 'Card' },
+                  { id: 'accordion', label: 'Accordion' },
+                  { id: 'modal', label: 'Modal' },
+                ].map((comp) => {
+                  const isActive =
+                    isComponentesPage &&
+                    (comp.id === 'button'
+                      ? location.pathname === '/componentes' ||
                         location.pathname === '/componentes/' ||
-                        location.pathname === '/componentes/button')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage &&
-                        (location.pathname === '/componentes' ||
-                          location.pathname === '/componentes/' ||
-                          location.pathname === '/componentes/button')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      1
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">
-                      Button
-                    </span>
-                  </button>
-                </li>
+                        location.pathname === '/componentes/button'
+                      : location.pathname.startsWith(`/componentes/${comp.id}`))
 
-                {/* 2. Input */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('input')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/input')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/input')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      2
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">Input</span>
-                  </button>
-                </li>
-
-                {/* 3. Select */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('select')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/select')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/select')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      3
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">
-                      Select
-                    </span>
-                  </button>
-                </li>
-
-                {/* 4. Checkbox */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('checkbox')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage &&
-                      (location.pathname.startsWith('/componentes/checkbox') ||
-                        location.pathname.startsWith('/componentes/check'))
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage &&
-                        (location.pathname.startsWith('/componentes/checkbox') ||
-                          location.pathname.startsWith('/componentes/check'))
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      4
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">
-                      Checkbox
-                    </span>
-                  </button>
-                </li>
-
-                {/* 5. Radio Button */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('radio-button')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage &&
-                      (location.pathname.startsWith('/componentes/radio-button') ||
-                        location.pathname.startsWith('/componentes/radio'))
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage &&
-                        (location.pathname.startsWith('/componentes/radio-button') ||
-                          location.pathname.startsWith('/componentes/radio'))
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      5
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">
-                      Radio Button
-                    </span>
-                  </button>
-                </li>
-
-                {/* 6. Badge */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('badge')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/badge')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/badge')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      6
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">Badge</span>
-                  </button>
-                </li>
-
-                {/* 7. Tag */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('tag')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/tag')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/tag')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      7
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">Tag</span>
-                  </button>
-                </li>
-
-                {/* 8. Toast */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('toast')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/toast')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/toast')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      8
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">Toast</span>
-                  </button>
-                </li>
-
-                {/* 9. InfoCard */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('infocard')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/infocard')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/infocard')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      9
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">
-                      InfoCard
-                    </span>
-                  </button>
-                </li>
-
-                {/* 10. Tooltip */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('tooltip')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/tooltip')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/tooltip')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      10
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">
-                      Tooltip
-                    </span>
-                  </button>
-                </li>
-
-                {/* 11. Card */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('card')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/card')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/card')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      11
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">Card</span>
-                  </button>
-                </li>
-
-                {/* 12. Accordion */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('accordion')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/accordion')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/accordion')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      12
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">
-                      Accordion
-                    </span>
-                  </button>
-                </li>
+                  return (
+                    <li key={comp.id}>
+                      <button
+                        type="button"
+                        onClick={() => handleComponentesItemClick(comp.id)}
+                        className={`w-full text-left px-3 py-2 rounded-lg flex items-center transition-colors duration-200 group ${
+                          isActive
+                            ? 'text-[#F2CB05] font-semibold bg-white/5'
+                            : 'text-white hover:text-[#F2CB05] hover:bg-white/5'
+                        }`}
+                      >
+                        <span className="text-[14px] leading-snug tracking-normal truncate w-full">
+                          {comp.label}
+                        </span>
+                      </button>
+                    </li>
+                  )
+                })}
               </ul>
             </div>
           </nav>

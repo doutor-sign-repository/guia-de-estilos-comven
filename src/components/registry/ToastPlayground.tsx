@@ -137,11 +137,8 @@ export const ToastPlayground: React.FC<ToastPlaygroundProps> = ({ initialConfig 
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#EBEBEB] shadow-sm relative">
-      {/* 08 Toast Section Header */}
+      {/* Toast Section Header */}
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-base shrink-0 select-none">
-          08
-        </div>
         <div className="pt-0.5">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#141414] leading-tight tracking-tight">
             Toast (Notificação Flutuante Interativa)
@@ -545,29 +542,29 @@ function ToastStateGallery({
   }> = [
     {
       variant: 'Info',
-      badge: '1. Variante Informativa (Azul #004185)',
+      badge: 'Variante Informativa (Azul #004185)',
       description: 'Avisos neutros do sistema, enfileiramento de relatórios e mensagens de status.',
     },
     {
       variant: 'Success',
-      badge: '2. Variante de Sucesso (Verde)',
+      badge: 'Variante de Sucesso (Verde)',
       description:
         'Confirmação de propostas, sincronização concluída e cadastros salvos com sucesso.',
     },
     {
       variant: 'Warning',
-      badge: '3. Variante de Atenção / Alerta (Amarelo #F2CB05)',
+      badge: 'Variante de Atenção / Alerta (Amarelo #F2CB05)',
       description:
         'Uso legítimo do amarelo COMVEN: permitido expressamente em alertas para títulos vencendo ou atenção operacional.',
     },
     {
       variant: 'Error',
-      badge: '4. Variante de Erro (Vermelho)',
+      badge: 'Variante de Erro (Vermelho)',
       description: 'Falha de comunicação, recusa de autorização ou inconsistência de envio.',
     },
     {
       variant: 'Neutral',
-      badge: '5. Variante Neutra (Branco / Borda Cinza)',
+      badge: 'Variante Neutra (Branco / Borda Cinza)',
       description: 'Notificação discreta de mensagens secundárias, dicas e atualizações de chat.',
     },
   ]

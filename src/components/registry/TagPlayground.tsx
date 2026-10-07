@@ -60,15 +60,12 @@ export const TagPlayground: React.FC<TagPlaygroundProps> = ({ initialConfig }) =
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#EBEBEB] shadow-sm">
-      {/* 07 Tag Section Header */}
+      {/* Tag Section Header */}
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-base shrink-0 select-none">
-          07
-        </div>
         <div className="pt-0.5">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#141414] leading-tight tracking-tight">
             Tag (Categorização & Taxonomia)
-          </h2>{' '}
+          </h2>
           <p className="text-sm sm:text-[15px] text-[#666666] mt-1 font-normal">
             6 variantes na escala COMVEN (incluindo o amarelo #F2CB05) × 3 tamanhos × 3 estados —
             etiqueta compacta com botão de remoção opcional para filtros e taxonomia
@@ -347,33 +344,33 @@ function TagStateGallery({ currentText }: { currentText: string }) {
   }> = [
     {
       variant: 'Primary',
-      badge: '1. Variante Primária (Azul #004185)',
+      badge: 'Variante Primária (Azul #004185)',
       description: 'Tag de destaque principal para categorias selecionadas e filtros ativos.',
     },
     {
       variant: 'Secondary',
-      badge: '2. Variante Secundária (Outline)',
+      badge: 'Variante Secundária (Outline)',
       description: 'Estrutura vazada com borda azul COMVEN #004185 para filtros secundários.',
     },
     {
       variant: 'Success',
-      badge: '3. Variante Sucesso (Verde)',
+      badge: 'Variante Sucesso (Verde)',
       description: 'Status positivo, conformidade de lote e entregas confirmadas.',
     },
     {
       variant: 'Warning',
-      badge: '4. Variante Alerta (Amarelo #F2CB05)',
+      badge: 'Variante Alerta (Amarelo #F2CB05)',
       description:
         'Uso legítimo do amarelo COMVEN: permitido para alertas, badges e tags de atenção pontual.',
     },
     {
       variant: 'Error',
-      badge: '5. Variante Erro (Vermelho)',
+      badge: 'Variante Erro (Vermelho)',
       description: 'Pendências impeditivas, bloqueios e falhas de validação.',
     },
     {
       variant: 'Neutral',
-      badge: '6. Variante Neutra (Cinza)',
+      badge: 'Variante Neutra (Cinza)',
       description: 'Etiquetas gerais para metadados, autores, datas e categorias auxiliares.',
     },
   ]

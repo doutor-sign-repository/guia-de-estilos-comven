@@ -65,35 +65,35 @@ const VARIANT_BLOCKS: Array<{
 }> = [
   {
     variant: 'Info',
-    badge: '1. Variante Informativa (Azul #004185)',
+    badge: 'Variante Informativa (Azul #004185)',
     description:
       'Utiliza o tom corporativo COMVEN para avisos neutros, dicas contextuais, atualizações de sistema e fluxos de orientação ao usuário.',
     iconName: 'info',
   },
   {
     variant: 'Success',
-    badge: '2. Variante de Sucesso (Verde)',
+    badge: 'Variante de Sucesso (Verde)',
     description:
       'Comunica confirmações, operações concluídas com êxito, sincronizações aprovadas e etapas finalizadas na esteira de venda.',
     iconName: 'check_circle',
   },
   {
     variant: 'Warning',
-    badge: '3. Variante de Atenção / Alerta (Amarelo #F2CB05)',
+    badge: 'Variante de Atenção / Alerta (Amarelo #F2CB05)',
     description:
       'Aplicação legítima do amarelo COMVEN: permitida expressamente para destacar avisos, pontos de atenção e diretrizes críticas sem virar cor base.',
     iconName: 'lightbulb',
   },
   {
     variant: 'Error',
-    badge: '4. Variante de Erro / Restrição (Vermelho)',
+    badge: 'Variante de Erro / Restrição (Vermelho)',
     description:
       'Indica pendências impeditivas, bloqueios operacionais, prazos vencidos ou inconsistências que exigem ação corretiva imediata.',
     iconName: 'error',
   },
   {
     variant: 'Neutral',
-    badge: '5. Variante Neutra (Cinza / Off-white)',
+    badge: 'Variante Neutra (Cinza / Off-white)',
     description:
       'Apropriada para resumos documentais, notas técnicas de apoio, rodapés informativos e blocos secundários de leitura.',
     iconName: 'article',
@@ -143,15 +143,12 @@ export const InfoCardPlayground: React.FC<InfoCardPlaygroundProps> = ({ initialC
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#EBEBEB] shadow-sm">
-      {/* 09 InfoCard Section Header */}
+      {/* InfoCard Section Header */}
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-base shrink-0 select-none">
-          09
-        </div>
         <div className="pt-0.5">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#141414] leading-tight tracking-tight">
             InfoCard (Ícone + Título + Descrição)
-          </h2>{' '}
+          </h2>
           <p className="text-sm sm:text-[15px] text-[#666666] mt-1 font-normal">
             5 variantes por intenção × 3 tamanhos × 2 estados — explorando a escala oficial COMVEN
             com fundo pálido, borda suave, ícone, título e texto descritivo

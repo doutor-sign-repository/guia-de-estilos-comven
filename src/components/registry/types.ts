@@ -1967,3 +1967,237 @@ ${titleLines.join('\n')}
 ${contentLines.join('\n')}
 }`
 }
+
+/* ========================================================================= */
+/* MODAL COMPONENT TYPES & STYLES                                           */
+/* ========================================================================= */
+
+export type ModalVariant = 'Completo' | 'Sem rodapé' | 'Simples'
+export type ModalSize = 'Large' | 'Medium' | 'Small'
+export type ModalState = 'Default' | 'Hover'
+
+export interface ModalMetrics {
+  maxWidth: number
+  padding: string
+  titleFontSize: number
+  titleLineHeight: string
+  bodyFontSize: number
+  bodyLineHeight: string
+  buttonFontSize: number
+  buttonPadding: string
+  closeButtonSize: number
+  closeIconSize: number
+  borderRadius: number
+}
+
+export const MODAL_SIZE_METRICS: Record<ModalSize, ModalMetrics> = {
+  Large: {
+    maxWidth: 640,
+    padding: '28px 32px',
+    titleFontSize: 20,
+    titleLineHeight: '1.3',
+    bodyFontSize: 15,
+    bodyLineHeight: '1.6',
+    buttonFontSize: 14,
+    buttonPadding: '10px 20px',
+    closeButtonSize: 36,
+    closeIconSize: 20,
+    borderRadius: 20,
+  },
+  Medium: {
+    maxWidth: 520,
+    padding: '24px 28px',
+    titleFontSize: 18,
+    titleLineHeight: '1.35',
+    bodyFontSize: 14,
+    bodyLineHeight: '1.55',
+    buttonFontSize: 13,
+    buttonPadding: '8px 16px',
+    closeButtonSize: 32,
+    closeIconSize: 18,
+    borderRadius: 16,
+  },
+  Small: {
+    maxWidth: 420,
+    padding: '20px 24px',
+    titleFontSize: 16,
+    titleLineHeight: '1.4',
+    bodyFontSize: 13,
+    bodyLineHeight: '1.5',
+    buttonFontSize: 12,
+    buttonPadding: '6px 14px',
+    closeButtonSize: 28,
+    closeIconSize: 16,
+    borderRadius: 14,
+  },
+}
+
+export interface ModalConfig {
+  variant: ModalVariant
+  size: ModalSize
+  state: ModalState
+  title: string
+  content: string
+  cancelLabel: string
+  confirmLabel: string
+}
+
+export function generateModalCss(config: ModalConfig): string {
+  const { variant, size, state } = config
+  const metrics = MODAL_SIZE_METRICS[size] || MODAL_SIZE_METRICS.Medium
+
+  const isHover = state === 'Hover'
+  const primaryBtnBg = isHover ? '#00346A' : '#004185'
+  const closeBtnBg = isHover ? '#F0F2F5' : 'transparent'
+
+  const comment = `/* COMVEN Modal — Variante=${variant}, Tamanho=${size}, Estado=${state} */`
+
+  const overlayLines = [
+    '  position: fixed;',
+    '  inset: 0;',
+    '  background-color: rgba(6, 36, 70, 0.65);',
+    '  backdrop-filter: blur(4px);',
+    '  display: flex;',
+    '  align-items: center;',
+    '  justify-content: center;',
+    '  padding: 16px;',
+    '  z-index: 1000;',
+    '  animation: comvenModalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);',
+  ]
+
+  const dialogLines = [
+    '  width: 100%;',
+    `  max-width: ${metrics.maxWidth}px;`,
+    '  background-color: #FFFFFF;',
+    `  border-radius: ${metrics.borderRadius}px;`,
+    '  border: 1px solid #EBEBEB;',
+    '  box-shadow: 0 24px 48px -12px rgba(6, 36, 70, 0.28), 0 12px 24px -8px rgba(6, 36, 70, 0.16);',
+    '  overflow: hidden;',
+    '  display: flex;',
+    '  flex-direction: column;',
+    '  animation: comvenModalScaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);',
+  ]
+
+  const headerLines = [
+    '  display: flex;',
+    '  align-items: center;',
+    '  justify-content: space-between;',
+    '  padding: ' + metrics.padding.split(' ')[0] + ' ' + metrics.padding.split(' ')[1] + ' 16px;',
+    '  border-bottom: 1px solid #F0F2F5;',
+  ]
+
+  const titleLines = [
+    "  font-family: 'Open Sans', sans-serif;",
+    '  font-weight: 700;',
+    `  font-size: ${metrics.titleFontSize}px;`,
+    `  line-height: ${metrics.titleLineHeight};`,
+    '  color: #141414;',
+    '  margin: 0;',
+  ]
+
+  const bodyLines = [
+    '  padding: 20px ' + metrics.padding.split(' ')[1] + ';',
+    "  font-family: 'Open Sans', sans-serif;",
+    '  font-weight: 400;',
+    `  font-size: ${metrics.bodyFontSize}px;`,
+    `  line-height: ${metrics.bodyLineHeight};`,
+    '  color: #525252;',
+  ]
+
+  const footerLines = [
+    '  display: flex;',
+    '  align-items: center;',
+    '  justify-content: flex-end;',
+    '  gap: 12px;',
+    '  padding: 16px ' + metrics.padding.split(' ')[1] + ' ' + metrics.padding.split(' ')[0] + ';',
+    '  border-top: 1px solid #F0F2F5;',
+    '  background-color: #FAFCFE;',
+  ]
+
+  const primaryButtonLines = [
+    "  font-family: 'Open Sans', sans-serif;",
+    '  font-weight: 700;',
+    `  font-size: ${metrics.buttonFontSize}px;`,
+    `  padding: ${metrics.buttonPadding};`,
+    '  border-radius: 8px;',
+    '  border: none;',
+    `  background-color: ${primaryBtnBg};`,
+    '  color: #FFFFFF;',
+    '  cursor: pointer;',
+    '  transition: background-color 0.15s ease, box-shadow 0.15s ease;',
+  ]
+
+  const secondaryButtonLines = [
+    "  font-family: 'Open Sans', sans-serif;",
+    '  font-weight: 700;',
+    `  font-size: ${metrics.buttonFontSize}px;`,
+    `  padding: ${metrics.buttonPadding};`,
+    '  border-radius: 8px;',
+    '  border: 1px solid #D5DCE5;',
+    '  background-color: #FFFFFF;',
+    '  color: #004185;',
+    '  cursor: pointer;',
+    '  transition: background-color 0.15s ease, border-color 0.15s ease;',
+  ]
+
+  const closeButtonLines = [
+    `  width: ${metrics.closeButtonSize}px;`,
+    `  height: ${metrics.closeButtonSize}px;`,
+    '  border-radius: 8px;',
+    '  border: none;',
+    `  background-color: ${closeBtnBg};`,
+    '  color: #666666;',
+    '  display: inline-flex;',
+    '  align-items: center;',
+    '  justify-content: center;',
+    '  cursor: pointer;',
+    '  transition: background-color 0.15s ease, color 0.15s ease;',
+  ]
+
+  return `${comment}
+.comven-modal-overlay {
+${overlayLines.join('\n')}
+}
+
+.comven-modal-dialog {
+${dialogLines.join('\n')}
+}
+
+.comven-modal-header {
+${headerLines.join('\n')}
+}
+
+.comven-modal-title {
+${titleLines.join('\n')}
+}
+
+.comven-modal-close {
+${closeButtonLines.join('\n')}
+}
+
+.comven-modal-body {
+${bodyLines.join('\n')}
+}
+
+.comven-modal-footer {
+${footerLines.join('\n')}
+}
+
+.comven-modal-btn-primary {
+${primaryButtonLines.join('\n')}
+}
+
+.comven-modal-btn-secondary {
+${secondaryButtonLines.join('\n')}
+}
+
+@keyframes comvenModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes comvenModalScaleUp {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}`
+}

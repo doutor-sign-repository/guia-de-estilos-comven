@@ -12,6 +12,7 @@ import { InfoCardPlayground } from '@/components/registry/InfoCardPlayground'
 import { TooltipPlayground } from '@/components/registry/TooltipPlayground'
 import { CardPlayground } from '@/components/registry/CardPlayground'
 import { AccordionPlayground } from '@/components/registry/AccordionPlayground'
+import { ModalPlayground } from '@/components/registry/ModalPlayground'
 
 export default function Componentes() {
   const { componentId } = useParams<{ componentId?: string }>()
@@ -29,7 +30,8 @@ export default function Componentes() {
     | 'infocard'
     | 'tooltip'
     | 'card'
-    | 'accordion' = 'button'
+    | 'accordion'
+    | 'modal' = 'button'
 
   if (componentId === 'input') current = 'input'
   else if (componentId === 'select') current = 'select'
@@ -42,6 +44,7 @@ export default function Componentes() {
   else if (componentId === 'tooltip') current = 'tooltip'
   else if (componentId === 'card') current = 'card'
   else if (componentId === 'accordion') current = 'accordion'
+  else if (componentId === 'modal') current = 'modal'
 
   const titleMap = {
     button: 'Button',
@@ -56,6 +59,7 @@ export default function Componentes() {
     tooltip: 'Tooltip (Dica)',
     card: 'Card (Conteúdo)',
     accordion: 'Accordion (Acordeão)',
+    modal: 'Modal (Janela Sobreposta)',
   }
 
   return (
@@ -141,6 +145,11 @@ export default function Componentes() {
         {current === 'accordion' && (
           <section id="accordion" className="w-full">
             <AccordionPlayground />
+          </section>
+        )}
+        {current === 'modal' && (
+          <section id="modal" className="w-full">
+            <ModalPlayground />
           </section>
         )}
       </div>

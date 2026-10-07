@@ -65,15 +65,12 @@ export const TooltipPlayground: React.FC<TooltipPlaygroundProps> = ({ initialCon
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#EBEBEB] shadow-sm">
-      {/* 10 Tooltip Section Header */}
+      {/* Tooltip Section Header */}
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-base shrink-0 select-none">
-          10
-        </div>
         <div className="pt-0.5">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#141414] leading-tight tracking-tight">
             Tooltip (Dica Contextual Flutuante)
-          </h2>{' '}
+          </h2>
           <p className="text-sm sm:text-[15px] text-[#666666] mt-1 font-normal">
             4 posições (Topo, Base, Esquerda, Direita) × 2 temas (Escuro e Claro) × 3 tamanhos —
             balão apresentacional de dica contextual acionado por hover/foco
@@ -423,24 +420,23 @@ export function TooltipBalloon({ config }: { config: TooltipConfig }) {
 /** Complete variation matrix for Tooltip over #062446 navy background without internal scroll */
 function TooltipStateGallery({ currentText }: { currentText: string }) {
   const blocks: Array<{
-    variant: TooltipVariant
+    theme: TooltipTheme
     badge: string
     description: string
   }> = [
     {
-      variant: 'Escura',
-      badge: '1. Variante Escura (Fundo Marinho #062446 · Texto Branco)',
+      theme: 'Dark',
+      badge: 'Variante Escura (Fundo Marinho #062446 · Texto Branco)',
       description:
-        'Padrão COMVEN de alto contraste e legibilidade imediata, ideal para interfaces claras e corporativas.',
+        'Padrão recomendado para fundos claros e neutros, proporcionando máximo contraste e legibilidade.',
     },
     {
-      variant: 'Clara',
-      badge: '2. Variante Clara (Fundo Branco · Borda Neutra · Texto Escuro)',
+      theme: 'Light',
+      badge: 'Variante Clara (Fundo Branco · Borda Neutra · Texto Escuro)',
       description:
-        'Alternativa sutil para fundos escuros ou áreas onde balões escuros gerariam poluição visual.',
+        'Indicada para superfícies escuras ou imagens, mantendo acabamento limpo com borda de 1px.',
     },
   ]
-
   return (
     <div className="mt-10 pt-8 border-t border-[#F0F2F5]">
       <div>

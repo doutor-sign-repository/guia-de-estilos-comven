@@ -74,11 +74,8 @@ export const BadgePlayground: React.FC<BadgePlaygroundProps> = ({ initialConfig 
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#EBEBEB] shadow-sm">
-      {/* 06 Badge Section Header */}
+      {/* Badge Section Header */}
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-base shrink-0 select-none">
-          06
-        </div>
         <div className="pt-0.5">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#141414] leading-tight tracking-tight">
             Badge (Status & Alertas)
@@ -488,41 +485,41 @@ interface VariantBlockInfo {
 const VARIANT_BLOCKS: VariantBlockInfo[] = [
   {
     variant: 'Primary',
-    badge: '1. Primary (Fundo Azul-Marinho COMVEN #004185)',
+    badge: 'Primary (Fundo Azul-Marinho COMVEN #004185)',
     description:
       'Destaque principal e status corporativo; hover #00346A, disabled com tom pálido da escala #8BB7E7.',
     iconName: 'bookmark',
   },
   {
     variant: 'Secondary',
-    badge: '2. Secondary / Outline (Borda Azul COMVEN #004185)',
+    badge: 'Secondary / Outline (Borda Azul COMVEN #004185)',
     description:
       'Tags, categorização e filtros com leitura suave sobre superfícies claras e escuras.',
     iconName: 'sell',
   },
   {
     variant: 'Success',
-    badge: '3. Success (Escala Verde #06D04D)',
+    badge: 'Success (Escala Verde #06D04D)',
     description: 'Confirmações, status positivos, etapas concluídas e itens validados no sistema.',
     iconName: 'check_circle',
   },
   {
     variant: 'Warning',
-    badge: '4. Warning (Amarelo COMVEN #F2CB05 — Alertas e Notificações)',
+    badge: 'Warning (Amarelo COMVEN #F2CB05 — Alertas e Notificações)',
     description:
       'Avisos de atenção, prazos próximos e pendências; uso permitido em badges e alertas.',
     iconName: 'warning',
   },
   {
     variant: 'Error',
-    badge: '5. Error / Crítico (Escala Vermelha #FF0000)',
+    badge: 'Error / Crítico (Escala Vermelha #FF0000)',
     description:
       'Erros graves, inconformidades, falhas de validação e bloqueios que exigem intervenção.',
     iconName: 'error',
   },
   {
     variant: 'Neutral',
-    badge: '6. Neutral (Cinzas da Escala)',
+    badge: 'Neutral (Cinzas da Escala)',
     description:
       'Status em espera, contadores gerais, rascunhos e informações auxiliares de baixo peso visual.',
     iconName: 'info',
