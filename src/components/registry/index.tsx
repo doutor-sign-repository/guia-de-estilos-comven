@@ -9,6 +9,7 @@ import {
   TooltipConfig,
   TagConfig,
   ToastConfig,
+  RadioButtonConfig,
   ComponentDefinition,
   generateButtonCss,
   generateInputCss,
@@ -19,6 +20,7 @@ import {
   generateTooltipCss,
   generateTagCss,
   generateToastCss,
+  generateRadioButtonCss,
 } from './types'
 import { ButtonPlayground } from './ButtonPlayground'
 import { InputPlayground } from './InputPlayground'
@@ -29,6 +31,7 @@ import { CardPlayground } from './CardPlayground'
 import { TooltipPlayground } from './TooltipPlayground'
 import { TagPlayground } from './TagPlayground'
 import { ToastPlayground } from './ToastPlayground'
+import { RadioButtonPlayground } from './RadioButtonPlayground'
 
 export interface ComponentRegistryItem {
   id: string
@@ -124,6 +127,15 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
       '5 variantes × 3 tamanhos × 2 estados — notificação flutuante com botão de ação estilo Link e fechar',
     category: 'COMPONENTES',
     component: ToastPlayground,
+  },
+  'radio-button': {
+    id: 'radio-button',
+    name: 'Radio Button',
+    number: '10',
+    subtitle:
+      '4 estados × 3 tamanhos × 2 orientações — seleção exclusiva com foco acessível COMVEN #004185 (1px)',
+    category: 'COMPONENTES',
+    component: RadioButtonPlayground,
   },
 }
 
@@ -352,6 +364,43 @@ export const TOAST_DEFINITION: ComponentDefinition<ToastConfig> = {
   },
 }
 
+export const RADIO_BUTTON_DEFINITION: ComponentDefinition<RadioButtonConfig> = {
+  id: 'radio-button',
+  name: 'Radio Button',
+  number: '10',
+  category: 'COMPONENTES',
+  subtitle:
+    '4 estados × 3 tamanhos × 2 orientações — seleção exclusiva com foco acessível COMVEN #004185 (1px)',
+  description:
+    'Botão de opção para seleção exclusiva em formulários, filtros e questionários nos produtos digitais COMVEN, com anel de foco de 1px em #004185.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    state: 'Default',
+    size: 'Medium',
+    orientation: 'Vertical',
+    groupTitle: 'Selecione o plano desejado',
+    options: [
+      {
+        id: 'opt-1',
+        label: 'Opção 1 — COMVEN Standard',
+        description: 'Plano padrão com suporte regular',
+      },
+      {
+        id: 'opt-2',
+        label: 'Opção 2 — Plano Empresarial',
+        description: 'Acesso multiusuário e relatórios',
+      },
+      { id: 'opt-3', label: 'Opção 3 — Linha Premium', description: 'Atendimento dedicado 24/7' },
+    ],
+    selectedId: 'opt-1',
+  },
+  generateCss: generateRadioButtonCss,
+  renderPreview: (config) => {
+    return React.createElement(RadioButtonPlayground, { initialConfig: config })
+  },
+}
+
 export {
   ButtonPlayground,
   InputPlayground,
@@ -362,5 +411,6 @@ export {
   TooltipPlayground,
   TagPlayground,
   ToastPlayground,
+  RadioButtonPlayground,
 }
 export { PlaygroundControlGroup } from './PlaygroundControlGroup'

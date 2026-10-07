@@ -9,6 +9,7 @@ import { CardPlayground } from '@/components/registry/CardPlayground'
 import { TooltipPlayground } from '@/components/registry/TooltipPlayground'
 import { TagPlayground } from '@/components/registry/TagPlayground'
 import { ToastPlayground } from '@/components/registry/ToastPlayground'
+import { RadioButtonPlayground } from '@/components/registry/RadioButtonPlayground'
 
 export default function Componentes() {
   const { componentId } = useParams<{ componentId?: string }>()
@@ -23,7 +24,8 @@ export default function Componentes() {
     | 'card'
     | 'tooltip'
     | 'tag'
-    | 'toast' = 'button'
+    | 'toast'
+    | 'radio-button' = 'button'
   if (componentId === 'input') current = 'input'
   else if (componentId === 'select') current = 'select'
   else if (componentId === 'badge') current = 'badge'
@@ -32,6 +34,7 @@ export default function Componentes() {
   else if (componentId === 'tooltip') current = 'tooltip'
   else if (componentId === 'tag') current = 'tag'
   else if (componentId === 'toast') current = 'toast'
+  else if (componentId === 'radio-button' || componentId === 'radio') current = 'radio-button'
 
   const titleMap = {
     button: 'Button',
@@ -43,6 +46,7 @@ export default function Componentes() {
     tooltip: 'Tooltip (Dica)',
     tag: 'Tag (Categorização)',
     toast: 'Toast (Notificação)',
+    'radio-button': 'Radio Button (Botão de Opção)',
   }
 
   return (
@@ -113,6 +117,11 @@ export default function Componentes() {
         {current === 'toast' && (
           <section id="toast" className="w-full">
             <ToastPlayground />
+          </section>
+        )}
+        {current === 'radio-button' && (
+          <section id="radio-button" className="w-full">
+            <RadioButtonPlayground />
           </section>
         )}
       </div>

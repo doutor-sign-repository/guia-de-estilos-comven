@@ -1444,3 +1444,174 @@ export function generateToastCss(config: ToastConfig): string {
 
   return `${comment}\n${toastBlock}${iconBlock}${contentBlock}${titleBlock}${descBlock}${actionsBlock}${linkBtnBlock}${closeBtnBlock}`
 }
+
+// -----------------------------------------------------------------------------
+// 10. RADIO BUTTON COMPONENT DEFINITION & CSS GENERATOR
+// -----------------------------------------------------------------------------
+
+export type RadioState = 'Default' | 'Hover' | 'Focado' | 'Disabled'
+export type RadioSize = 'Large' | 'Medium' | 'Small'
+export type RadioOrientation = 'Horizontal' | 'Vertical'
+
+export interface RadioOption {
+  id: string
+  label: string
+  description?: string
+}
+
+export interface RadioButtonConfig {
+  state: RadioState
+  size: RadioSize
+  orientation: RadioOrientation
+  groupTitle?: string
+  options: RadioOption[]
+  selectedId?: string
+}
+
+export interface RadioSizeMetrics {
+  outerSize: number
+  innerDotSize: number
+  fontSize: number
+  descFontSize: number
+  labelGap: number
+  groupGap: number
+  borderWidth: number
+}
+
+export const RADIO_SIZE_METRICS: Record<RadioSize, RadioSizeMetrics> = {
+  Large: {
+    outerSize: 22,
+    innerDotSize: 10,
+    fontSize: 16,
+    descFontSize: 13,
+    labelGap: 10,
+    groupGap: 18,
+    borderWidth: 2,
+  },
+  Medium: {
+    outerSize: 18,
+    innerDotSize: 8,
+    fontSize: 14,
+    descFontSize: 12,
+    labelGap: 8,
+    groupGap: 14,
+    borderWidth: 2,
+  },
+  Small: {
+    outerSize: 16,
+    innerDotSize: 6,
+    fontSize: 12,
+    descFontSize: 11,
+    labelGap: 6,
+    groupGap: 10,
+    borderWidth: 1.5,
+  },
+}
+
+export function generateRadioButtonCss(config: RadioButtonConfig): string {
+  const { state, size, orientation, selectedId, options } = config
+  const metrics = RADIO_SIZE_METRICS[size] || RADIO_SIZE_METRICS.Medium
+  const isSelected = selectedId === (options[0]?.id || 'opt-1')
+
+  const comment = `/* Radio Button — State=${state}, Size=${size}, Orientation=${orientation}, Checked=${isSelected ? 'true' : 'false'} */`
+
+  // Base circle styles
+  let borderColor = '#D5DCE5'
+  let bgColor = '#FFFFFF'
+  let dotColor = '#004185'
+  let outlineRule = 'none'
+  let cursor = 'pointer'
+  let labelColor = '#141414'
+
+  if (state === 'Hover') {
+    borderColor = '#004185'
+    bgColor = isSelected ? '#FFFFFF' : '#F5F7FA'
+    labelColor = '#004185'
+  } else if (state === 'Focado') {
+    borderColor = '#004185'
+    // Outline COMVEN: estritamente 1px em azul #004185
+    outlineRule = '1px solid #004185'
+    labelColor = '#004185'
+  } else if (state === 'Disabled') {
+    borderColor = '#E5E7EB'
+    bgColor = '#F5F7FA'
+    dotColor = '#9CA3AF'
+    cursor = 'not-allowed'
+    labelColor = '#9CA3AF'
+    outlineRule = 'none'
+  }
+
+  if (isSelected && state !== 'Disabled') {
+    borderColor = '#004185'
+  }
+
+  const groupLines = [
+    '  display: flex;',
+    `  flex-direction: ${orientation === 'Horizontal' ? 'row' : 'column'};`,
+    `  gap: ${metrics.groupGap}px;`,
+    `  align-items: ${orientation === 'Horizontal' ? 'center' : 'flex-start'};`,
+  ]
+
+  const itemLines = [
+    '  display: inline-flex;',
+    '  align-items: flex-start;',
+    `  gap: ${metrics.labelGap}px;`,
+    `  cursor: ${cursor};`,
+    '  user-select: none;',
+  ]
+
+  const circleLines = [
+    `  width: ${metrics.outerSize}px;`,
+    `  height: ${metrics.outerSize}px;`,
+    '  border-radius: 50%;',
+    `  border: ${metrics.borderWidth}px solid ${borderColor};`,
+    `  background-color: ${bgColor};`,
+    '  display: flex;',
+    '  align-items: center;',
+    '  justify-content: center;',
+    '  flex-shrink: 0;',
+    '  transition: all 0.15s ease;',
+  ]
+
+  if (outlineRule !== 'none') {
+    circleLines.push(`  outline: ${outlineRule};`, '  outline-offset: 2px;')
+  }
+
+  const dotLines = [
+    `  width: ${metrics.innerDotSize}px;`,
+    `  height: ${metrics.innerDotSize}px;`,
+    '  border-radius: 50%;',
+    `  background-color: ${dotColor};`,
+    `  transform: ${isSelected ? 'scale(1)' : 'scale(0)'};`,
+    '  transition: transform 0.15s ease;',
+  ]
+
+  const labelLines = [
+    "  font-family: 'Open Sans', sans-serif;",
+    '  font-weight: 600;',
+    `  font-size: ${metrics.fontSize}px;`,
+    '  line-height: 1.4;',
+    `  color: ${labelColor};`,
+  ]
+
+  return `${comment}
+.comven-radio-group {
+${groupLines.join('\n')}
+}
+
+.comven-radio-item {
+${itemLines.join('\n')}
+}
+
+.comven-radio-circle {
+${circleLines.join('\n')}
+}
+
+.comven-radio-dot {
+${dotLines.join('\n')}
+}
+
+.comven-radio-label {
+${labelLines.join('\n')}
+}`
+}
