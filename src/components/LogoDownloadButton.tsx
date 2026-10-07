@@ -60,18 +60,20 @@ export const LogoDownloadButton: React.FC<LogoDownloadButtonProps> = ({
     }
   }
 
-  // Estilos discretos e elegantes adaptados ao fundo do card (claro ou escuro)
+  // Estilo Link do design system COMVEN:
+  // Fundo claro: texto azul #004185, sem fundo, sem borda, sem padding de botão
+  // Fundo escuro (#0B2A52/#141414): texto branco text-white hover:text-white/80, sem fundo, sem borda, sem padding
   const isDarkCard = theme === 'dark'
 
-  const baseButtonClasses = isDarkCard
-    ? 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white/90 bg-white/10 hover:bg-white/20 border border-white/15 transition-all shadow-xs disabled:opacity-50 select-none'
-    : 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#004185] bg-white hover:bg-[#004185]/5 border border-[#BFBFBF]/60 hover:border-[#004185]/40 transition-all shadow-xs disabled:opacity-50 select-none'
+  const baseLinkClasses = isDarkCard
+    ? 'inline-flex items-center gap-1.5 p-0 bg-transparent border-0 text-xs font-bold text-white hover:text-white/80 active:text-white/70 transition-colors disabled:opacity-50 select-none cursor-pointer disabled:cursor-not-allowed'
+    : 'inline-flex items-center gap-1.5 p-0 bg-transparent border-0 text-xs font-bold text-[#004185] hover:text-[#00346A] active:text-[#002750] transition-colors disabled:opacity-50 select-none cursor-pointer disabled:cursor-not-allowed'
 
-  const compactButtonClasses = isDarkCard
-    ? 'inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold text-white/90 bg-white/10 hover:bg-white/20 border border-white/15 transition-all disabled:opacity-50 select-none'
-    : 'inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold text-[#004185] bg-white hover:bg-[#004185]/5 border border-[#BFBFBF]/60 hover:border-[#004185]/40 transition-all disabled:opacity-50 select-none'
+  const compactLinkClasses = isDarkCard
+    ? 'inline-flex items-center gap-1 p-0 bg-transparent border-0 text-[11px] font-bold text-white hover:text-white/80 active:text-white/70 transition-colors disabled:opacity-50 select-none cursor-pointer disabled:cursor-not-allowed'
+    : 'inline-flex items-center gap-1 p-0 bg-transparent border-0 text-[11px] font-bold text-[#004185] hover:text-[#00346A] active:text-[#002750] transition-colors disabled:opacity-50 select-none cursor-pointer disabled:cursor-not-allowed'
 
-  const buttonStyle = compact ? compactButtonClasses : baseButtonClasses
+  const linkStyle = compact ? compactLinkClasses : baseLinkClasses
 
   // Se tiver a opção de fundo escuro (para logos de dark mode), exibe o DropdownMenu
   if (hasDarkBgOption) {
@@ -82,8 +84,8 @@ export const LogoDownloadButton: React.FC<LogoDownloadButtonProps> = ({
             <button
               type="button"
               disabled={isDownloading}
-              className={`${buttonStyle} group/btn`}
-              title="Opções de download em alta resolução"
+              className={`${linkStyle} group/btn`}
+              title="Opções de download"
             >
               <span
                 className="material-symbols-rounded text-sm"
@@ -94,7 +96,7 @@ export const LogoDownloadButton: React.FC<LogoDownloadButtonProps> = ({
               </span>
               <span>{isDownloading ? 'Baixando...' : label}</span>
               <span
-                className="material-symbols-rounded text-xs opacity-75 group-hover/btn:opacity-100"
+                className="material-symbols-rounded text-xs opacity-75 group-hover/btn:opacity-100 transition-opacity"
                 style={{ fontSize: '13px' }}
                 aria-hidden="true"
               >
@@ -103,7 +105,7 @@ export const LogoDownloadButton: React.FC<LogoDownloadButtonProps> = ({
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            align="end"
+            align="start"
             className="w-56 p-1.5 rounded-xl border border-[#EBEBEB] shadow-lg bg-white z-50 text-xs"
           >
             <DropdownMenuItem
@@ -118,8 +120,10 @@ export const LogoDownloadButton: React.FC<LogoDownloadButtonProps> = ({
                 opacity
               </span>
               <div className="flex flex-col">
-                <span className="font-semibold text-[#141414]">PNG transparente</span>
-                <span className="text-[10px] text-[#666666]">Sem fundo, ideal para sobrepor</span>
+                <span className="font-semibold text-[#141414]">Sem fundo</span>
+                <span className="text-[10px] text-[#666666]">
+                  Ideal para sobrepor em outras superfícies
+                </span>
               </div>
             </DropdownMenuItem>
             <DropdownMenuItem
@@ -134,8 +138,10 @@ export const LogoDownloadButton: React.FC<LogoDownloadButtonProps> = ({
                 square
               </span>
               <div className="flex flex-col">
-                <span className="font-semibold text-[#141414]">PNG com fundo escuro</span>
-                <span className="text-[10px] text-[#666666]">Com fundo #141414 para slides</span>
+                <span className="font-semibold text-[#141414]">Com fundo escuro</span>
+                <span className="text-[10px] text-[#666666]">
+                  Com fundo #141414 pronto para uso
+                </span>
               </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -149,8 +155,8 @@ export const LogoDownloadButton: React.FC<LogoDownloadButtonProps> = ({
       type="button"
       onClick={() => handleDownload(false)}
       disabled={isDownloading}
-      className={`${buttonStyle} ${className}`}
-      title="Baixar imagem em PNG alta resolução com fundo transparente"
+      className={`${linkStyle} ${className}`}
+      title="Baixar arquivo"
     >
       <span
         className="material-symbols-rounded text-sm"
