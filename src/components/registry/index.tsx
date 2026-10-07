@@ -3,14 +3,17 @@ import {
   ButtonConfig,
   InputConfig,
   SelectConfig,
+  BadgeConfig,
   ComponentDefinition,
   generateButtonCss,
   generateInputCss,
   generateSelectCss,
+  generateBadgeCss,
 } from './types'
 import { ButtonPlayground } from './ButtonPlayground'
 import { InputPlayground } from './InputPlayground'
 import { SelectPlayground } from './SelectPlayground'
+import { BadgePlayground } from './BadgePlayground'
 
 export interface ComponentRegistryItem {
   id: string
@@ -52,6 +55,15 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
       '5 estados × 4 tamanhos — com label, seta dropdown expansível e supporting text configuráveis',
     category: 'COMPONENTES',
     component: SelectPlayground,
+  },
+  badge: {
+    id: 'badge',
+    name: 'Badge',
+    number: '4',
+    subtitle:
+      '6 variantes × 4 tamanhos × 3 estados — explorando a escala de cores COMVEN, incluindo o amarelo de alerta',
+    category: 'COMPONENTES',
+    component: BadgePlayground,
   },
 }
 
@@ -129,5 +141,29 @@ export const SELECT_DEFINITION: ComponentDefinition<SelectConfig> = {
   },
 }
 
-export { ButtonPlayground, InputPlayground, SelectPlayground }
+export const BADGE_DEFINITION: ComponentDefinition<BadgeConfig> = {
+  id: 'badge',
+  name: 'Badge',
+  number: '04',
+  category: 'COMPONENTES',
+  subtitle:
+    '6 variantes × 4 tamanhos × 3 estados — explorando a escala de cores COMVEN, incluindo o amarelo de alerta',
+  description:
+    'Pílula compacta de status, contadores e alertas, explorando a paleta COMVEN com o amarelo #F2CB05 para alertas e badges.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Primary',
+    size: 'Large',
+    state: 'Default',
+    icon: 'Com ícone',
+    text: 'Novo',
+  },
+  generateCss: generateBadgeCss,
+  renderPreview: (config) => {
+    return React.createElement(BadgePlayground, { initialConfig: config })
+  },
+}
+
+export { ButtonPlayground, InputPlayground, SelectPlayground, BadgePlayground }
 export { PlaygroundControlGroup } from './PlaygroundControlGroup'

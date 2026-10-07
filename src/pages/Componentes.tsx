@@ -3,19 +3,22 @@ import { useParams, Link } from 'react-router-dom'
 import { ButtonPlayground } from '@/components/registry/ButtonPlayground'
 import { InputPlayground } from '@/components/registry/InputPlayground'
 import { SelectPlayground } from '@/components/registry/SelectPlayground'
+import { BadgePlayground } from '@/components/registry/BadgePlayground'
 
 export default function Componentes() {
   const { componentId } = useParams<{ componentId?: string }>()
 
   // Normalize: defaults to 'button' when accessing /componentes directly
-  let current: 'button' | 'input' | 'select' = 'button'
+  let current: 'button' | 'input' | 'select' | 'badge' = 'button'
   if (componentId === 'input') current = 'input'
   else if (componentId === 'select') current = 'select'
+  else if (componentId === 'badge') current = 'badge'
 
   const titleMap = {
     button: 'Button',
     input: 'Input (Text Field)',
     select: 'Select (Dropdown)',
+    badge: 'Badge (Status & Alertas)',
   }
 
   return (
@@ -94,6 +97,24 @@ export default function Componentes() {
               </span>
               <span>Select</span>
             </Link>
+
+            <Link
+              to="/componentes/badge"
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                current === 'badge'
+                  ? 'bg-white text-[#004185] shadow-sm'
+                  : 'bg-[#00346A] text-white/90 hover:bg-[#002D5C] hover:text-white'
+              }`}
+            >
+              <span
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
+                  current === 'badge' ? 'bg-[#004185] text-white' : 'bg-white/20 text-white'
+                }`}
+              >
+                4
+              </span>
+              <span>Badge</span>
+            </Link>
           </div>
         </div>
       </section>
@@ -113,6 +134,11 @@ export default function Componentes() {
         {current === 'select' && (
           <section id="select" className="w-full">
             <SelectPlayground />
+          </section>
+        )}
+        {current === 'badge' && (
+          <section id="badge" className="w-full">
+            <BadgePlayground />
           </section>
         )}
       </div>
