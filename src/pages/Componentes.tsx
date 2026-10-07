@@ -5,16 +5,33 @@ import { InputPlayground } from '@/components/registry/InputPlayground'
 import { SelectPlayground } from '@/components/registry/SelectPlayground'
 import { BadgePlayground } from '@/components/registry/BadgePlayground'
 import { InfoCardPlayground } from '@/components/registry/InfoCardPlayground'
+import { CardPlayground } from '@/components/registry/CardPlayground'
+import { TooltipPlayground } from '@/components/registry/TooltipPlayground'
+import { TagPlayground } from '@/components/registry/TagPlayground'
+import { ToastPlayground } from '@/components/registry/ToastPlayground'
 
 export default function Componentes() {
   const { componentId } = useParams<{ componentId?: string }>()
 
   // Normalize: defaults to 'button' when accessing /componentes directly
-  let current: 'button' | 'input' | 'select' | 'badge' | 'infocard' = 'button'
+  let current:
+    | 'button'
+    | 'input'
+    | 'select'
+    | 'badge'
+    | 'infocard'
+    | 'card'
+    | 'tooltip'
+    | 'tag'
+    | 'toast' = 'button'
   if (componentId === 'input') current = 'input'
   else if (componentId === 'select') current = 'select'
   else if (componentId === 'badge') current = 'badge'
   else if (componentId === 'infocard') current = 'infocard'
+  else if (componentId === 'card') current = 'card'
+  else if (componentId === 'tooltip') current = 'tooltip'
+  else if (componentId === 'tag') current = 'tag'
+  else if (componentId === 'toast') current = 'toast'
 
   const titleMap = {
     button: 'Button',
@@ -22,6 +39,10 @@ export default function Componentes() {
     select: 'Select (Dropdown)',
     badge: 'Badge (Status & Alertas)',
     infocard: 'InfoCard (Ícone + Texto)',
+    card: 'Card (Conteúdo)',
+    tooltip: 'Tooltip (Dica)',
+    tag: 'Tag (Categorização)',
+    toast: 'Toast (Notificação)',
   }
 
   return (
@@ -72,6 +93,26 @@ export default function Componentes() {
         {current === 'infocard' && (
           <section id="infocard" className="w-full">
             <InfoCardPlayground />
+          </section>
+        )}
+        {current === 'card' && (
+          <section id="card" className="w-full">
+            <CardPlayground />
+          </section>
+        )}
+        {current === 'tooltip' && (
+          <section id="tooltip" className="w-full">
+            <TooltipPlayground />
+          </section>
+        )}
+        {current === 'tag' && (
+          <section id="tag" className="w-full">
+            <TagPlayground />
+          </section>
+        )}
+        {current === 'toast' && (
+          <section id="toast" className="w-full">
+            <ToastPlayground />
           </section>
         )}
       </div>

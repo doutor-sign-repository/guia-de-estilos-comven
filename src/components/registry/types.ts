@@ -816,3 +816,631 @@ export function generateInfoCardCss(config: InfoCardConfig): string {
 
   return `${comment}\n${cardBlock}${iconBlock}${contentBlock}${titleBlock}${descBlock}`
 }
+
+/* ==========================================================================
+   CARD COMPONENT TYPES & DEFINITIONS (06 Card)
+   ========================================================================== */
+
+export type CardVariant = 'Elevada' | 'Borda' | 'Simples'
+export type CardSize = 'Large' | 'Medium' | 'Small'
+export type CardState = 'Default' | 'Destaque'
+export type CardIconOption = 'Com ícone' | 'Sem ícone'
+export type CardFooterOption = 'Com ações' | 'Sem ações'
+
+export interface CardConfig {
+  variant: CardVariant
+  size: CardSize
+  state: CardState
+  icon: CardIconOption
+  footer: CardFooterOption
+  title: string
+  content: string
+}
+
+export interface CardSizeMetrics {
+  padding: string
+  radius: number
+  gap: number
+  iconSize: number
+  titleFontSize: number
+  titleLineHeight: number
+  contentFontSize: number
+  contentLineHeight: number
+  buttonPadding: string
+  buttonFontSize: number
+}
+
+export const CARD_SIZE_METRICS: Record<CardSize, CardSizeMetrics> = {
+  Large: {
+    padding: '24px 28px',
+    radius: 16,
+    gap: 16,
+    iconSize: 24,
+    titleFontSize: 18,
+    titleLineHeight: 1.35,
+    contentFontSize: 15,
+    contentLineHeight: 1.5,
+    buttonPadding: '10px 16px',
+    buttonFontSize: 14,
+  },
+  Medium: {
+    padding: '20px 24px',
+    radius: 12,
+    gap: 14,
+    iconSize: 22,
+    titleFontSize: 16,
+    titleLineHeight: 1.35,
+    contentFontSize: 14,
+    contentLineHeight: 1.5,
+    buttonPadding: '8px 14px',
+    buttonFontSize: 13,
+  },
+  Small: {
+    padding: '16px 20px',
+    radius: 10,
+    gap: 12,
+    iconSize: 20,
+    titleFontSize: 15,
+    titleLineHeight: 1.3,
+    contentFontSize: 13,
+    contentLineHeight: 1.45,
+    buttonPadding: '6px 12px',
+    buttonFontSize: 12,
+  },
+}
+
+export function generateCardCss(config: CardConfig): string {
+  const { variant, size, state, icon, footer } = config
+  const metrics = CARD_SIZE_METRICS[size] || CARD_SIZE_METRICS.Large
+  const iconStatus = icon === 'Com ícone' ? 'Show' : 'Hide'
+  const footerStatus = footer === 'Com ações' ? 'Show' : 'Hide'
+  const comment = `/* Card — Variant=${variant}, Size=${size}, State=${state}, Icon=${iconStatus}, Footer=${footerStatus} */`
+
+  const isHighlight = state === 'Destaque'
+
+  let bgColor = '#FFFFFF'
+  let borderColor = 'transparent'
+  let borderWidth = '0px'
+  let shadow = 'none'
+
+  if (variant === 'Elevada') {
+    bgColor = '#FFFFFF'
+    if (isHighlight) {
+      borderColor = '#004185'
+      borderWidth = '1.5px'
+      shadow = '0 10px 25px -5px rgba(0, 65, 133, 0.18), 0 8px 10px -6px rgba(0, 65, 133, 0.12)'
+    } else {
+      borderColor = '#EBEBEB'
+      borderWidth = '1px'
+      shadow = '0 8px 20px -4px rgba(6, 36, 70, 0.08), 0 4px 6px -2px rgba(6, 36, 70, 0.04)'
+    }
+  } else if (variant === 'Borda') {
+    bgColor = '#FFFFFF'
+    if (isHighlight) {
+      borderColor = '#004185'
+      borderWidth = '2px'
+      shadow = '0 0 0 1px #004185'
+    } else {
+      borderColor = '#D5DCE5'
+      borderWidth = '1px'
+      shadow = 'none'
+    }
+  } else if (variant === 'Simples') {
+    bgColor = '#F5F7FA'
+    if (isHighlight) {
+      borderColor = '#004185'
+      borderWidth = '1.5px'
+      shadow = '0 0 0 1px #004185'
+    } else {
+      borderColor = '#E2E6EB'
+      borderWidth = '1px'
+      shadow = 'none'
+    }
+  }
+
+  const lines = [
+    '  display: flex;',
+    '  flex-direction: column;',
+    `  gap: ${metrics.gap}px;`,
+    `  padding: ${metrics.padding};`,
+    `  border-radius: ${metrics.radius}px;`,
+    `  background-color: ${bgColor};`,
+  ]
+
+  if (borderWidth !== '0px') {
+    lines.push(`  border: ${borderWidth} solid ${borderColor};`)
+  }
+  if (shadow !== 'none') {
+    lines.push(`  box-shadow: ${shadow};`)
+  }
+  lines.push('  transition: all 0.2s ease;')
+
+  const cardBlock = `.card {\n${lines.join('\n')}\n}`
+
+  const headerBlock = `\n\n.card__header {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}`
+
+  let iconBlock = ''
+  if (icon === 'Com ícone') {
+    iconBlock = `\n\n.card__icon {\n  font-size: ${metrics.iconSize}px;\n  width: ${metrics.iconSize}px;\n  height: ${metrics.iconSize}px;\n  color: #004185;\n  flex-shrink: 0;\n}`
+  }
+
+  const titleBlock = `\n\n.card__title {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 700;\n  font-size: ${metrics.titleFontSize}px;\n  line-height: ${metrics.titleLineHeight};\n  color: #141414;\n  margin: 0;\n}`
+
+  const bodyBlock = `\n\n.card__body {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 400;\n  font-size: ${metrics.contentFontSize}px;\n  line-height: ${metrics.contentLineHeight};\n  color: #525252;\n  margin: 0;\n}`
+
+  let footerBlock = ''
+  if (footer === 'Com ações') {
+    footerBlock = `\n\n.card__footer {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 4px;\n  padding-top: 12px;\n  border-top: 1px solid #F0F2F5;\n}`
+  }
+
+  return `${comment}\n${cardBlock}${headerBlock}${iconBlock}${titleBlock}${bodyBlock}${footerBlock}`
+}
+
+/* ==========================================================================
+   TOOLTIP COMPONENT TYPES & DEFINITIONS (07 Tooltip)
+   ========================================================================== */
+
+export type TooltipPlacement = 'Topo' | 'Base' | 'Esquerda' | 'Direita'
+export type TooltipVariant = 'Escura' | 'Clara'
+export type TooltipSize = 'Large' | 'Medium' | 'Small'
+export type TooltipState = 'Default' | 'Hover'
+
+export interface TooltipConfig {
+  variant: TooltipVariant
+  placement: TooltipPlacement
+  size: TooltipSize
+  state: TooltipState
+  text: string
+  triggerLabel: string
+}
+
+export interface TooltipSizeMetrics {
+  padding: string
+  fontSize: number
+  lineHeight: number
+  radius: number
+  arrowSize: number
+  maxWidth: number
+}
+
+export const TOOLTIP_SIZE_METRICS: Record<TooltipSize, TooltipSizeMetrics> = {
+  Large: {
+    padding: '10px 14px',
+    fontSize: 14,
+    lineHeight: 1.4,
+    radius: 8,
+    arrowSize: 6,
+    maxWidth: 280,
+  },
+  Medium: {
+    padding: '8px 12px',
+    fontSize: 13,
+    lineHeight: 1.35,
+    radius: 6,
+    arrowSize: 5,
+    maxWidth: 240,
+  },
+  Small: {
+    padding: '6px 10px',
+    fontSize: 12,
+    lineHeight: 1.3,
+    radius: 6,
+    arrowSize: 4,
+    maxWidth: 200,
+  },
+}
+
+export function generateTooltipCss(config: TooltipConfig): string {
+  const { variant, placement, size, state } = config
+  const metrics = TOOLTIP_SIZE_METRICS[size] || TOOLTIP_SIZE_METRICS.Medium
+  const comment = `/* Tooltip — Variant=${variant}, Placement=${placement}, Size=${size}, State=${state} */`
+
+  const isDark = variant === 'Escura'
+  const bgColor = isDark ? '#062446' : '#FFFFFF'
+  const textColor = isDark ? '#FFFFFF' : '#141414'
+  const borderColor = isDark ? '#113C68' : '#D5DCE5'
+  const shadow = isDark
+    ? '0 6px 16px -2px rgba(6, 36, 70, 0.45)'
+    : '0 6px 16px -2px rgba(6, 36, 70, 0.12)'
+
+  const lines = [
+    '  position: absolute;',
+    '  display: inline-flex;',
+    '  align-items: center;',
+    '  justify-content: center;',
+    `  max-width: ${metrics.maxWidth}px;`,
+    `  padding: ${metrics.padding};`,
+    `  border-radius: ${metrics.radius}px;`,
+    `  background-color: ${bgColor};`,
+    `  color: ${textColor};`,
+    `  border: 1px solid ${borderColor};`,
+    `  box-shadow: ${shadow};`,
+    "  font-family: 'Open Sans', sans-serif;",
+    '  font-weight: 600;',
+    `  font-size: ${metrics.fontSize}px;`,
+    `  line-height: ${metrics.lineHeight};`,
+    '  white-space: normal;',
+    '  text-align: center;',
+    '  z-index: 1000;',
+    '  pointer-events: none;',
+    '  user-select: none;',
+    `  opacity: ${state === 'Hover' ? '1' : '0'};`,
+    `  visibility: ${state === 'Hover' ? 'visible' : 'hidden'};`,
+    '  transition: opacity 0.15s ease, transform 0.15s ease;',
+  ]
+
+  const tooltipBlock = `.tooltip {\n${lines.join('\n')}\n}`
+  const arrowBlock = `\n\n.tooltip__arrow {\n  position: absolute;\n  width: ${metrics.arrowSize * 2}px;\n  height: ${metrics.arrowSize * 2}px;\n  background-color: ${bgColor};\n  border: 1px solid ${borderColor};\n  transform: rotate(45deg);\n}`
+
+  return `${comment}\n${tooltipBlock}${arrowBlock}`
+}
+
+/* ==========================================================================
+   TAG COMPONENT TYPES & DEFINITIONS (08 Tag)
+   ========================================================================== */
+
+export type TagVariant = 'Primary' | 'Secondary' | 'Success' | 'Warning' | 'Error' | 'Neutral'
+export type TagSize = 'Large' | 'Medium' | 'Small'
+export type TagState = 'Default' | 'Hover' | 'Disabled'
+export type TagRemovableOption = 'Com remover' | 'Sem remover'
+
+export interface TagConfig {
+  variant: TagVariant
+  size: TagSize
+  state: TagState
+  removable: TagRemovableOption
+  text: string
+}
+
+export interface TagSizeMetrics {
+  height: number
+  fontSize: number
+  paddingX: number
+  paddingXRemovable: number
+  gap: number
+  radius: number
+  closeSize: number
+}
+
+export const TAG_SIZE_METRICS: Record<TagSize, TagSizeMetrics> = {
+  Large: {
+    height: 32,
+    fontSize: 13,
+    paddingX: 12,
+    paddingXRemovable: 8,
+    gap: 6,
+    radius: 6,
+    closeSize: 16,
+  },
+  Medium: {
+    height: 28,
+    fontSize: 12,
+    paddingX: 10,
+    paddingXRemovable: 7,
+    gap: 5,
+    radius: 6,
+    closeSize: 14,
+  },
+  Small: {
+    height: 24,
+    fontSize: 11,
+    paddingX: 8,
+    paddingXRemovable: 6,
+    gap: 4,
+    radius: 4,
+    closeSize: 13,
+  },
+}
+
+export interface TagColorTokens {
+  bg: string
+  border: string
+  text: string
+  hoverBg: string
+  hoverBorder: string
+  hoverText: string
+  disabledBg: string
+  disabledBorder: string
+  disabledText: string
+  closeColor: string
+}
+
+export const TAG_COLOR_TOKENS: Record<TagVariant, TagColorTokens> = {
+  Primary: {
+    bg: '#004185',
+    border: 'transparent',
+    text: '#FFFFFF',
+    hoverBg: '#00346A',
+    hoverBorder: 'transparent',
+    hoverText: '#FFFFFF',
+    disabledBg: '#8BB7E7',
+    disabledBorder: 'transparent',
+    disabledText: '#FFFFFF',
+    closeColor: '#FFFFFF',
+  },
+  Secondary: {
+    bg: 'transparent',
+    border: '#004185',
+    text: '#004185',
+    hoverBg: 'rgba(0, 65, 133, 0.08)',
+    hoverBorder: '#00346A',
+    hoverText: '#00346A',
+    disabledBg: 'transparent',
+    disabledBorder: '#8BB7E7',
+    disabledText: '#8BB7E7',
+    closeColor: '#004185',
+  },
+  Success: {
+    bg: '#E6FAED',
+    border: '#9BECB8',
+    text: '#047D2E',
+    hoverBg: '#CDF6DB',
+    hoverBorder: '#6AE394',
+    hoverText: '#02531F',
+    disabledBg: '#F0FBF4',
+    disabledBorder: '#CDF6DB',
+    disabledText: '#6AE394',
+    closeColor: '#047D2E',
+  },
+  Warning: {
+    bg: '#FEFAE6',
+    border: '#F7E069',
+    text: '#917A03',
+    hoverBg: '#FDF3BA',
+    hoverBorder: '#F2CB05',
+    hoverText: '#615102',
+    disabledBg: '#FEFDF5',
+    disabledBorder: '#FCF5CD',
+    disabledText: '#C2A204',
+    closeColor: '#917A03',
+  },
+  Error: {
+    bg: '#FFE5E5',
+    border: '#FF9999',
+    text: '#CC0000',
+    hoverBg: '#FFCCCC',
+    hoverBorder: '#FF6666',
+    hoverText: '#990000',
+    disabledBg: '#FFF2F2',
+    disabledBorder: '#FFCCCC',
+    disabledText: '#FF9999',
+    closeColor: '#CC0000',
+  },
+  Neutral: {
+    bg: '#F5F7FA',
+    border: '#DCDCDC',
+    text: '#3D3D3D',
+    hoverBg: '#EBEBEB',
+    hoverBorder: '#BFBFBF',
+    hoverText: '#141414',
+    disabledBg: '#FAFAFA',
+    disabledBorder: '#EBEBEB',
+    disabledText: '#A1A1A1',
+    closeColor: '#525252',
+  },
+}
+
+export function generateTagCss(config: TagConfig): string {
+  const { variant, size, state, removable } = config
+  const metrics = TAG_SIZE_METRICS[size] || TAG_SIZE_METRICS.Medium
+  const tokens = TAG_COLOR_TOKENS[variant] || TAG_COLOR_TOKENS.Primary
+  const removableStatus = removable === 'Com remover' ? 'Show' : 'Hide'
+  const comment = `/* Tag — Variant=${variant}, Size=${size}, State=${state}, Removable=${removableStatus} */`
+
+  let bgColor = tokens.bg
+  let borderColor = tokens.border
+  let textColor = tokens.text
+  let cursor = 'default'
+
+  if (state === 'Hover') {
+    bgColor = tokens.hoverBg
+    borderColor = tokens.hoverBorder
+    textColor = tokens.hoverText
+    cursor = 'pointer'
+  } else if (state === 'Disabled') {
+    bgColor = tokens.disabledBg
+    borderColor = tokens.disabledBorder
+    textColor = tokens.disabledText
+    cursor = 'not-allowed'
+  }
+
+  const borderRule = borderColor === 'transparent' ? 'none' : `1px solid ${borderColor}`
+  const padRight = removable === 'Com remover' ? metrics.paddingXRemovable : metrics.paddingX
+
+  const lines = [
+    '  display: inline-flex;',
+    '  align-items: center;',
+    '  justify-content: center;',
+    `  height: ${metrics.height}px;`,
+    `  padding: 0 ${padRight}px 0 ${metrics.paddingX}px;`,
+    `  gap: ${metrics.gap}px;`,
+    `  border-radius: ${metrics.radius}px;`,
+    `  background-color: ${bgColor};`,
+    `  border: ${borderRule};`,
+    "  font-family: 'Open Sans', sans-serif;",
+    '  font-weight: 600;',
+    `  font-size: ${metrics.fontSize}px;`,
+    `  color: ${textColor};`,
+    `  cursor: ${cursor};`,
+    '  user-select: none;',
+    '  white-space: nowrap;',
+    '  transition: all 0.15s ease;',
+  ]
+
+  const tagBlock = `.tag {\n${lines.join('\n')}\n}`
+
+  let removeBlock = ''
+  if (removable === 'Com remover') {
+    removeBlock = `\n\n.tag__close-button {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: ${metrics.closeSize}px;\n  height: ${metrics.closeSize}px;\n  padding: 0;\n  margin-left: 2px;\n  background: transparent;\n  border: none;\n  color: ${tokens.closeColor};\n  border-radius: 50%;\n  cursor: ${state === 'Disabled' ? 'not-allowed' : 'pointer'};\n  transition: opacity 0.15s ease;\n}`
+  }
+
+  return `${comment}\n${tagBlock}${removeBlock}`
+}
+
+/* ==========================================================================
+   TOAST COMPONENT TYPES & DEFINITIONS (09 Toast)
+   ========================================================================== */
+
+export type ToastVariant = 'Info' | 'Success' | 'Warning' | 'Error' | 'Neutral'
+export type ToastSize = 'Large' | 'Medium' | 'Small'
+export type ToastState = 'Default' | 'Destaque'
+
+export interface ToastConfig {
+  variant: ToastVariant
+  size: ToastSize
+  state: ToastState
+  title: string
+  description: string
+  actionLabel: string
+}
+
+export interface ToastSizeMetrics {
+  padding: string
+  radius: number
+  gap: number
+  iconSize: number
+  titleFontSize: number
+  titleLineHeight: number
+  descFontSize: number
+  descLineHeight: number
+  actionFontSize: number
+  closeSize: number
+}
+
+export const TOAST_SIZE_METRICS: Record<ToastSize, ToastSizeMetrics> = {
+  Large: {
+    padding: '18px 22px',
+    radius: 12,
+    gap: 14,
+    iconSize: 24,
+    titleFontSize: 15,
+    titleLineHeight: 1.35,
+    descFontSize: 13,
+    descLineHeight: 1.45,
+    actionFontSize: 13,
+    closeSize: 20,
+  },
+  Medium: {
+    padding: '14px 18px',
+    radius: 10,
+    gap: 12,
+    iconSize: 22,
+    titleFontSize: 14,
+    titleLineHeight: 1.35,
+    descFontSize: 12,
+    descLineHeight: 1.4,
+    actionFontSize: 12,
+    closeSize: 18,
+  },
+  Small: {
+    padding: '12px 14px',
+    radius: 8,
+    gap: 10,
+    iconSize: 20,
+    titleFontSize: 13,
+    titleLineHeight: 1.3,
+    descFontSize: 11,
+    descLineHeight: 1.35,
+    actionFontSize: 11,
+    closeSize: 16,
+  },
+}
+
+export interface ToastColorTokens {
+  bg: string
+  border: string
+  highlightBorder: string
+  iconColor: string
+  titleColor: string
+  descColor: string
+}
+
+export const TOAST_COLOR_TOKENS: Record<ToastVariant, ToastColorTokens> = {
+  Info: {
+    bg: '#EBF3FC',
+    border: '#B6D5F7',
+    highlightBorder: '#004185',
+    iconColor: '#004185',
+    titleColor: '#002750',
+    descColor: '#235F9D',
+  },
+  Success: {
+    bg: '#E6FAED',
+    border: '#9BECB8',
+    highlightBorder: '#05A63E',
+    iconColor: '#047D2E',
+    titleColor: '#02531F',
+    descColor: '#141414',
+  },
+  Warning: {
+    bg: '#FEFAE6',
+    border: '#F7E069',
+    highlightBorder: '#C2A204',
+    iconColor: '#917A03',
+    titleColor: '#302901',
+    descColor: '#615102',
+  },
+  Error: {
+    bg: '#FFE5E5',
+    border: '#FF9999',
+    highlightBorder: '#CC0000',
+    iconColor: '#CC0000',
+    titleColor: '#660000',
+    descColor: '#141414',
+  },
+  Neutral: {
+    bg: '#FFFFFF',
+    border: '#DCDCDC',
+    highlightBorder: '#004185',
+    iconColor: '#004185',
+    titleColor: '#141414',
+    descColor: '#525252',
+  },
+}
+
+export function generateToastCss(config: ToastConfig): string {
+  const { variant, size, state } = config
+  const metrics = TOAST_SIZE_METRICS[size] || TOAST_SIZE_METRICS.Large
+  const colors = TOAST_COLOR_TOKENS[variant] || TOAST_COLOR_TOKENS.Info
+  const comment = `/* Toast — Variant=${variant}, Size=${size}, State=${state} */`
+
+  const isHighlight = state === 'Destaque'
+  const bgColor = colors.bg
+  const borderColor = isHighlight ? colors.highlightBorder : colors.border
+  const borderWidth = isHighlight ? '1.5px' : '1px'
+  const shadow = isHighlight
+    ? `0 12px 28px -6px rgba(6, 36, 70, 0.22), 0 0 0 1px ${colors.highlightBorder}`
+    : '0 8px 24px -4px rgba(6, 36, 70, 0.16)'
+
+  const lines = [
+    '  display: flex;',
+    '  align-items: flex-start;',
+    `  gap: ${metrics.gap}px;`,
+    `  padding: ${metrics.padding};`,
+    `  border-radius: ${metrics.radius}px;`,
+    `  background-color: ${bgColor};`,
+    `  border: ${borderWidth} solid ${borderColor};`,
+    `  box-shadow: ${shadow};`,
+    '  width: 100%;',
+    '  max-width: 440px;',
+    '  transition: all 0.2s ease;',
+  ]
+
+  const toastBlock = `.toast {\n${lines.join('\n')}\n}`
+
+  const iconBlock = `\n\n.toast__icon {\n  font-size: ${metrics.iconSize}px;\n  width: ${metrics.iconSize}px;\n  height: ${metrics.iconSize}px;\n  color: ${colors.iconColor};\n  flex-shrink: 0;\n  margin-top: 1px;\n}`
+
+  const contentBlock = `\n\n.toast__content {\n  display: flex;\n  flex-direction: column;\n  gap: 3px;\n  flex: 1 1 0%;\n  min-width: 0;\n}`
+
+  const titleBlock = `\n\n.toast__title {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 700;\n  font-size: ${metrics.titleFontSize}px;\n  line-height: ${metrics.titleLineHeight};\n  color: ${colors.titleColor};\n  margin: 0;\n}`
+
+  const descBlock = `\n\n.toast__description {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 400;\n  font-size: ${metrics.descFontSize}px;\n  line-height: ${metrics.descLineHeight};\n  color: ${colors.descColor};\n  margin: 0;\n}`
+
+  const actionsBlock = `\n\n.toast__actions {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex-shrink: 0;\n  margin-left: 4px;\n}`
+
+  const linkBtnBlock = `\n\n.toast__action-button {\n  background: transparent;\n  border: none;\n  padding: 0;\n  margin: 0;\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 700;\n  font-size: ${metrics.actionFontSize}px;\n  color: #004185;\n  cursor: pointer;\n  text-decoration: none;\n  outline: none;\n  transition: color 0.15s ease, opacity 0.15s ease;\n}\n\n.toast__action-button:hover {\n  color: #00346A;\n  text-decoration: underline;\n}\n\n.toast__action-button:active {\n  color: #002750;\n}`
+
+  const closeBtnBlock = `\n\n.toast__close-button {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: ${metrics.closeSize}px;\n  height: ${metrics.closeSize}px;\n  background: transparent;\n  border: none;\n  padding: 0;\n  margin: 0;\n  color: #666666;\n  cursor: pointer;\n  border-radius: 4px;\n  transition: color 0.15s ease, background-color 0.15s ease;\n}\n\n.toast__close-button:hover {\n  color: #141414;\n  background-color: rgba(0, 0, 0, 0.06);\n}`
+
+  return `${comment}\n${toastBlock}${iconBlock}${contentBlock}${titleBlock}${descBlock}${actionsBlock}${linkBtnBlock}${closeBtnBlock}`
+}

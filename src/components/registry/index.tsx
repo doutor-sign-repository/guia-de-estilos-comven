@@ -5,18 +5,30 @@ import {
   SelectConfig,
   BadgeConfig,
   InfoCardConfig,
+  CardConfig,
+  TooltipConfig,
+  TagConfig,
+  ToastConfig,
   ComponentDefinition,
   generateButtonCss,
   generateInputCss,
   generateSelectCss,
   generateBadgeCss,
   generateInfoCardCss,
+  generateCardCss,
+  generateTooltipCss,
+  generateTagCss,
+  generateToastCss,
 } from './types'
 import { ButtonPlayground } from './ButtonPlayground'
 import { InputPlayground } from './InputPlayground'
 import { SelectPlayground } from './SelectPlayground'
 import { BadgePlayground } from './BadgePlayground'
 import { InfoCardPlayground } from './InfoCardPlayground'
+import { CardPlayground } from './CardPlayground'
+import { TooltipPlayground } from './TooltipPlayground'
+import { TagPlayground } from './TagPlayground'
+import { ToastPlayground } from './ToastPlayground'
 
 export interface ComponentRegistryItem {
   id: string
@@ -76,6 +88,42 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
       '5 variantes × 3 tamanhos × 2 estados — card informativo com ícone + título + texto descritivo',
     category: 'COMPONENTES',
     component: InfoCardPlayground,
+  },
+  card: {
+    id: 'card',
+    name: 'Card',
+    number: '6',
+    subtitle:
+      '3 variantes × 3 tamanhos × 2 estados — card de conteúdo genérico com header, corpo e ações opcionais',
+    category: 'COMPONENTES',
+    component: CardPlayground,
+  },
+  tooltip: {
+    id: 'tooltip',
+    name: 'Tooltip',
+    number: '7',
+    subtitle:
+      '4 posicionamentos × 2 temas × 3 tamanhos — balão de dica contextual acionado ao hover/foco do gatilho',
+    category: 'COMPONENTES',
+    component: TooltipPlayground,
+  },
+  tag: {
+    id: 'tag',
+    name: 'Tag',
+    number: '8',
+    subtitle:
+      '6 variantes × 3 tamanhos × 3 estados — chip compacto para categorização com remoção opcional',
+    category: 'COMPONENTES',
+    component: TagPlayground,
+  },
+  toast: {
+    id: 'toast',
+    name: 'Toast',
+    number: '9',
+    subtitle:
+      '5 variantes × 3 tamanhos × 2 estados — notificação flutuante com botão de ação estilo Link e fechar',
+    category: 'COMPONENTES',
+    component: ToastPlayground,
   },
 }
 
@@ -203,5 +251,116 @@ export const INFOCARD_DEFINITION: ComponentDefinition<InfoCardConfig> = {
   },
 }
 
-export { ButtonPlayground, InputPlayground, SelectPlayground, BadgePlayground, InfoCardPlayground }
+export const CARD_DEFINITION: ComponentDefinition<CardConfig> = {
+  id: 'card',
+  name: 'Card',
+  number: '06',
+  category: 'COMPONENTES',
+  subtitle:
+    '3 variantes × 3 tamanhos × 2 estados — card de conteúdo genérico com header, corpo e ações opcionais',
+  description:
+    'Container de conteúdo genérico com suporte a header (título opcional + ícone opcional), corpo textual e footer opcional com ações em botão.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Elevada',
+    size: 'Large',
+    state: 'Default',
+    icon: 'Com ícone',
+    footer: 'Com ações',
+    title: 'Visão Geral da Operação',
+    content:
+      'Consolidação dos pedidos expedidos, rotas em andamento e indicadores de entrega em tempo real para a rede COMVEN.',
+  },
+  generateCss: generateCardCss,
+  renderPreview: (config) => {
+    return React.createElement(CardPlayground, { initialConfig: config })
+  },
+}
+
+export const TOOLTIP_DEFINITION: ComponentDefinition<TooltipConfig> = {
+  id: 'tooltip',
+  name: 'Tooltip',
+  number: '07',
+  category: 'COMPONENTES',
+  subtitle:
+    '4 posicionamentos × 2 temas × 3 tamanhos — balão de dica contextual acionado ao hover/foco do gatilho',
+  description:
+    'Balão de dica apresentacional ancorado ao elemento de gatilho, disponível em 4 direções e nos temas Escuro e Claro.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Escura',
+    placement: 'Topo',
+    size: 'Medium',
+    state: 'Hover',
+    text: 'Dica rápida de apoio ao operador',
+    triggerLabel: 'Passe o mouse',
+  },
+  generateCss: generateTooltipCss,
+  renderPreview: (config) => {
+    return React.createElement(TooltipPlayground, { initialConfig: config })
+  },
+}
+
+export const TAG_DEFINITION: ComponentDefinition<TagConfig> = {
+  id: 'tag',
+  name: 'Tag',
+  number: '08',
+  category: 'COMPONENTES',
+  subtitle:
+    '6 variantes × 3 tamanhos × 3 estados — chip compacto para categorização com remoção opcional',
+  description:
+    'Chip/etiqueta de categorização e taxonomia, explorando a paleta COMVEN com estados interativos e botão de remoção opcional.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Primary',
+    size: 'Medium',
+    state: 'Default',
+    removable: 'Com remover',
+    text: 'Categoria',
+  },
+  generateCss: generateTagCss,
+  renderPreview: (config) => {
+    return React.createElement(TagPlayground, { initialConfig: config })
+  },
+}
+
+export const TOAST_DEFINITION: ComponentDefinition<ToastConfig> = {
+  id: 'toast',
+  name: 'Toast',
+  number: '09',
+  category: 'COMPONENTES',
+  subtitle:
+    '5 variantes × 3 tamanhos × 2 estados — notificação flutuante com botão de ação estilo Link e fechar',
+  description:
+    'Notificação flutuante interativa com ícone, título, descrição, botão de ação estilo Link (#004185 sem fundo/borda) e botão de fechar.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Success',
+    size: 'Large',
+    state: 'Default',
+    title: 'Proposta comercial atualizada',
+    description: 'As alterações de preço e tabela foram sincronizadas com sucesso.',
+    actionLabel: 'Desfazer',
+  },
+  generateCss: generateToastCss,
+  renderPreview: (config) => {
+    return React.createElement(ToastPlayground, { initialConfig: config })
+  },
+}
+
+export {
+  ButtonPlayground,
+  InputPlayground,
+  SelectPlayground,
+  BadgePlayground,
+  InfoCardPlayground,
+  CardPlayground,
+  TooltipPlayground,
+  TagPlayground,
+  ToastPlayground,
+}
 export { PlaygroundControlGroup } from './PlaygroundControlGroup'
