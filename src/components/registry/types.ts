@@ -1615,3 +1615,355 @@ ${dotLines.join('\n')}
 ${labelLines.join('\n')}
 }`
 }
+
+// -----------------------------------------------------------------------------
+// 11. CHECKBOX COMPONENT DEFINITION & CSS GENERATOR
+// -----------------------------------------------------------------------------
+
+export type CheckboxState = 'Default' | 'Hover' | 'Focado' | 'Disabled'
+export type CheckboxSize = 'Large' | 'Medium' | 'Small'
+export type CheckboxOrientation = 'Horizontal' | 'Vertical'
+export type CheckboxCheckState = 'unchecked' | 'checked' | 'indeterminate'
+
+export interface CheckboxOption {
+  id: string
+  label: string
+  description?: string
+  checkedState: CheckboxCheckState
+}
+
+export interface CheckboxConfig {
+  state: CheckboxState
+  size: CheckboxSize
+  orientation: CheckboxOrientation
+  groupTitle?: string
+  options: CheckboxOption[]
+}
+
+export interface CheckboxSizeMetrics {
+  boxSize: number
+  iconSize: number
+  fontSize: number
+  descFontSize: number
+  labelGap: number
+  groupGap: number
+  borderRadius: number
+  borderWidth: number
+}
+
+export const CHECKBOX_SIZE_METRICS: Record<CheckboxSize, CheckboxSizeMetrics> = {
+  Large: {
+    boxSize: 22,
+    iconSize: 15,
+    fontSize: 16,
+    descFontSize: 13,
+    labelGap: 10,
+    groupGap: 18,
+    borderRadius: 5,
+    borderWidth: 2,
+  },
+  Medium: {
+    boxSize: 18,
+    iconSize: 13,
+    fontSize: 14,
+    descFontSize: 12,
+    labelGap: 8,
+    groupGap: 14,
+    borderRadius: 4,
+    borderWidth: 2,
+  },
+  Small: {
+    boxSize: 16,
+    iconSize: 11,
+    fontSize: 12,
+    descFontSize: 11,
+    labelGap: 6,
+    groupGap: 10,
+    borderRadius: 3,
+    borderWidth: 1.5,
+  },
+}
+
+export function generateCheckboxCss(config: CheckboxConfig): string {
+  const { state, size, orientation, options } = config
+  const metrics = CHECKBOX_SIZE_METRICS[size] || CHECKBOX_SIZE_METRICS.Medium
+  const anyChecked = options.some((o) => o.checkedState === 'checked')
+  const anyIndeterminate = options.some((o) => o.checkedState === 'indeterminate')
+
+  const comment = `/* Checkbox — State=${state}, Size=${size}, Orientation=${orientation}, HasChecked=${anyChecked}, HasIndeterminate=${anyIndeterminate} */`
+
+  let borderColor = '#D5DCE5'
+  let bgColor = '#FFFFFF'
+  let iconColor = '#FFFFFF'
+  let outlineRule = 'none'
+  let cursor = 'pointer'
+  let labelColor = '#141414'
+
+  if (state === 'Hover') {
+    borderColor = '#004185'
+    bgColor = anyChecked || anyIndeterminate ? '#00336A' : '#F5F7FA'
+    labelColor = '#004185'
+  } else if (state === 'Focado') {
+    borderColor = '#004185'
+    // Outline COMVEN: estritamente 1px em azul #004185
+    outlineRule = '1px solid #004185'
+    labelColor = '#004185'
+  } else if (state === 'Disabled') {
+    borderColor = '#E5E7EB'
+    bgColor = '#F5F7FA'
+    iconColor = '#9CA3AF'
+    cursor = 'not-allowed'
+    labelColor = '#9CA3AF'
+    outlineRule = 'none'
+  }
+
+  const groupLines = [
+    '  display: flex;',
+    `  flex-direction: ${orientation === 'Horizontal' ? 'row' : 'column'};`,
+    `  gap: ${metrics.groupGap}px;`,
+    `  align-items: ${orientation === 'Horizontal' ? 'center' : 'flex-start'};`,
+  ]
+
+  const itemLines = [
+    '  display: inline-flex;',
+    '  align-items: flex-start;',
+    `  gap: ${metrics.labelGap}px;`,
+    `  cursor: ${cursor};`,
+    '  user-select: none;',
+  ]
+
+  const boxLines = [
+    `  width: ${metrics.boxSize}px;`,
+    `  height: ${metrics.boxSize}px;`,
+    `  border-radius: ${metrics.borderRadius}px;`,
+    `  border: ${metrics.borderWidth}px solid ${borderColor};`,
+    `  background-color: ${bgColor};`,
+    '  display: flex;',
+    '  align-items: center;',
+    '  justify-content: center;',
+    '  flex-shrink: 0;',
+    '  transition: all 0.15s ease;',
+  ]
+
+  if (outlineRule !== 'none') {
+    boxLines.push(`  outline: ${outlineRule};`, '  outline-offset: 2px;')
+  }
+
+  const labelLines = [
+    "  font-family: 'Open Sans', sans-serif;",
+    '  font-weight: 600;',
+    `  font-size: ${metrics.fontSize}px;`,
+    '  line-height: 1.4;',
+    `  color: ${labelColor};`,
+  ]
+
+  return `${comment}
+.comven-checkbox-group {
+${groupLines.join('\n')}
+}
+
+.comven-checkbox-item {
+${itemLines.join('\n')}
+}
+
+.comven-checkbox-box {
+${boxLines.join('\n')}
+}
+
+.comven-checkbox-box--checked,
+.comven-checkbox-box--indeterminate {
+  background-color: #004185;
+  border-color: #004185;
+  color: ${iconColor};
+}
+
+.comven-checkbox-box--disabled {
+  background-color: #F5F7FA;
+  border-color: #E5E7EB;
+  color: #9CA3AF;
+  cursor: not-allowed;
+}
+
+.comven-checkbox-label {
+${labelLines.join('\n')}
+}`
+}
+
+// -----------------------------------------------------------------------------
+// 12. ACCORDION COMPONENT DEFINITION & CSS GENERATOR
+// -----------------------------------------------------------------------------
+
+export type AccordionVariant = 'Default' | 'Separado' | 'Subtil'
+export type AccordionSize = 'Large' | 'Medium' | 'Small'
+export type AccordionState = 'Default' | 'Hover' | 'Focado' | 'Disabled'
+export type AccordionMode = 'Single' | 'Multiple'
+
+export interface AccordionItemData {
+  id: string
+  title: string
+  content: string
+  disabled?: boolean
+}
+
+export interface AccordionConfig {
+  variant: AccordionVariant
+  size: AccordionSize
+  state: AccordionState
+  mode: AccordionMode
+  items: AccordionItemData[]
+  expandedIds: string[]
+}
+
+export interface AccordionSizeMetrics {
+  headerPaddingY: number
+  headerPaddingX: number
+  titleFontSize: number
+  contentFontSize: number
+  iconSize: number
+  borderRadius: number
+  gap: number
+}
+
+export const ACCORDION_SIZE_METRICS: Record<AccordionSize, AccordionSizeMetrics> = {
+  Large: {
+    headerPaddingY: 18,
+    headerPaddingX: 20,
+    titleFontSize: 16,
+    contentFontSize: 14,
+    iconSize: 20,
+    borderRadius: 12,
+    gap: 12,
+  },
+  Medium: {
+    headerPaddingY: 14,
+    headerPaddingX: 16,
+    titleFontSize: 14,
+    contentFontSize: 13,
+    iconSize: 18,
+    borderRadius: 10,
+    gap: 10,
+  },
+  Small: {
+    headerPaddingY: 10,
+    headerPaddingX: 14,
+    titleFontSize: 13,
+    contentFontSize: 12,
+    iconSize: 16,
+    borderRadius: 8,
+    gap: 8,
+  },
+}
+
+export function generateAccordionCss(config: AccordionConfig): string {
+  const { variant, size, state, mode, expandedIds } = config
+  const metrics = ACCORDION_SIZE_METRICS[size] || ACCORDION_SIZE_METRICS.Medium
+
+  const comment = `/* Accordion — Variant=${variant}, Size=${size}, State=${state}, Mode=${mode}, Expanded=${expandedIds.length} items */`
+
+  let borderColor = '#E2E6EB'
+  let headerBg = '#FFFFFF'
+  let titleColor = '#141414'
+  let iconColor = '#004185'
+  let outlineRule = 'none'
+  let cursor = 'pointer'
+
+  if (state === 'Hover') {
+    borderColor = '#004185'
+    headerBg = '#F8FAFC'
+    titleColor = '#004185'
+  } else if (state === 'Focado') {
+    borderColor = '#004185'
+    // Outline COMVEN: estritamente 1px em azul #004185
+    outlineRule = '1px solid #004185'
+    titleColor = '#004185'
+  } else if (state === 'Disabled') {
+    borderColor = '#E5E7EB'
+    headerBg = '#F5F7FA'
+    titleColor = '#9CA3AF'
+    iconColor = '#9CA3AF'
+    cursor = 'not-allowed'
+  }
+
+  const containerLines = [
+    '  width: 100%;',
+    '  display: flex;',
+    '  flex-direction: column;',
+    variant === 'Separado' ? `  gap: ${metrics.gap}px;` : '  gap: 0;',
+    variant === 'Separado'
+      ? '  border: none;'
+      : `  border: 1px solid ${borderColor}; border-radius: ${metrics.borderRadius}px; overflow: hidden;`,
+  ]
+
+  const itemLines = [
+    '  width: 100%;',
+    variant === 'Separado'
+      ? `  border: 1px solid ${borderColor}; border-radius: ${metrics.borderRadius}px; overflow: hidden;`
+      : '  border-bottom: 1px solid #E2E6EB;',
+    '  transition: all 0.2s ease;',
+  ]
+
+  const headerLines = [
+    '  width: 100%;',
+    '  display: flex;',
+    '  align-items: center;',
+    '  justify-content: space-between;',
+    `  padding: ${metrics.headerPaddingY}px ${metrics.headerPaddingX}px;`,
+    `  background-color: ${headerBg};`,
+    `  cursor: ${cursor};`,
+    '  user-select: none;',
+    '  transition: background-color 0.15s ease, color 0.15s ease;',
+  ]
+
+  if (outlineRule !== 'none') {
+    headerLines.push(`  outline: ${outlineRule};`, '  outline-offset: -1px;')
+  }
+
+  const titleLines = [
+    "  font-family: 'Open Sans', sans-serif;",
+    '  font-weight: 600;',
+    `  font-size: ${metrics.titleFontSize}px;`,
+    `  color: ${titleColor};`,
+  ]
+
+  const contentLines = [
+    `  padding: ${metrics.headerPaddingY}px ${metrics.headerPaddingX}px;`,
+    '  background-color: #FAFCFE;',
+    "  font-family: 'Open Sans', sans-serif;",
+    `  font-size: ${metrics.contentFontSize}px;`,
+    '  line-height: 1.6;',
+    '  color: #4A5568;',
+    '  border-top: 1px solid #F0F4F8;',
+  ]
+
+  return `${comment}
+.comven-accordion {
+${containerLines.join('\n')}
+}
+
+.comven-accordion-item {
+${itemLines.join('\n')}
+}
+
+.comven-accordion-header {
+${headerLines.join('\n')}
+}
+
+.comven-accordion-title {
+${titleLines.join('\n')}
+}
+
+.comven-accordion-icon {
+  width: ${metrics.iconSize}px;
+  height: ${metrics.iconSize}px;
+  color: ${iconColor};
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.comven-accordion-icon--open {
+  transform: rotate(180deg);
+}
+
+.comven-accordion-content {
+${contentLines.join('\n')}
+}`
+}

@@ -143,15 +143,15 @@ export const InfoCardPlayground: React.FC<InfoCardPlaygroundProps> = ({ initialC
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#EBEBEB] shadow-sm">
-      {/* 05 InfoCard Section Header */}
+      {/* 09 InfoCard Section Header */}
       <div className="flex items-start gap-4">
         <div className="w-10 h-10 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-base shrink-0 select-none">
-          05
+          09
         </div>
         <div className="pt-0.5">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#141414] leading-tight tracking-tight">
-            InfoCard (Ícone + Texto)
-          </h2>
+            InfoCard (Ícone + Título + Descrição)
+          </h2>{' '}
           <p className="text-sm sm:text-[15px] text-[#666666] mt-1 font-normal">
             5 variantes por intenção × 3 tamanhos × 2 estados — explorando a escala oficial COMVEN
             com fundo pálido, borda suave, ícone, título e texto descritivo

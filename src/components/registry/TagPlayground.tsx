@@ -60,15 +60,15 @@ export const TagPlayground: React.FC<TagPlaygroundProps> = ({ initialConfig }) =
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#EBEBEB] shadow-sm">
-      {/* 08 Tag Section Header */}
+      {/* 07 Tag Section Header */}
       <div className="flex items-start gap-4">
         <div className="w-10 h-10 rounded-full bg-[#004185] text-white flex items-center justify-center font-bold text-base shrink-0 select-none">
-          08
+          07
         </div>
         <div className="pt-0.5">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#141414] leading-tight tracking-tight">
-            Tag (Chip de Categorização)
-          </h2>
+            Tag (Categorização & Taxonomia)
+          </h2>{' '}
           <p className="text-sm sm:text-[15px] text-[#666666] mt-1 font-normal">
             6 variantes na escala COMVEN (incluindo o amarelo #F2CB05) × 3 tamanhos × 3 estados —
             etiqueta compacta com botão de remoção opcional para filtros e taxonomia

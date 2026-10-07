@@ -3,35 +3,41 @@ import {
   ButtonConfig,
   InputConfig,
   SelectConfig,
+  CheckboxConfig,
+  RadioButtonConfig,
   BadgeConfig,
-  InfoCardConfig,
-  CardConfig,
-  TooltipConfig,
   TagConfig,
   ToastConfig,
-  RadioButtonConfig,
+  InfoCardConfig,
+  TooltipConfig,
+  CardConfig,
+  AccordionConfig,
   ComponentDefinition,
   generateButtonCss,
   generateInputCss,
   generateSelectCss,
+  generateCheckboxCss,
+  generateRadioButtonCss,
   generateBadgeCss,
-  generateInfoCardCss,
-  generateCardCss,
-  generateTooltipCss,
   generateTagCss,
   generateToastCss,
-  generateRadioButtonCss,
+  generateInfoCardCss,
+  generateTooltipCss,
+  generateCardCss,
+  generateAccordionCss,
 } from './types'
 import { ButtonPlayground } from './ButtonPlayground'
 import { InputPlayground } from './InputPlayground'
 import { SelectPlayground } from './SelectPlayground'
+import { CheckboxPlayground } from './CheckboxPlayground'
+import { RadioButtonPlayground } from './RadioButtonPlayground'
 import { BadgePlayground } from './BadgePlayground'
-import { InfoCardPlayground } from './InfoCardPlayground'
-import { CardPlayground } from './CardPlayground'
-import { TooltipPlayground } from './TooltipPlayground'
 import { TagPlayground } from './TagPlayground'
 import { ToastPlayground } from './ToastPlayground'
-import { RadioButtonPlayground } from './RadioButtonPlayground'
+import { InfoCardPlayground } from './InfoCardPlayground'
+import { TooltipPlayground } from './TooltipPlayground'
+import { CardPlayground } from './CardPlayground'
+import { AccordionPlayground } from './AccordionPlayground'
 
 export interface ComponentRegistryItem {
   id: string
@@ -44,9 +50,13 @@ export interface ComponentRegistryItem {
 
 /**
  * Scalable Components Registry
- * Easily register future components like 'Input', 'Card', 'Badge', etc.
+ * Reorganized by design system domain hierarchy:
+ * 1-5: Formulários e Seleção (Button, Input, Select, Checkbox, Radio Button)
+ * 6-9: Feedback e Status (Badge, Tag, Toast, InfoCard)
+ * 10-12: Overlays e Estrutura de Conteúdo (Tooltip, Card, Accordion)
  */
 export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
+  // --- Formulários & Seleção ---
   button: {
     id: 'button',
     name: 'Button',
@@ -74,46 +84,39 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
     category: 'COMPONENTES',
     component: SelectPlayground,
   },
+  checkbox: {
+    id: 'checkbox',
+    name: 'Checkbox',
+    number: '4',
+    subtitle:
+      '4 estados × 3 tamanhos × 2 orientações — múltipla seleção com estado indeterminado e foco COMVEN (1px)',
+    category: 'COMPONENTES',
+    component: CheckboxPlayground,
+  },
+  'radio-button': {
+    id: 'radio-button',
+    name: 'Radio Button',
+    number: '5',
+    subtitle:
+      '4 estados × 3 tamanhos × 2 orientações — seleção exclusiva com foco acessível COMVEN #004185 (1px)',
+    category: 'COMPONENTES',
+    component: RadioButtonPlayground,
+  },
+
+  // --- Feedback & Status ---
   badge: {
     id: 'badge',
     name: 'Badge',
-    number: '4',
+    number: '6',
     subtitle:
       '6 variantes × 4 tamanhos × 3 estados — explorando a escala de cores COMVEN, incluindo o amarelo de alerta',
     category: 'COMPONENTES',
     component: BadgePlayground,
   },
-  infocard: {
-    id: 'infocard',
-    name: 'InfoCard',
-    number: '5',
-    subtitle:
-      '5 variantes × 3 tamanhos × 2 estados — card informativo com ícone + título + texto descritivo',
-    category: 'COMPONENTES',
-    component: InfoCardPlayground,
-  },
-  card: {
-    id: 'card',
-    name: 'Card',
-    number: '6',
-    subtitle:
-      '3 variantes × 3 tamanhos × 2 estados — card de conteúdo genérico com header, corpo e ações opcionais',
-    category: 'COMPONENTES',
-    component: CardPlayground,
-  },
-  tooltip: {
-    id: 'tooltip',
-    name: 'Tooltip',
-    number: '7',
-    subtitle:
-      '4 posicionamentos × 2 temas × 3 tamanhos — balão de dica contextual acionado ao hover/foco do gatilho',
-    category: 'COMPONENTES',
-    component: TooltipPlayground,
-  },
   tag: {
     id: 'tag',
     name: 'Tag',
-    number: '8',
+    number: '7',
     subtitle:
       '6 variantes × 3 tamanhos × 3 estados — chip compacto para categorização com remoção opcional',
     category: 'COMPONENTES',
@@ -122,20 +125,49 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   toast: {
     id: 'toast',
     name: 'Toast',
-    number: '9',
+    number: '8',
     subtitle:
       '5 variantes × 3 tamanhos × 2 estados — notificação flutuante com botão de ação estilo Link e fechar',
     category: 'COMPONENTES',
     component: ToastPlayground,
   },
-  'radio-button': {
-    id: 'radio-button',
-    name: 'Radio Button',
+  infocard: {
+    id: 'infocard',
+    name: 'InfoCard',
+    number: '9',
+    subtitle:
+      '5 variantes × 3 tamanhos × 2 estados — card informativo com ícone + título + texto descritivo',
+    category: 'COMPONENTES',
+    component: InfoCardPlayground,
+  },
+
+  // --- Overlays & Estrutura ---
+  tooltip: {
+    id: 'tooltip',
+    name: 'Tooltip',
     number: '10',
     subtitle:
-      '4 estados × 3 tamanhos × 2 orientações — seleção exclusiva com foco acessível COMVEN #004185 (1px)',
+      '4 posicionamentos × 2 temas × 3 tamanhos — balão de dica contextual acionado ao hover/foco do gatilho',
     category: 'COMPONENTES',
-    component: RadioButtonPlayground,
+    component: TooltipPlayground,
+  },
+  card: {
+    id: 'card',
+    name: 'Card',
+    number: '11',
+    subtitle:
+      '3 variantes × 3 tamanhos × 2 estados — card de conteúdo genérico com header, corpo e ações opcionais',
+    category: 'COMPONENTES',
+    component: CardPlayground,
+  },
+  accordion: {
+    id: 'accordion',
+    name: 'Accordion',
+    number: '12',
+    subtitle:
+      '3 variantes × 3 tamanhos × 4 estados × 2 modos — seções colapsáveis com animação de rotação e foco COMVEN',
+    category: 'COMPONENTES',
+    component: AccordionPlayground,
   },
 }
 
@@ -213,161 +245,53 @@ export const SELECT_DEFINITION: ComponentDefinition<SelectConfig> = {
   },
 }
 
-export const BADGE_DEFINITION: ComponentDefinition<BadgeConfig> = {
-  id: 'badge',
-  name: 'Badge',
+export const CHECKBOX_DEFINITION: ComponentDefinition<CheckboxConfig> = {
+  id: 'checkbox',
+  name: 'Checkbox',
   number: '04',
   category: 'COMPONENTES',
   subtitle:
-    '6 variantes × 4 tamanhos × 3 estados — explorando a escala de cores COMVEN, incluindo o amarelo de alerta',
+    '4 estados × 3 tamanhos × 2 orientações — múltipla seleção com estado indeterminado e foco COMVEN (1px)',
   description:
-    'Pílula compacta de status, contadores e alertas, explorando a paleta COMVEN com o amarelo #F2CB05 para alertas e badges.',
+    'Caixa de seleção múltipla para formulários, filtros e listas nos produtos digitais COMVEN, com suporte a estado indeterminado e anel de foco de 1px em #004185.',
   figmaUrl:
     'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
   defaultConfig: {
-    variant: 'Primary',
-    size: 'Large',
     state: 'Default',
-    icon: 'Com ícone',
-    text: 'Novo',
-  },
-  generateCss: generateBadgeCss,
-  renderPreview: (config) => {
-    return React.createElement(BadgePlayground, { initialConfig: config })
-  },
-}
-
-export const INFOCARD_DEFINITION: ComponentDefinition<InfoCardConfig> = {
-  id: 'infocard',
-  name: 'InfoCard',
-  number: '05',
-  category: 'COMPONENTES',
-  subtitle:
-    '5 variantes × 3 tamanhos × 2 estados — card informativo com ícone + título + texto descritivo',
-  description:
-    'Card de destaque para informações de contexto, dicas operacionais, confirmações de sucesso e alertas, explorando a escala oficial de cores COMVEN com o amarelo #F2CB05 em alertas.',
-  figmaUrl:
-    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
-  defaultConfig: {
-    variant: 'Warning',
-    size: 'Large',
-    state: 'Default',
-    icon: 'Com ícone',
-    title: 'Diretriz de uso do amarelo (#F2CB05)',
-    description:
-      'O amarelo COMVEN é permitido em alertas, badges e destaques pontuais. Nunca o utilize como cor principal de uma interface.',
-  },
-  generateCss: generateInfoCardCss,
-  renderPreview: (config) => {
-    return React.createElement(InfoCardPlayground, { initialConfig: config })
-  },
-}
-
-export const CARD_DEFINITION: ComponentDefinition<CardConfig> = {
-  id: 'card',
-  name: 'Card',
-  number: '06',
-  category: 'COMPONENTES',
-  subtitle:
-    '3 variantes × 3 tamanhos × 2 estados — card de conteúdo genérico com header, corpo e ações opcionais',
-  description:
-    'Container de conteúdo genérico com suporte a header (título opcional + ícone opcional), corpo textual e footer opcional com ações em botão.',
-  figmaUrl:
-    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
-  defaultConfig: {
-    variant: 'Elevada',
-    size: 'Large',
-    state: 'Default',
-    icon: 'Com ícone',
-    footer: 'Com ações',
-    title: 'Visão Geral da Operação',
-    content:
-      'Consolidação dos pedidos expedidos, rotas em andamento e indicadores de entrega em tempo real para a rede COMVEN.',
-  },
-  generateCss: generateCardCss,
-  renderPreview: (config) => {
-    return React.createElement(CardPlayground, { initialConfig: config })
-  },
-}
-
-export const TOOLTIP_DEFINITION: ComponentDefinition<TooltipConfig> = {
-  id: 'tooltip',
-  name: 'Tooltip',
-  number: '07',
-  category: 'COMPONENTES',
-  subtitle:
-    '4 posicionamentos × 2 temas × 3 tamanhos — balão de dica contextual acionado ao hover/foco do gatilho',
-  description:
-    'Balão de dica apresentacional ancorado ao elemento de gatilho, disponível em 4 direções e nos temas Escuro e Claro.',
-  figmaUrl:
-    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
-  defaultConfig: {
-    variant: 'Escura',
-    placement: 'Topo',
     size: 'Medium',
-    state: 'Hover',
-    text: 'Dica rápida de apoio ao operador',
-    triggerLabel: 'Passe o mouse',
+    orientation: 'Vertical',
+    groupTitle: 'Preferências de comunicação COMVEN',
+    options: [
+      {
+        id: 'chk-1',
+        label: 'Notificações por e-mail',
+        description: 'Receba alertas diários e resumo da operação',
+        checkedState: 'checked',
+      },
+      {
+        id: 'chk-2',
+        label: 'Alertas via SMS e WhatsApp',
+        description: 'Avisos imediatos sobre pedidos prioritários',
+        checkedState: 'indeterminate',
+      },
+      {
+        id: 'chk-3',
+        label: 'Relatório semanal consolidado',
+        description: 'Exportação automática em PDF e planilha',
+        checkedState: 'unchecked',
+      },
+    ],
   },
-  generateCss: generateTooltipCss,
+  generateCss: generateCheckboxCss,
   renderPreview: (config) => {
-    return React.createElement(TooltipPlayground, { initialConfig: config })
-  },
-}
-
-export const TAG_DEFINITION: ComponentDefinition<TagConfig> = {
-  id: 'tag',
-  name: 'Tag',
-  number: '08',
-  category: 'COMPONENTES',
-  subtitle:
-    '6 variantes × 3 tamanhos × 3 estados — chip compacto para categorização com remoção opcional',
-  description:
-    'Chip/etiqueta de categorização e taxonomia, explorando a paleta COMVEN com estados interativos e botão de remoção opcional.',
-  figmaUrl:
-    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
-  defaultConfig: {
-    variant: 'Primary',
-    size: 'Medium',
-    state: 'Default',
-    removable: 'Com remover',
-    text: 'Categoria',
-  },
-  generateCss: generateTagCss,
-  renderPreview: (config) => {
-    return React.createElement(TagPlayground, { initialConfig: config })
-  },
-}
-
-export const TOAST_DEFINITION: ComponentDefinition<ToastConfig> = {
-  id: 'toast',
-  name: 'Toast',
-  number: '09',
-  category: 'COMPONENTES',
-  subtitle:
-    '5 variantes × 3 tamanhos × 2 estados — notificação flutuante com botão de ação estilo Link e fechar',
-  description:
-    'Notificação flutuante interativa com ícone, título, descrição, botão de ação estilo Link (#004185 sem fundo/borda) e botão de fechar.',
-  figmaUrl:
-    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
-  defaultConfig: {
-    variant: 'Success',
-    size: 'Large',
-    state: 'Default',
-    title: 'Proposta comercial atualizada',
-    description: 'As alterações de preço e tabela foram sincronizadas com sucesso.',
-    actionLabel: 'Desfazer',
-  },
-  generateCss: generateToastCss,
-  renderPreview: (config) => {
-    return React.createElement(ToastPlayground, { initialConfig: config })
+    return React.createElement(CheckboxPlayground, { initialConfig: config })
   },
 }
 
 export const RADIO_BUTTON_DEFINITION: ComponentDefinition<RadioButtonConfig> = {
   id: 'radio-button',
   name: 'Radio Button',
-  number: '10',
+  number: '05',
   category: 'COMPONENTES',
   subtitle:
     '4 estados × 3 tamanhos × 2 orientações — seleção exclusiva com foco acessível COMVEN #004185 (1px)',
@@ -401,16 +325,213 @@ export const RADIO_BUTTON_DEFINITION: ComponentDefinition<RadioButtonConfig> = {
   },
 }
 
+export const BADGE_DEFINITION: ComponentDefinition<BadgeConfig> = {
+  id: 'badge',
+  name: 'Badge',
+  number: '06',
+  category: 'COMPONENTES',
+  subtitle:
+    '6 variantes × 4 tamanhos × 3 estados — explorando a escala de cores COMVEN, incluindo o amarelo de alerta',
+  description:
+    'Pílula compacta de status, contadores e alertas, explorando a paleta COMVEN com o amarelo #F2CB05 para alertas e badges.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Primary',
+    size: 'Large',
+    state: 'Default',
+    icon: 'Com ícone',
+    text: 'Novo',
+  },
+  generateCss: generateBadgeCss,
+  renderPreview: (config) => {
+    return React.createElement(BadgePlayground, { initialConfig: config })
+  },
+}
+
+export const TAG_DEFINITION: ComponentDefinition<TagConfig> = {
+  id: 'tag',
+  name: 'Tag',
+  number: '07',
+  category: 'COMPONENTES',
+  subtitle:
+    '6 variantes × 3 tamanhos × 3 estados — chip compacto para categorização com remoção opcional',
+  description:
+    'Chip/etiqueta de categorização e taxonomia, explorando a paleta COMVEN com estados interativos e botão de remoção opcional.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Primary',
+    size: 'Medium',
+    state: 'Default',
+    removable: 'Com remover',
+    text: 'Categoria',
+  },
+  generateCss: generateTagCss,
+  renderPreview: (config) => {
+    return React.createElement(TagPlayground, { initialConfig: config })
+  },
+}
+
+export const TOAST_DEFINITION: ComponentDefinition<ToastConfig> = {
+  id: 'toast',
+  name: 'Toast',
+  number: '08',
+  category: 'COMPONENTES',
+  subtitle:
+    '5 variantes × 3 tamanhos × 2 estados — notificação flutuante com botão de ação estilo Link e fechar',
+  description:
+    'Notificação flutuante interativa com ícone, título, descrição, botão de ação estilo Link (#004185 sem fundo/borda) e botão de fechar.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Success',
+    size: 'Large',
+    state: 'Default',
+    title: 'Proposta comercial atualizada',
+    description: 'As alterações de preço e tabela foram sincronizadas com sucesso.',
+    actionLabel: 'Desfazer',
+  },
+  generateCss: generateToastCss,
+  renderPreview: (config) => {
+    return React.createElement(ToastPlayground, { initialConfig: config })
+  },
+}
+
+export const INFOCARD_DEFINITION: ComponentDefinition<InfoCardConfig> = {
+  id: 'infocard',
+  name: 'InfoCard',
+  number: '09',
+  category: 'COMPONENTES',
+  subtitle:
+    '5 variantes × 3 tamanhos × 2 estados — card informativo com ícone + título + texto descritivo',
+  description:
+    'Card de destaque para informações de contexto, dicas operacionais, confirmações de sucesso e alertas, explorando a escala oficial de cores COMVEN com o amarelo #F2CB05 em alertas.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Warning',
+    size: 'Large',
+    state: 'Default',
+    icon: 'Com ícone',
+    title: 'Diretriz de uso do amarelo (#F2CB05)',
+    description:
+      'O amarelo COMVEN é permitido em alertas, badges e destaques pontuais. Nunca o utilize como cor principal de uma interface.',
+  },
+  generateCss: generateInfoCardCss,
+  renderPreview: (config) => {
+    return React.createElement(InfoCardPlayground, { initialConfig: config })
+  },
+}
+
+export const TOOLTIP_DEFINITION: ComponentDefinition<TooltipConfig> = {
+  id: 'tooltip',
+  name: 'Tooltip',
+  number: '10',
+  category: 'COMPONENTES',
+  subtitle:
+    '4 posicionamentos × 2 temas × 3 tamanhos — balão de dica contextual acionado ao hover/foco do gatilho',
+  description:
+    'Balão de dica apresentacional ancorado ao elemento de gatilho, disponível em 4 direções e nos temas Escuro e Claro.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Escura',
+    placement: 'Topo',
+    size: 'Medium',
+    state: 'Hover',
+    text: 'Dica rápida de apoio ao operador',
+    triggerLabel: 'Passe o mouse',
+  },
+  generateCss: generateTooltipCss,
+  renderPreview: (config) => {
+    return React.createElement(TooltipPlayground, { initialConfig: config })
+  },
+}
+
+export const CARD_DEFINITION: ComponentDefinition<CardConfig> = {
+  id: 'card',
+  name: 'Card',
+  number: '11',
+  category: 'COMPONENTES',
+  subtitle:
+    '3 variantes × 3 tamanhos × 2 estados — card de conteúdo genérico com header, corpo e ações opcionais',
+  description:
+    'Container de conteúdo genérico com suporte a header (título opcional + ícone opcional), corpo textual e footer opcional com ações em botão.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Elevada',
+    size: 'Large',
+    state: 'Default',
+    icon: 'Com ícone',
+    footer: 'Com ações',
+    title: 'Visão Geral da Operação',
+    content:
+      'Consolidação dos pedidos expedidos, rotas em andamento e indicadores de entrega em tempo real para a rede COMVEN.',
+  },
+  generateCss: generateCardCss,
+  renderPreview: (config) => {
+    return React.createElement(CardPlayground, { initialConfig: config })
+  },
+}
+
+export const ACCORDION_DEFINITION: ComponentDefinition<AccordionConfig> = {
+  id: 'accordion',
+  name: 'Accordion',
+  number: '12',
+  category: 'COMPONENTES',
+  subtitle:
+    '3 variantes × 3 tamanhos × 4 estados × 2 modos — seções colapsáveis com animação de rotação e foco COMVEN',
+  description:
+    'Componente de seções retráteis/expansíveis para perguntas frequentes, configurações e organização de conteúdo complexo nos produtos digitais COMVEN.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Default',
+    size: 'Medium',
+    state: 'Default',
+    mode: 'Single',
+    items: [
+      {
+        id: 'acc-1',
+        title: 'Como funciona o faturamento integrado COMVEN?',
+        content:
+          'O faturamento integrado consolida pedidos expedidos, notas fiscais eletrônicas e conciliação bancária automaticamente no fim de cada ciclo financeiro.',
+      },
+      {
+        id: 'acc-2',
+        title: 'Quais são as políticas de entrega e prazos operacionais?',
+        content:
+          'As remessas rodoviárias atendem prazos de 24h a 72h úteis para capitais e polos regionais, com rastreamento contínuo por telemetria e notificações automáticas.',
+      },
+      {
+        id: 'acc-3',
+        title: 'Requisitos de segurança e controle de acessos da rede',
+        content:
+          'Todos os acessos administrativos exigem autenticação de dois fatores (2FA), registro completo de auditoria por perfil e isolamento rigoroso por operadora parceira.',
+      },
+    ],
+    expandedIds: ['acc-1'],
+  },
+  generateCss: generateAccordionCss,
+  renderPreview: (config) => {
+    return React.createElement(AccordionPlayground, { initialConfig: config })
+  },
+}
+
 export {
   ButtonPlayground,
   InputPlayground,
   SelectPlayground,
+  CheckboxPlayground,
+  RadioButtonPlayground,
   BadgePlayground,
-  InfoCardPlayground,
-  CardPlayground,
-  TooltipPlayground,
   TagPlayground,
   ToastPlayground,
-  RadioButtonPlayground,
+  InfoCardPlayground,
+  TooltipPlayground,
+  CardPlayground,
+  AccordionPlayground,
 }
 export { PlaygroundControlGroup } from './PlaygroundControlGroup'

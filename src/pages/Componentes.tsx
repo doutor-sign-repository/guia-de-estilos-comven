@@ -3,13 +3,15 @@ import { useParams } from 'react-router-dom'
 import { ButtonPlayground } from '@/components/registry/ButtonPlayground'
 import { InputPlayground } from '@/components/registry/InputPlayground'
 import { SelectPlayground } from '@/components/registry/SelectPlayground'
+import { CheckboxPlayground } from '@/components/registry/CheckboxPlayground'
+import { RadioButtonPlayground } from '@/components/registry/RadioButtonPlayground'
 import { BadgePlayground } from '@/components/registry/BadgePlayground'
-import { InfoCardPlayground } from '@/components/registry/InfoCardPlayground'
-import { CardPlayground } from '@/components/registry/CardPlayground'
-import { TooltipPlayground } from '@/components/registry/TooltipPlayground'
 import { TagPlayground } from '@/components/registry/TagPlayground'
 import { ToastPlayground } from '@/components/registry/ToastPlayground'
-import { RadioButtonPlayground } from '@/components/registry/RadioButtonPlayground'
+import { InfoCardPlayground } from '@/components/registry/InfoCardPlayground'
+import { TooltipPlayground } from '@/components/registry/TooltipPlayground'
+import { CardPlayground } from '@/components/registry/CardPlayground'
+import { AccordionPlayground } from '@/components/registry/AccordionPlayground'
 
 export default function Componentes() {
   const { componentId } = useParams<{ componentId?: string }>()
@@ -19,34 +21,41 @@ export default function Componentes() {
     | 'button'
     | 'input'
     | 'select'
+    | 'checkbox'
+    | 'radio-button'
     | 'badge'
-    | 'infocard'
-    | 'card'
-    | 'tooltip'
     | 'tag'
     | 'toast'
-    | 'radio-button' = 'button'
+    | 'infocard'
+    | 'tooltip'
+    | 'card'
+    | 'accordion' = 'button'
+
   if (componentId === 'input') current = 'input'
   else if (componentId === 'select') current = 'select'
+  else if (componentId === 'checkbox' || componentId === 'check') current = 'checkbox'
+  else if (componentId === 'radio-button' || componentId === 'radio') current = 'radio-button'
   else if (componentId === 'badge') current = 'badge'
-  else if (componentId === 'infocard') current = 'infocard'
-  else if (componentId === 'card') current = 'card'
-  else if (componentId === 'tooltip') current = 'tooltip'
   else if (componentId === 'tag') current = 'tag'
   else if (componentId === 'toast') current = 'toast'
-  else if (componentId === 'radio-button' || componentId === 'radio') current = 'radio-button'
+  else if (componentId === 'infocard') current = 'infocard'
+  else if (componentId === 'tooltip') current = 'tooltip'
+  else if (componentId === 'card') current = 'card'
+  else if (componentId === 'accordion') current = 'accordion'
 
   const titleMap = {
     button: 'Button',
     input: 'Input (Text Field)',
     select: 'Select (Dropdown)',
+    checkbox: 'Checkbox (Caixa de Seleção)',
+    'radio-button': 'Radio Button (Botão de Opção)',
     badge: 'Badge (Status & Alertas)',
-    infocard: 'InfoCard (Ícone + Texto)',
-    card: 'Card (Conteúdo)',
-    tooltip: 'Tooltip (Dica)',
     tag: 'Tag (Categorização)',
     toast: 'Toast (Notificação)',
-    'radio-button': 'Radio Button (Botão de Opção)',
+    infocard: 'InfoCard (Ícone + Texto)',
+    tooltip: 'Tooltip (Dica)',
+    card: 'Card (Conteúdo)',
+    accordion: 'Accordion (Acordeão)',
   }
 
   return (
@@ -89,24 +98,19 @@ export default function Componentes() {
             <SelectPlayground />
           </section>
         )}
+        {current === 'checkbox' && (
+          <section id="checkbox" className="w-full">
+            <CheckboxPlayground />
+          </section>
+        )}
+        {current === 'radio-button' && (
+          <section id="radio-button" className="w-full">
+            <RadioButtonPlayground />
+          </section>
+        )}
         {current === 'badge' && (
           <section id="badge" className="w-full">
             <BadgePlayground />
-          </section>
-        )}
-        {current === 'infocard' && (
-          <section id="infocard" className="w-full">
-            <InfoCardPlayground />
-          </section>
-        )}
-        {current === 'card' && (
-          <section id="card" className="w-full">
-            <CardPlayground />
-          </section>
-        )}
-        {current === 'tooltip' && (
-          <section id="tooltip" className="w-full">
-            <TooltipPlayground />
           </section>
         )}
         {current === 'tag' && (
@@ -119,9 +123,24 @@ export default function Componentes() {
             <ToastPlayground />
           </section>
         )}
-        {current === 'radio-button' && (
-          <section id="radio-button" className="w-full">
-            <RadioButtonPlayground />
+        {current === 'infocard' && (
+          <section id="infocard" className="w-full">
+            <InfoCardPlayground />
+          </section>
+        )}
+        {current === 'tooltip' && (
+          <section id="tooltip" className="w-full">
+            <TooltipPlayground />
+          </section>
+        )}
+        {current === 'card' && (
+          <section id="card" className="w-full">
+            <CardPlayground />
+          </section>
+        )}
+        {current === 'accordion' && (
+          <section id="accordion" className="w-full">
+            <AccordionPlayground />
           </section>
         )}
       </div>

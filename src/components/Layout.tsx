@@ -58,7 +58,7 @@ export default function Layout() {
     }
   }
 
-  // Handle clicking Componentes items (button, input, select, badge, infocard, card, tooltip, tag, toast)
+  // Handle clicking Componentes items
   const handleComponentesItemClick = (componentId: string) => {
     setMobileMenuOpen(false)
     navigate(`/componentes/${componentId}`)
@@ -315,155 +315,37 @@ export default function Layout() {
                   </button>
                 </li>
 
-                {/* 4. Badge */}
+                {/* 4. Checkbox */}
                 <li>
                   <button
                     type="button"
-                    onClick={() => handleComponentesItemClick('badge')}
+                    onClick={() => handleComponentesItemClick('checkbox')}
                     className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/badge')
+                      isComponentesPage &&
+                      (location.pathname.startsWith('/componentes/checkbox') ||
+                        location.pathname.startsWith('/componentes/check'))
                         ? 'text-[#F2CB05] font-semibold'
                         : 'text-white hover:text-[#F2CB05]'
                     }`}
                   >
                     <span
                       className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/badge')
+                        isComponentesPage &&
+                        (location.pathname.startsWith('/componentes/checkbox') ||
+                          location.pathname.startsWith('/componentes/check'))
                           ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
                           : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
                       }`}
                     >
                       4
                     </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">Badge</span>
-                  </button>
-                </li>
-
-                {/* 5. InfoCard */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('infocard')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/infocard')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/infocard')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      5
-                    </span>
                     <span className="text-[14px] leading-snug tracking-normal truncate">
-                      InfoCard
+                      Checkbox
                     </span>
                   </button>
                 </li>
 
-                {/* 6. Card */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('card')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/card')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/card')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      6
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">Card</span>
-                  </button>
-                </li>
-
-                {/* 7. Tooltip */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('tooltip')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/tooltip')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/tooltip')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      7
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">
-                      Tooltip
-                    </span>
-                  </button>
-                </li>
-
-                {/* 8. Tag */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('tag')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/tag')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/tag')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      8
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">Tag</span>
-                  </button>
-                </li>
-
-                {/* 9. Toast */}
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleComponentesItemClick('toast')}
-                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
-                      isComponentesPage && location.pathname.startsWith('/componentes/toast')
-                        ? 'text-[#F2CB05] font-semibold'
-                        : 'text-white hover:text-[#F2CB05]'
-                    }`}
-                  >
-                    <span
-                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
-                        isComponentesPage && location.pathname.startsWith('/componentes/toast')
-                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
-                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
-                      }`}
-                    >
-                      9
-                    </span>
-                    <span className="text-[14px] leading-snug tracking-normal truncate">Toast</span>
-                  </button>
-                </li>
-
-                {/* 10. Radio Button */}
+                {/* 5. Radio Button */}
                 <li>
                   <button
                     type="button"
@@ -485,10 +367,184 @@ export default function Layout() {
                           : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
                       }`}
                     >
-                      10
+                      5
                     </span>
                     <span className="text-[14px] leading-snug tracking-normal truncate">
                       Radio Button
+                    </span>
+                  </button>
+                </li>
+
+                {/* 6. Badge */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => handleComponentesItemClick('badge')}
+                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
+                      isComponentesPage && location.pathname.startsWith('/componentes/badge')
+                        ? 'text-[#F2CB05] font-semibold'
+                        : 'text-white hover:text-[#F2CB05]'
+                    }`}
+                  >
+                    <span
+                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
+                        isComponentesPage && location.pathname.startsWith('/componentes/badge')
+                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
+                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
+                      }`}
+                    >
+                      6
+                    </span>
+                    <span className="text-[14px] leading-snug tracking-normal truncate">Badge</span>
+                  </button>
+                </li>
+
+                {/* 7. Tag */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => handleComponentesItemClick('tag')}
+                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
+                      isComponentesPage && location.pathname.startsWith('/componentes/tag')
+                        ? 'text-[#F2CB05] font-semibold'
+                        : 'text-white hover:text-[#F2CB05]'
+                    }`}
+                  >
+                    <span
+                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
+                        isComponentesPage && location.pathname.startsWith('/componentes/tag')
+                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
+                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
+                      }`}
+                    >
+                      7
+                    </span>
+                    <span className="text-[14px] leading-snug tracking-normal truncate">Tag</span>
+                  </button>
+                </li>
+
+                {/* 8. Toast */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => handleComponentesItemClick('toast')}
+                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
+                      isComponentesPage && location.pathname.startsWith('/componentes/toast')
+                        ? 'text-[#F2CB05] font-semibold'
+                        : 'text-white hover:text-[#F2CB05]'
+                    }`}
+                  >
+                    <span
+                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
+                        isComponentesPage && location.pathname.startsWith('/componentes/toast')
+                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
+                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
+                      }`}
+                    >
+                      8
+                    </span>
+                    <span className="text-[14px] leading-snug tracking-normal truncate">Toast</span>
+                  </button>
+                </li>
+
+                {/* 9. InfoCard */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => handleComponentesItemClick('infocard')}
+                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
+                      isComponentesPage && location.pathname.startsWith('/componentes/infocard')
+                        ? 'text-[#F2CB05] font-semibold'
+                        : 'text-white hover:text-[#F2CB05]'
+                    }`}
+                  >
+                    <span
+                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
+                        isComponentesPage && location.pathname.startsWith('/componentes/infocard')
+                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
+                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
+                      }`}
+                    >
+                      9
+                    </span>
+                    <span className="text-[14px] leading-snug tracking-normal truncate">
+                      InfoCard
+                    </span>
+                  </button>
+                </li>
+
+                {/* 10. Tooltip */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => handleComponentesItemClick('tooltip')}
+                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
+                      isComponentesPage && location.pathname.startsWith('/componentes/tooltip')
+                        ? 'text-[#F2CB05] font-semibold'
+                        : 'text-white hover:text-[#F2CB05]'
+                    }`}
+                  >
+                    <span
+                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
+                        isComponentesPage && location.pathname.startsWith('/componentes/tooltip')
+                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
+                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
+                      }`}
+                    >
+                      10
+                    </span>
+                    <span className="text-[14px] leading-snug tracking-normal truncate">
+                      Tooltip
+                    </span>
+                  </button>
+                </li>
+
+                {/* 11. Card */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => handleComponentesItemClick('card')}
+                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
+                      isComponentesPage && location.pathname.startsWith('/componentes/card')
+                        ? 'text-[#F2CB05] font-semibold'
+                        : 'text-white hover:text-[#F2CB05]'
+                    }`}
+                  >
+                    <span
+                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
+                        isComponentesPage && location.pathname.startsWith('/componentes/card')
+                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
+                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
+                      }`}
+                    >
+                      11
+                    </span>
+                    <span className="text-[14px] leading-snug tracking-normal truncate">Card</span>
+                  </button>
+                </li>
+
+                {/* 12. Accordion */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => handleComponentesItemClick('accordion')}
+                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
+                      isComponentesPage && location.pathname.startsWith('/componentes/accordion')
+                        ? 'text-[#F2CB05] font-semibold'
+                        : 'text-white hover:text-[#F2CB05]'
+                    }`}
+                  >
+                    <span
+                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
+                        isComponentesPage && location.pathname.startsWith('/componentes/accordion')
+                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
+                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
+                      }`}
+                    >
+                      12
+                    </span>
+                    <span className="text-[14px] leading-snug tracking-normal truncate">
+                      Accordion
                     </span>
                   </button>
                 </li>
