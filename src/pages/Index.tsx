@@ -379,6 +379,26 @@ export default function Index() {
                 </div>
               ))}
             </div>
+
+            {/* Diretriz de Uso do Amarelo COMVEN */}
+            <div className="p-4 sm:p-5 rounded-xl bg-[#FEFAE6] border border-[#F7E069] flex items-start gap-3.5 shadow-2xs">
+              <span
+                className="material-symbols-rounded text-[#917A03] shrink-0 mt-0.5"
+                style={{ fontSize: '22px' }}
+                aria-hidden="true"
+              >
+                lightbulb
+              </span>
+              <div className="text-xs sm:text-[13px] text-[#615102] leading-relaxed">
+                <strong className="font-bold text-[#302901]">
+                  Diretriz de uso do amarelo (#F2CB05):
+                </strong>{' '}
+                o amarelo da paleta COMVEN não é de uso restrito ao logotipo. Ele pode ser aplicado
+                estrategicamente em <strong>alertas, badges e tags</strong>. Nunca o utilize como{' '}
+                <em>cor principal ou cor de fundo de uma interface</em> — seu papel é de destaque
+                pontual, não de base.
+              </div>
+            </div>
           </div>
         </section>
 

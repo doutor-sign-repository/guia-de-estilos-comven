@@ -90,25 +90,6 @@ export const BadgePlayground: React.FC<BadgePlaygroundProps> = ({ initialConfig 
         </div>
       </div>
 
-      {/* Regra de Uso do Amarelo COMVEN */}
-      <div className="mt-5 p-4 rounded-xl bg-[#FEFAE6] border border-[#F7E069] flex items-start gap-3">
-        <span
-          className="material-symbols-rounded text-[#917A03] shrink-0 mt-0.5"
-          style={{ fontSize: '20px' }}
-          aria-hidden="true"
-        >
-          lightbulb
-        </span>
-        <div className="text-xs sm:text-[13px] text-[#615102] leading-relaxed">
-          <strong className="font-bold text-[#302901]">
-            Diretriz de uso do amarelo (#F2CB05):
-          </strong>{' '}
-          O amarelo da marca COMVEN não é de uso restrito ao logotipo — ele pode ser utilizado
-          estrategicamente em <strong>badges, tags e notificações de alerta</strong>. No entanto,{' '}
-          <em>nunca deve ser aplicado como cor de fundo ou elemento principal de uma interface</em>.
-        </div>
-      </div>
-
       {/* Playground Section */}
       <div className="mt-8 pt-6 border-t border-[#F0F2F5]">
         {/* Playground header */}
