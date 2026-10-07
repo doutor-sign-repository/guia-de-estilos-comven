@@ -420,18 +420,18 @@ export function TooltipBalloon({ config }: { config: TooltipConfig }) {
 /** Complete variation matrix for Tooltip over #062446 navy background without internal scroll */
 function TooltipStateGallery({ currentText }: { currentText: string }) {
   const blocks: Array<{
-    theme: TooltipTheme
+    variant: TooltipVariant
     badge: string
     description: string
   }> = [
     {
-      theme: 'Dark',
+      variant: 'Escura',
       badge: 'Variante Escura (Fundo Marinho #062446 · Texto Branco)',
       description:
         'Padrão recomendado para fundos claros e neutros, proporcionando máximo contraste e legibilidade.',
     },
     {
-      theme: 'Light',
+      variant: 'Clara',
       badge: 'Variante Clara (Fundo Branco · Borda Neutra · Texto Escuro)',
       description:
         'Indicada para superfícies escuras ou imagens, mantendo acabamento limpo com borda de 1px.',

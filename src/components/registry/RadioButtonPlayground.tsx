@@ -519,30 +519,30 @@ export function SingleRadioButtonItem({
 /** Complete variation matrix for Radio Button over #062446 navy background without internal scroll */
 function RadioStateGallery({ options }: { options: RadioOption[] }) {
   const blocks: Array<{
-    variant: RadioButtonState
+    state: RadioState
     badge: string
     description: string
   }> = [
     {
-      variant: 'Default',
+      state: 'Default',
       badge: 'Estado Default (Padrão)',
       description:
         'Estado inicial de repouso com borda neutra e ponto central visível quando selecionado.',
     },
     {
-      variant: 'Hover',
+      state: 'Hover',
       badge: 'Estado Hover (Ao passar o cursor)',
       description:
         'Borda realçada e fundo sutilmente iluminado em azul-gelo indicando que a opção é selecionável.',
     },
     {
-      variant: 'Focado',
+      state: 'Focado',
       badge: 'Estado Focado (Active / Foco por Teclado)',
       description:
         'Foco por anel azul COMVEN (#004185 de 1px) garantindo conformidade de acessibilidade WCAG.',
     },
     {
-      variant: 'Disabled',
+      state: 'Disabled',
       badge: 'Estado Disabled (Desabilitado)',
       description:
         'Opacidade reduzida (50%), cursor não-permitido e cor atenuada para opções inoperantes.',

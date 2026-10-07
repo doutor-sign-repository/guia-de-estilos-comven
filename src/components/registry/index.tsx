@@ -28,6 +28,7 @@ import {
   ModalVariant,
   ModalSize,
   ModalState,
+  ModalIconOption,
   ModalConfig,
   generateModalCss,
 } from './types'
@@ -525,6 +526,7 @@ export const ACCORDION_DEFINITION: ComponentDefinition<AccordionConfig> = {
 export const MODAL_DEFINITION: ComponentDefinition<ModalConfig> = {
   id: 'modal',
   name: 'Modal',
+  number: '13',
   category: 'COMPONENTES',
   subtitle:
     '3 variantes × 3 tamanhos × 2 estados — overlay escuro com diálogo centralizado, header com fechar × e rodapé com ações',
@@ -536,6 +538,7 @@ export const MODAL_DEFINITION: ComponentDefinition<ModalConfig> = {
     variant: 'Completo',
     size: 'Medium',
     state: 'Default',
+    icon: 'Com ícone',
     title: 'Confirmar Atualização de Tabela',
     content:
       'Deseja realmente aplicar as alterações tarifárias para toda a rede COMVEN? Esta ação sincronizará as tabelas de frete em tempo real e não poderá ser desfeita.',
@@ -563,5 +566,5 @@ export {
   AccordionPlayground,
   ModalPlayground,
 }
-export type { ModalVariant, ModalSize, ModalState, ModalConfig }
+export type { ModalVariant, ModalSize, ModalState, ModalIconOption, ModalConfig }
 export { PlaygroundControlGroup } from './PlaygroundControlGroup'

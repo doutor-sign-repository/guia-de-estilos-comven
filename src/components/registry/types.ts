@@ -1975,12 +1975,14 @@ ${contentLines.join('\n')}
 export type ModalVariant = 'Completo' | 'Sem rodapé' | 'Simples'
 export type ModalSize = 'Large' | 'Medium' | 'Small'
 export type ModalState = 'Default' | 'Hover'
+export type ModalIconOption = 'Com ícone' | 'Sem ícone'
 
 export interface ModalMetrics {
   maxWidth: number
   padding: string
   titleFontSize: number
   titleLineHeight: string
+  titleIconSize: number
   bodyFontSize: number
   bodyLineHeight: string
   buttonFontSize: number
@@ -1996,6 +1998,7 @@ export const MODAL_SIZE_METRICS: Record<ModalSize, ModalMetrics> = {
     padding: '28px 32px',
     titleFontSize: 20,
     titleLineHeight: '1.3',
+    titleIconSize: 24,
     bodyFontSize: 15,
     bodyLineHeight: '1.6',
     buttonFontSize: 14,
@@ -2009,6 +2012,7 @@ export const MODAL_SIZE_METRICS: Record<ModalSize, ModalMetrics> = {
     padding: '24px 28px',
     titleFontSize: 18,
     titleLineHeight: '1.35',
+    titleIconSize: 22,
     bodyFontSize: 14,
     bodyLineHeight: '1.55',
     buttonFontSize: 13,
@@ -2022,6 +2026,7 @@ export const MODAL_SIZE_METRICS: Record<ModalSize, ModalMetrics> = {
     padding: '20px 24px',
     titleFontSize: 16,
     titleLineHeight: '1.4',
+    titleIconSize: 20,
     bodyFontSize: 13,
     bodyLineHeight: '1.5',
     buttonFontSize: 12,
@@ -2036,6 +2041,7 @@ export interface ModalConfig {
   variant: ModalVariant
   size: ModalSize
   state: ModalState
+  icon?: ModalIconOption
   title: string
   content: string
   cancelLabel: string
@@ -2043,14 +2049,14 @@ export interface ModalConfig {
 }
 
 export function generateModalCss(config: ModalConfig): string {
-  const { variant, size, state } = config
+  const { variant, size, state, icon = 'Com ícone' } = config
   const metrics = MODAL_SIZE_METRICS[size] || MODAL_SIZE_METRICS.Medium
 
   const isHover = state === 'Hover'
   const primaryBtnBg = isHover ? '#00346A' : '#004185'
   const closeBtnBg = isHover ? '#F0F2F5' : 'transparent'
 
-  const comment = `/* COMVEN Modal — Variante=${variant}, Tamanho=${size}, Estado=${state} */`
+  const comment = `/* COMVEN Modal — Variante=${variant}, Tamanho=${size}, Estado=${state}, Ícone=${icon} */`
 
   const overlayLines = [
     '  position: fixed;',
@@ -2084,6 +2090,18 @@ export function generateModalCss(config: ModalConfig): string {
     '  justify-content: space-between;',
     '  padding: ' + metrics.padding.split(' ')[0] + ' ' + metrics.padding.split(' ')[1] + ' 16px;',
     '  border-bottom: 1px solid #F0F2F5;',
+  ]
+
+  const titleGroupLines = ['  display: flex;', '  align-items: center;', '  gap: 10px;']
+
+  const titleIconLines = [
+    '  display: inline-flex;',
+    '  align-items: center;',
+    '  justify-content: center;',
+    '  color: #004185;',
+    `  font-size: ${metrics.titleIconSize}px;`,
+    '  line-height: 1;',
+    '  flex-shrink: 0;',
   ]
 
   const titleLines = [
@@ -2167,6 +2185,18 @@ ${dialogLines.join('\n')}
 ${headerLines.join('\n')}
 }
 
+.comven-modal-title-group {
+${titleGroupLines.join('\n')}
+}
+${
+  icon === 'Com ícone'
+    ? `
+.comven-modal-title-icon {
+${titleIconLines.join('\n')}
+}
+`
+    : ''
+}
 .comven-modal-title {
 ${titleLines.join('\n')}
 }

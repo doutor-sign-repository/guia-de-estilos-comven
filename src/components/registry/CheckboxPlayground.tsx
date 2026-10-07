@@ -586,30 +586,30 @@ export function SingleCheckboxItem({
 /** Complete variation matrix for Checkbox over #062446 navy background without internal scroll */
 function CheckboxStateGallery({ options }: { options: CheckboxOption[] }) {
   const blocks: Array<{
-    variant: CheckboxState
+    state: CheckboxState
     badge: string
     description: string
   }> = [
     {
-      variant: 'Default',
+      state: 'Default',
       badge: 'Estado Default (Padrão)',
       description:
         'Estado inicial de repouso com borda neutra e fundo branco. Acessível e pronto para interação.',
     },
     {
-      variant: 'Hover',
+      state: 'Hover',
       badge: 'Estado Hover (Ao passar o cursor)',
       description:
         'Borda realçada e fundo sutilmente iluminado em azul-gelo indicando que o controle é clicável.',
     },
     {
-      variant: 'Focado',
+      state: 'Focado',
       badge: 'Estado Focado (Active / Foco por Teclado)',
       description:
         'Foco por anel azul COMVEN (#004185 de 1px) garantindo conformidade de acessibilidade WCAG.',
     },
     {
-      variant: 'Disabled',
+      state: 'Disabled',
       badge: 'Estado Disabled (Desabilitado)',
       description:
         'Opacidade reduzida (50%), cursor não-permitido e cor atenuada para opções inoperantes.',

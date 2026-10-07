@@ -4,6 +4,7 @@ import {
   ModalVariant,
   ModalSize,
   ModalState,
+  ModalIconOption,
   generateModalCss,
   MODAL_SIZE_METRICS,
 } from './types'
@@ -17,6 +18,7 @@ export interface ModalPlaygroundProps {
 const MODAL_VARIANTS: ModalVariant[] = ['Completo', 'Sem rodapé', 'Simples']
 const MODAL_SIZES: ModalSize[] = ['Large', 'Medium', 'Small']
 const MODAL_STATES: ModalState[] = ['Default', 'Hover']
+const MODAL_ICONS: ModalIconOption[] = ['Com ícone', 'Sem ícone']
 
 const DEFAULT_TITLE = 'Confirmar Atualização de Tabela'
 const DEFAULT_CONTENT =
@@ -30,6 +32,7 @@ export const ModalPlayground: React.FC<ModalPlaygroundProps> = ({ initialConfig 
   const [variant, setVariant] = useState<ModalVariant>(initialConfig?.variant || 'Completo')
   const [size, setSize] = useState<ModalSize>(initialConfig?.size || 'Medium')
   const [state, setState] = useState<ModalState>(initialConfig?.state || 'Default')
+  const [icon, setIcon] = useState<ModalIconOption>(initialConfig?.icon || 'Com ícone')
   const [title, setTitle] = useState<string>(initialConfig?.title ?? DEFAULT_TITLE)
   const [content, setContent] = useState<string>(initialConfig?.content ?? DEFAULT_CONTENT)
   const [cancelLabel, setCancelLabel] = useState<string>(
@@ -45,6 +48,7 @@ export const ModalPlayground: React.FC<ModalPlaygroundProps> = ({ initialConfig 
     variant,
     size,
     state,
+    icon,
     title,
     content,
     cancelLabel,
@@ -179,6 +183,27 @@ export const ModalPlayground: React.FC<ModalPlaygroundProps> = ({ initialConfig 
                   }`}
                 >
                   {st}
+                </button>
+              )
+            })}
+          </PlaygroundControlGroup>
+
+          {/* ÍCONE */}
+          <PlaygroundControlGroup label="ÍCONE">
+            {MODAL_ICONS.map((ic) => {
+              const isSelected = icon === ic
+              return (
+                <button
+                  key={ic}
+                  type="button"
+                  onClick={() => setIcon(ic)}
+                  className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
+                    isSelected
+                      ? 'bg-[#004185] text-white shadow-xs'
+                      : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                  }`}
+                >
+                  {ic}
                 </button>
               )
             })}
@@ -405,7 +430,16 @@ export function SingleModalPreview({
   onConfirm?: () => void
   onCancel?: () => void
 }) {
-  const { variant, size, state, title, content, cancelLabel, confirmLabel } = config
+  const {
+    variant,
+    size,
+    state,
+    icon = 'Com ícone',
+    title,
+    content,
+    cancelLabel,
+    confirmLabel,
+  } = config
   const metrics = MODAL_SIZE_METRICS[size] || MODAL_SIZE_METRICS.Medium
 
   const isHover = state === 'Hover'
@@ -415,6 +449,7 @@ export function SingleModalPreview({
 
   const showHeader = variant !== 'Simples'
   const showFooter = variant === 'Completo'
+  const hasIcon = icon === 'Com ícone'
 
   return (
     <div
@@ -428,11 +463,23 @@ export function SingleModalPreview({
     >
       {/* Header */}
       {showHeader && (
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#F0F2F5] bg-white">
-          <div className="flex items-center gap-2.5">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#F0F2F5] bg-white gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            {hasIcon && (
+              <span
+                className="material-symbols-rounded shrink-0 select-none text-[#004185]"
+                style={{
+                  fontSize: `${metrics.titleIconSize}px`,
+                  lineHeight: 1,
+                }}
+                aria-hidden="true"
+              >
+                info
+              </span>
+            )}
             <h3
               id="comven-dialog-title"
-              className="font-bold text-[#141414] tracking-tight m-0"
+              className="font-bold text-[#141414] tracking-tight m-0 truncate"
               style={{
                 fontSize: `${metrics.titleFontSize}px`,
                 lineHeight: metrics.titleLineHeight,
@@ -587,26 +634,66 @@ function ModalStateGallery({
                     <div className="flex-1 h-px bg-[#113C68]/60" />
                   </div>
 
-                  {/* 3 Sizes grid */}
-                  <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
-                    {MODAL_SIZES.map((sz) => (
-                      <div key={`${b.variant}-${st}-${sz}`} className="flex flex-col gap-2">
-                        <span className="text-[11px] font-mono text-[#8BB7E7] uppercase">
-                          Tamanho: {sz} ({MODAL_SIZE_METRICS[sz].maxWidth}px)
-                        </span>
-                        <SingleModalPreview
-                          config={{
-                            variant: b.variant,
-                            size: sz,
-                            state: st,
-                            title: currentTitle || DEFAULT_TITLE,
-                            content: currentContent || DEFAULT_CONTENT,
-                            cancelLabel: currentCancel || DEFAULT_CANCEL,
-                            confirmLabel: currentConfirm || DEFAULT_CONFIRM,
-                          }}
-                        />
-                      </div>
-                    ))}
+                  {/* Sub-row: COM ÍCONE */}
+                  <div className="space-y-2">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#8BB7E7]/80">
+                      • Com ícone
+                    </span>
+                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+                      {MODAL_SIZES.map((sz) => (
+                        <div
+                          key={`${b.variant}-${st}-${sz}-com-icone`}
+                          className="flex flex-col gap-2"
+                        >
+                          <span className="text-[11px] font-mono text-[#8BB7E7] uppercase">
+                            Tamanho: {sz} ({MODAL_SIZE_METRICS[sz].maxWidth}px)
+                          </span>
+                          <SingleModalPreview
+                            config={{
+                              variant: b.variant,
+                              size: sz,
+                              state: st,
+                              icon: 'Com ícone',
+                              title: currentTitle || DEFAULT_TITLE,
+                              content: currentContent || DEFAULT_CONTENT,
+                              cancelLabel: currentCancel || DEFAULT_CANCEL,
+                              confirmLabel: currentConfirm || DEFAULT_CONFIRM,
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Sub-row: SEM ÍCONE */}
+                  <div className="space-y-2 pt-2">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#8BB7E7]/80">
+                      • Sem ícone
+                    </span>
+                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+                      {MODAL_SIZES.map((sz) => (
+                        <div
+                          key={`${b.variant}-${st}-${sz}-sem-icone`}
+                          className="flex flex-col gap-2"
+                        >
+                          <span className="text-[11px] font-mono text-[#8BB7E7] uppercase">
+                            Tamanho: {sz} ({MODAL_SIZE_METRICS[sz].maxWidth}px)
+                          </span>
+                          <SingleModalPreview
+                            config={{
+                              variant: b.variant,
+                              size: sz,
+                              state: st,
+                              icon: 'Sem ícone',
+                              title: currentTitle || DEFAULT_TITLE,
+                              content: currentContent || DEFAULT_CONTENT,
+                              cancelLabel: currentCancel || DEFAULT_CANCEL,
+                              confirmLabel: currentConfirm || DEFAULT_CONFIRM,
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               ))}

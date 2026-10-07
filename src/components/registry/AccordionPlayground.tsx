@@ -586,30 +586,30 @@ function SingleAccordionItemRow({
 /** Complete variation matrix for Accordion over #062446 navy background without internal scroll */
 function AccordionStateGallery({ items }: { items: AccordionItemData[] }) {
   const blocks: Array<{
-    variant: AccordionState
+    state: AccordionState
     badge: string
     description: string
   }> = [
     {
-      variant: 'Default',
+      state: 'Default',
       badge: 'Estado Default (Padrão)',
       description:
         'Estado inicial de repouso com fundo neutro claro e chevron na cor oficial #004185.',
     },
     {
-      variant: 'Hover',
+      state: 'Hover',
       badge: 'Estado Hover (Ao passar o cursor)',
       description:
         'Fundo sutilmente realçado em azul-gelo com chevron em azul escuro indicando interatividade.',
     },
     {
-      variant: 'Focado',
+      state: 'Focado',
       badge: 'Estado Focado (Active / Foco por Teclado)',
       description:
         'Outline acessível estritamente COMVEN de 1px em azul #004185 (sem halos grossos de 2px ou 3px).',
     },
     {
-      variant: 'Disabled',
+      state: 'Disabled',
       badge: 'Estado Disabled (Desabilitado)',
       description:
         'Opacidade reduzida, cursor não-permitido e texto atenuado para itens inoperantes.',

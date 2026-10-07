@@ -438,19 +438,19 @@ function CardStateGallery({
     description: string
   }> = [
     {
-      variant: 'Elevated',
+      variant: 'Elevada',
       badge: 'Variante Elevada (Sombra suave)',
       description:
         'Sombra suave para destaque na interface, ideal para cards clicáveis ou dashboards.',
     },
     {
-      variant: 'Outlined',
+      variant: 'Borda',
       badge: 'Variante com Borda (Outline)',
       description:
         'Borda neutra sutil sem sombra, perfeita para listas densas e composições estruturadas.',
     },
     {
-      variant: 'Flat',
+      variant: 'Simples',
       badge: 'Variante Simples (Fundo Neutro #F5F7FA)',
       description:
         'Fundo cinza suave sem borda nem elevação, indicado para blocos de leitura e agrupamento leve.',
