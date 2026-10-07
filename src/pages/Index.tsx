@@ -1,6 +1,8 @@
 import React from 'react'
 import { ComvenLogoLockup, ComvenOfficialLogo } from '@/components/ComvenLogo'
+import { LogoDownloadButton } from '@/components/LogoDownloadButton'
 import { BRAND_COLORS, COLOR_FAMILIES } from '@/data/colors'
+import { LOGO_ASSETS } from '@/data/logos'
 import { useToast } from '@/hooks/use-toast'
 
 export default function Index() {
@@ -85,16 +87,29 @@ export default function Index() {
                   <span className="uppercase tracking-wider text-[11px] font-bold">
                     Fundo Claro · Colorida (Principal)
                   </span>
-                  <span className="text-[11px] font-medium px-2 py-0.5 bg-white text-[#047D2E] rounded shadow-xs">
-                    Oficial
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-medium px-2 py-0.5 bg-white text-[#047D2E] rounded shadow-xs">
+                      Oficial
+                    </span>
+                    <LogoDownloadButton
+                      src={LOGO_ASSETS.lightColoridaComTagline}
+                      filename="comven-logo-principal.png"
+                      label="Baixar PNG"
+                      theme="light"
+                    />
+                  </div>
                 </div>
                 <div className="w-full max-w-[420px] mx-auto py-8 flex items-center justify-center">
                   <ComvenOfficialLogo variant="light-colorida" showTagline={true} width="100%" />
                 </div>
-                <div className="pt-2 text-[11px] text-[#666666]">
-                  <strong className="text-[#141414]">Light Mode — Colorida:</strong> Azul #004185,
-                  verde #06D04D e check amarelo #F2CB05.
+                <div className="pt-2 text-[11px] text-[#666666] flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-[#E4E8EE]/60 pt-3">
+                  <span>
+                    <strong className="text-[#141414]">Light Mode — Colorida:</strong> Azul #004185,
+                    verde #06D04D e check amarelo #F2CB05.
+                  </span>
+                  <span className="text-[10px] text-[#848484] shrink-0 font-medium">
+                    PNG transparente · 2400px
+                  </span>
                 </div>
               </div>
 
@@ -104,16 +119,30 @@ export default function Index() {
                   <span className="uppercase tracking-wider text-[11px] font-bold">
                     Fundo Escuro · Colorida
                   </span>
-                  <span className="text-[11px] font-medium px-2 py-0.5 bg-white/10 text-white rounded">
-                    Fundo Escuro #0B2A52
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-medium px-2 py-0.5 bg-white/10 text-white rounded">
+                      Fundo Escuro #0B2A52
+                    </span>
+                    <LogoDownloadButton
+                      src={LOGO_ASSETS.darkColoridaComTagline}
+                      filename="comven-logo-fundo-escuro.png"
+                      label="Baixar PNG"
+                      theme="dark"
+                      hasDarkBgOption={true}
+                    />
+                  </div>
                 </div>
                 <div className="w-full max-w-[420px] mx-auto py-8 flex items-center justify-center">
                   <ComvenOfficialLogo variant="dark-colorida" showTagline={true} width="100%" />
                 </div>
-                <div className="pt-2 text-[11px] text-[#A6C4E7]">
-                  <strong className="text-white">Dark Mode — Colorida:</strong> Wordmark colorido
-                  com check amarelo sobre superfície azul marinho.
+                <div className="pt-2 text-[11px] text-[#A6C4E7] flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-white/10 pt-3">
+                  <span>
+                    <strong className="text-white">Dark Mode — Colorida:</strong> Wordmark colorido
+                    com check amarelo sobre superfície azul marinho.
+                  </span>
+                  <span className="text-[10px] text-[#8BB7E7] shrink-0 font-medium">
+                    Transparente ou com fundo
+                  </span>
                 </div>
               </div>
             </div>
@@ -126,14 +155,27 @@ export default function Index() {
                   <span className="uppercase tracking-wider text-[11px] font-bold">
                     Fundo Claro · 1 Cor (Azul)
                   </span>
-                  <span className="text-[11px] font-mono text-[#666666]">#004185</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-mono text-[#666666]">#004185</span>
+                    <LogoDownloadButton
+                      src={LOGO_ASSETS.light1CorComTagline}
+                      filename="comven-logo-1cor-azul.png"
+                      label="Baixar PNG"
+                      theme="light"
+                    />
+                  </div>
                 </div>
                 <div className="w-full max-w-[420px] mx-auto py-8 flex items-center justify-center">
                   <ComvenOfficialLogo variant="light-1cor" showTagline={true} width="100%" />
                 </div>
-                <div className="pt-2 text-[11px] text-[#666666]">
-                  <strong className="text-[#141414]">Light Mode — Monocromática:</strong> Aplicação
-                  azul sobre claro para documentos e impressos.
+                <div className="pt-2 text-[11px] text-[#666666] flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-[#E4E8EE]/60 pt-3">
+                  <span>
+                    <strong className="text-[#141414]">Light Mode — Monocromática:</strong>{' '}
+                    Aplicação azul sobre claro para documentos e impressos.
+                  </span>
+                  <span className="text-[10px] text-[#848484] shrink-0 font-medium">
+                    PNG transparente · 2400px
+                  </span>
                 </div>
               </div>
 
@@ -143,14 +185,28 @@ export default function Index() {
                   <span className="uppercase tracking-wider text-[11px] font-bold">
                     Fundo Escuro · 1 Cor (Branco)
                   </span>
-                  <span className="text-[11px] font-mono text-[#A6C4E7]">#FFFFFF</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-mono text-[#A6C4E7]">#FFFFFF</span>
+                    <LogoDownloadButton
+                      src={LOGO_ASSETS.dark1CorComTagline}
+                      filename="comven-logo-1cor-branco.png"
+                      label="Baixar PNG"
+                      theme="dark"
+                      hasDarkBgOption={true}
+                    />
+                  </div>
                 </div>
                 <div className="w-full max-w-[420px] mx-auto py-8 flex items-center justify-center">
                   <ComvenOfficialLogo variant="dark-1cor" showTagline={true} width="100%" />
                 </div>
-                <div className="pt-2 text-[11px] text-[#A6C4E7]">
-                  <strong className="text-white">Dark Mode — Monocromática:</strong> Branco em alto
-                  contraste para materiais em negativo.
+                <div className="pt-2 text-[11px] text-[#A6C4E7] flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-white/10 pt-3">
+                  <span>
+                    <strong className="text-white">Dark Mode — Monocromática:</strong> Branco em
+                    alto contraste para materiais em negativo.
+                  </span>
+                  <span className="text-[10px] text-[#8BB7E7] shrink-0 font-medium">
+                    Transparente ou com fundo
+                  </span>
                 </div>
               </div>
             </div>
@@ -174,57 +230,99 @@ export default function Index() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* 5. Light Mode Colorida sem Tagline */}
               <div className="bg-[#F1F3F6] rounded-2xl p-5 flex flex-col justify-between min-h-[200px] border border-transparent hover:border-[#004185]/20 transition-all">
-                <span className="text-[10px] font-bold text-[#004185] uppercase tracking-wider">
-                  Fundo Claro · Colorida
-                </span>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold text-[#004185] uppercase tracking-wider">
+                    Fundo Claro · Colorida
+                  </span>
+                  <LogoDownloadButton
+                    src={LOGO_ASSETS.lightColoridaSemTagline}
+                    filename="comven-logo-somente-marca.png"
+                    label="Baixar"
+                    theme="light"
+                    compact={true}
+                  />
+                </div>
                 <div className="w-full py-4 flex items-center justify-center">
                   <ComvenOfficialLogo variant="light-colorida" showTagline={false} width={170} />
                 </div>
-                <div className="pt-2 text-[11px] text-[#666666]">
+                <div className="pt-2 text-[11px] text-[#666666] border-t border-[#E4E8EE]/60">
                   <div className="font-bold text-[#141414]">Light Colorida</div>
-                  <div className="text-[10px] text-[#848484]">Check verde/amarelo</div>
+                  <div className="text-[10px] text-[#848484]">
+                    Somente marca · Fundo transparente
+                  </div>
                 </div>
               </div>
 
               {/* 6. Dark Mode Colorida sem Tagline */}
               <div className="bg-[#0B2A52] rounded-2xl p-5 flex flex-col justify-between min-h-[200px] border border-transparent hover:border-white/20 transition-all">
-                <span className="text-[10px] font-bold text-[#8BB7E7] uppercase tracking-wider">
-                  Fundo Escuro · Colorida
-                </span>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold text-[#8BB7E7] uppercase tracking-wider">
+                    Fundo Escuro · Colorida
+                  </span>
+                  <LogoDownloadButton
+                    src={LOGO_ASSETS.darkColoridaSemTagline}
+                    filename="comven-logo-somente-marca-dark.png"
+                    label="Baixar"
+                    theme="dark"
+                    compact={true}
+                    hasDarkBgOption={true}
+                  />
+                </div>
                 <div className="w-full py-4 flex items-center justify-center">
                   <ComvenOfficialLogo variant="dark-colorida" showTagline={false} width={170} />
                 </div>
-                <div className="pt-2 text-[11px] text-[#A6C4E7]">
+                <div className="pt-2 text-[11px] text-[#A6C4E7] border-t border-white/10">
                   <div className="font-bold text-white">Dark Colorida</div>
-                  <div className="text-[10px] text-[#8BB7E7]">Wordmark em fundo escuro</div>
+                  <div className="text-[10px] text-[#8BB7E7]">Somente marca em fundo escuro</div>
                 </div>
               </div>
 
               {/* 7. Light Mode 1 Cor sem Tagline */}
               <div className="bg-[#F1F3F6] rounded-2xl p-5 flex flex-col justify-between min-h-[200px] border border-transparent hover:border-[#004185]/20 transition-all">
-                <span className="text-[10px] font-bold text-[#004185] uppercase tracking-wider">
-                  Fundo Claro · 1 Cor
-                </span>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold text-[#004185] uppercase tracking-wider">
+                    Fundo Claro · 1 Cor
+                  </span>
+                  <LogoDownloadButton
+                    src={LOGO_ASSETS.light1CorSemTagline}
+                    filename="comven-logo-somente-marca-1cor-azul.png"
+                    label="Baixar"
+                    theme="light"
+                    compact={true}
+                  />
+                </div>
                 <div className="w-full py-4 flex items-center justify-center">
                   <ComvenOfficialLogo variant="light-1cor" showTagline={false} width={170} />
                 </div>
-                <div className="pt-2 text-[11px] text-[#666666]">
+                <div className="pt-2 text-[11px] text-[#666666] border-t border-[#E4E8EE]/60">
                   <div className="font-bold text-[#141414]">Light 1 Cor</div>
-                  <div className="text-[10px] text-[#848484]">Azul #004185</div>
+                  <div className="text-[10px] text-[#848484]">Azul #004185 · Transparente</div>
                 </div>
               </div>
 
               {/* 8. Dark Mode 1 Cor sem Tagline */}
               <div className="bg-[#0B2A52] rounded-2xl p-5 flex flex-col justify-between min-h-[200px] border border-transparent hover:border-white/20 transition-all">
-                <span className="text-[10px] font-bold text-[#8BB7E7] uppercase tracking-wider">
-                  Fundo Escuro · 1 Cor
-                </span>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold text-[#8BB7E7] uppercase tracking-wider">
+                    Fundo Escuro · 1 Cor
+                  </span>
+                  <LogoDownloadButton
+                    src={LOGO_ASSETS.dark1CorSemTagline}
+                    filename="comven-logo-somente-marca-1cor-branco.png"
+                    label="Baixar"
+                    theme="dark"
+                    compact={true}
+                    hasDarkBgOption={true}
+                  />
+                </div>
                 <div className="w-full py-4 flex items-center justify-center">
                   <ComvenOfficialLogo variant="dark-1cor" showTagline={false} width={170} />
                 </div>
-                <div className="pt-2 text-[11px] text-[#A6C4E7]">
+                <div className="pt-2 text-[11px] text-[#A6C4E7] border-t border-white/10">
                   <div className="font-bold text-white">Dark 1 Cor</div>
-                  <div className="text-[10px] text-[#8BB7E7]">Branco #FFFFFF</div>
+                  <div className="text-[10px] text-[#8BB7E7]">
+                    Branco #FFFFFF · Transparente/Fundo
+                  </div>
                 </div>
               </div>
             </div>
