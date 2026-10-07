@@ -645,7 +645,7 @@ export function generateBadgeCss(config: BadgeConfig): string {
 
 export type InfoCardVariant = 'Info' | 'Success' | 'Warning' | 'Error' | 'Neutral'
 export type InfoCardSize = 'Large' | 'Medium' | 'Small'
-export type InfoCardState = 'Default' | 'Destaque' | 'Disabled'
+export type InfoCardState = 'Default' | 'Destaque'
 export type InfoCardIconOption = 'Com ícone' | 'Sem ícone'
 
 export interface InfoCardConfig {
@@ -708,12 +708,6 @@ export interface InfoCardColorTokens {
   iconColor: string
   titleColor: string
   descColor: string
-  // Disabled state
-  disabledBg: string
-  disabledBorder: string
-  disabledIconColor: string
-  disabledTitleColor: string
-  disabledDescColor: string
 }
 
 export const INFOCARD_COLOR_TOKENS: Record<InfoCardVariant, InfoCardColorTokens> = {
@@ -725,11 +719,6 @@ export const INFOCARD_COLOR_TOKENS: Record<InfoCardVariant, InfoCardColorTokens>
     iconColor: '#004185',
     titleColor: '#002750',
     descColor: '#235F9D',
-    disabledBg: '#F3F7FC',
-    disabledBorder: '#D8E5F5',
-    disabledIconColor: '#8BB7E7',
-    disabledTitleColor: '#689ACE',
-    disabledDescColor: '#848484',
   },
   // Verde COMVEN
   Success: {
@@ -739,11 +728,6 @@ export const INFOCARD_COLOR_TOKENS: Record<InfoCardVariant, InfoCardColorTokens>
     iconColor: '#047D2E',
     titleColor: '#02531F',
     descColor: '#141414',
-    disabledBg: '#F2FBF5',
-    disabledBorder: '#CDF6DB',
-    disabledIconColor: '#6AE394',
-    disabledTitleColor: '#38D971',
-    disabledDescColor: '#848484',
   },
   // Amarelo COMVEN (#F2CB05) — permitido em alertas/destaques pontuais
   Warning: {
@@ -753,11 +737,6 @@ export const INFOCARD_COLOR_TOKENS: Record<InfoCardVariant, InfoCardColorTokens>
     iconColor: '#917A03',
     titleColor: '#302901',
     descColor: '#615102',
-    disabledBg: '#FEFDF5',
-    disabledBorder: '#FCF5CD',
-    disabledIconColor: '#F5D537',
-    disabledTitleColor: '#C2A204',
-    disabledDescColor: '#848484',
   },
   // Vermelho de alerta/erro
   Error: {
@@ -767,11 +746,6 @@ export const INFOCARD_COLOR_TOKENS: Record<InfoCardVariant, InfoCardColorTokens>
     iconColor: '#CC0000',
     titleColor: '#660000',
     descColor: '#141414',
-    disabledBg: '#FFF2F2',
-    disabledBorder: '#FFCCCC',
-    disabledIconColor: '#FF9999',
-    disabledTitleColor: '#FF6666',
-    disabledDescColor: '#848484',
   },
   // Neutro oficial COMVEN (#F5F7FA / #EBEBEB)
   Neutral: {
@@ -781,11 +755,6 @@ export const INFOCARD_COLOR_TOKENS: Record<InfoCardVariant, InfoCardColorTokens>
     iconColor: '#3D3D3D',
     titleColor: '#141414',
     descColor: '#525252',
-    disabledBg: '#FAFAFA',
-    disabledBorder: '#EBEBEB',
-    disabledIconColor: '#A1A1A1',
-    disabledTitleColor: '#848484',
-    disabledDescColor: '#A1A1A1',
   },
 }
 
@@ -807,20 +776,14 @@ export function generateInfoCardCss(config: InfoCardConfig): string {
   const iconStatus = icon === 'Com ícone' ? 'Show' : 'Hide'
   const comment = `/* InfoCard — Variant=${variant}, Size=${size}, State=${state}, Icon=${iconStatus} */`
 
-  const isDisabled = state === 'Disabled'
   const isHighlight = state === 'Destaque'
 
-  const bgColor = isDisabled ? colors.disabledBg : colors.bg
-  const borderColor = isDisabled
-    ? colors.disabledBorder
-    : isHighlight
-      ? colors.highlightBorder
-      : colors.border
+  const bgColor = colors.bg
+  const borderColor = isHighlight ? colors.highlightBorder : colors.border
   const borderWidth = isHighlight ? '1.5px' : '1px'
-  const iconColor = isDisabled ? colors.disabledIconColor : colors.iconColor
-  const titleColor = isDisabled ? colors.disabledTitleColor : colors.titleColor
-  const descColor = isDisabled ? colors.disabledDescColor : colors.descColor
-  const cursor = isDisabled ? 'not-allowed' : 'default'
+  const iconColor = colors.iconColor
+  const titleColor = colors.titleColor
+  const descColor = colors.descColor
   const ring = isHighlight ? `\n  box-shadow: 0 0 0 1px ${colors.highlightBorder};` : ''
 
   const cardLines: string[] = [
@@ -835,9 +798,6 @@ export function generateInfoCardCss(config: InfoCardConfig): string {
 
   if (ring) {
     cardLines.push(ring.trim())
-  }
-  if (cursor !== 'default') {
-    cardLines.push(`  cursor: ${cursor};`)
   }
   cardLines.push('  transition: all 0.2s ease;')
 

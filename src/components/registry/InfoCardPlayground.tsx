@@ -18,7 +18,7 @@ export interface InfoCardPlaygroundProps {
 
 const INFOCARD_VARIANTS: InfoCardVariant[] = ['Info', 'Success', 'Warning', 'Error', 'Neutral']
 const INFOCARD_SIZES: InfoCardSize[] = ['Large', 'Medium', 'Small']
-const INFOCARD_STATES: InfoCardState[] = ['Default', 'Destaque', 'Disabled']
+const INFOCARD_STATES: InfoCardState[] = ['Default', 'Destaque']
 const INFOCARD_ICONS: InfoCardIconOption[] = ['Com ícone', 'Sem ícone']
 
 const VARIANT_ICONS: Record<InfoCardVariant, string> = {
@@ -153,7 +153,7 @@ export const InfoCardPlayground: React.FC<InfoCardPlaygroundProps> = ({ initialC
             InfoCard (Ícone + Texto)
           </h2>
           <p className="text-sm sm:text-[15px] text-[#666666] mt-1 font-normal">
-            5 variantes por intenção × 3 tamanhos × 3 estados — explorando a escala oficial COMVEN
+            5 variantes por intenção × 3 tamanhos × 2 estados — explorando a escala oficial COMVEN
             com fundo pálido, borda suave, ícone, título e texto descritivo
           </p>
         </div>
@@ -231,7 +231,6 @@ export const InfoCardPlayground: React.FC<InfoCardPlaygroundProps> = ({ initialC
               const stateLabels: Record<InfoCardState, string> = {
                 Default: 'Default',
                 Destaque: 'Com Destaque',
-                Disabled: 'Disabled',
               }
               return (
                 <button
@@ -383,19 +382,14 @@ export function SingleInfoCardPreview({
   const colors = INFOCARD_COLOR_TOKENS[variant] || INFOCARD_COLOR_TOKENS.Info
   const iconName = VARIANT_ICONS[variant] || 'info'
 
-  const isDisabled = state === 'Disabled'
   const isHighlight = state === 'Destaque'
 
-  const bgColor = isDisabled ? colors.disabledBg : colors.bg
-  const borderColor = isDisabled
-    ? colors.disabledBorder
-    : isHighlight
-      ? colors.highlightBorder
-      : colors.border
+  const bgColor = colors.bg
+  const borderColor = isHighlight ? colors.highlightBorder : colors.border
   const borderWidth = isHighlight ? '1.5px' : '1px'
-  const iconColor = isDisabled ? colors.disabledIconColor : colors.iconColor
-  const titleColor = isDisabled ? colors.disabledTitleColor : colors.titleColor
-  const descColor = isDisabled ? colors.disabledDescColor : colors.descColor
+  const iconColor = colors.iconColor
+  const titleColor = colors.titleColor
+  const descColor = colors.descColor
   const boxShadow = isHighlight ? `0 0 0 1px ${colors.highlightBorder}` : undefined
 
   return (
@@ -409,8 +403,8 @@ export function SingleInfoCardPreview({
         borderRadius: `${metrics.radius}px`,
         padding: metrics.padding,
         boxShadow,
-        opacity: isDisabled ? 0.8 : 1,
-        cursor: isDisabled ? 'not-allowed' : 'default',
+        opacity: 1,
+        cursor: 'default',
       }}
     >
       <div className="flex items-start" style={{ gap: `${metrics.gap}px` }}>
@@ -473,7 +467,7 @@ function InfoCardStateGallery({
     <div className="mt-10 pt-8 border-t border-[#F0F2F5]">
       <div>
         <h3 className="text-base sm:text-lg font-bold text-[#141414]">
-          Matriz completa de variações — (5 variantes × 3 estados × 3 tamanhos × com/sem ícone)
+          Matriz completa de variações — (5 variantes × 2 estados × 3 tamanhos × com/sem ícone)
         </h3>
         <p className="text-xs sm:text-sm text-[#7A7A7A] mt-1 font-normal">
           Visualização completa sobre o fundo azul-marinho oficial COMVEN (#062446), dividida em
@@ -499,7 +493,7 @@ function InfoCardStateGallery({
                     {block.badge}
                   </span>
                   <span className="text-xs text-[#8BB7E7] font-medium">
-                    3 tamanhos × 3 estados × com/sem ícone
+                    3 tamanhos × 2 estados × com/sem ícone
                   </span>
                 </div>
                 <p className="text-xs text-[#D2E4F7] mt-1 font-normal">{block.description}</p>
@@ -518,7 +512,6 @@ function InfoCardStateGallery({
                   const stateLabels: Record<InfoCardState, string> = {
                     Default: 'Estado Default (Borda suave)',
                     Destaque: 'Estado com Borda de Destaque',
-                    Disabled: 'Estado Desabilitado (Inativo)',
                   }
 
                   return (

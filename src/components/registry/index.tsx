@@ -73,7 +73,7 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
     name: 'InfoCard',
     number: '5',
     subtitle:
-      '5 variantes × 3 tamanhos × 3 estados — card informativo com ícone + título + texto descritivo',
+      '5 variantes × 3 tamanhos × 2 estados — card informativo com ícone + título + texto descritivo',
     category: 'COMPONENTES',
     component: InfoCardPlayground,
   },
@@ -183,7 +183,7 @@ export const INFOCARD_DEFINITION: ComponentDefinition<InfoCardConfig> = {
   number: '05',
   category: 'COMPONENTES',
   subtitle:
-    '5 variantes × 3 tamanhos × 3 estados — card informativo com ícone + título + texto descritivo',
+    '5 variantes × 3 tamanhos × 2 estados — card informativo com ícone + título + texto descritivo',
   description:
     'Card de destaque para informações de contexto, dicas operacionais, confirmações de sucesso e alertas, explorando a escala oficial de cores COMVEN com o amarelo #F2CB05 em alertas.',
   figmaUrl:
