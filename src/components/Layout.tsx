@@ -177,7 +177,7 @@ export default function Layout() {
           <div className="h-px bg-[#113C68] mt-6 mb-7 w-full" />
 
           {/* Navigation Links Scrollable Area */}
-          <nav className="space-y-7 overflow-y-auto flex-1 pr-1 scrollbar-thin">
+          <nav className="space-y-7 overflow-y-auto flex-1 pr-1.5 comven-sidebar-scroll">
             {/* Group 1: GUIA DE ESTILOS */}
             <div>
               <div className="px-2 mb-3 flex items-center justify-between select-none">
