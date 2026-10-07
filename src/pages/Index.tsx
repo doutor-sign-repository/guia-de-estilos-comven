@@ -134,7 +134,6 @@ export default function Index() {
                       filename="comven-logo-fundo-escuro.png"
                       label="Baixar logo"
                       theme="dark"
-                      hasDarkBgOption={true}
                     />
                   </div>
                 </div>
@@ -192,7 +191,6 @@ export default function Index() {
                       filename="comven-logo-1cor-branco.png"
                       label="Baixar logo"
                       theme="dark"
-                      hasDarkBgOption={true}
                     />
                   </div>
                 </div>
@@ -265,7 +263,6 @@ export default function Index() {
                       label="Baixar logo"
                       theme="dark"
                       compact={true}
-                      hasDarkBgOption={true}
                     />
                   </div>
                 </div>
@@ -320,7 +317,6 @@ export default function Index() {
                       label="Baixar logo"
                       theme="dark"
                       compact={true}
-                      hasDarkBgOption={true}
                     />
                   </div>
                 </div>

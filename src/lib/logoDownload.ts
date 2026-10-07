@@ -1,15 +1,75 @@
 /**
- * Utilitário para renderização e download de logotipos COMVEN em PNG de alta resolução.
- * Garante largura mínima de 2000px, suporte a fundo transparente ou fundo institucional (#141414)
- * e aguarda document.fonts.ready antes de gerar o canvas.
+ * Utilitário para download e exportação de logotipos COMVEN.
+ *
+ * Arquitetura preparada para arquivos oficiais (SVG mestre / PNG de alta resolução):
+ * - Mapa central `OFFICIAL_LOGO_FILES` associa cada identificador/arquivo à sua URL/caminho oficial.
+ *   Quando os arquivos forem adicionados (ex.: em `public/logos/...` ou CDN), basta preencher a URL no mapa.
+ * - Caso não haja arquivo oficial definido ou ocorra falha no carregamento direto,
+ *   a geração interna via Canvas de alta resolução (2400px com fundo transparente) atua como fallback garantido.
  */
+
+/**
+ * Mapa central de arquivos oficiais por identificador ou nome de arquivo.
+ * Quando os arquivos oficiais forem adicionados (ex.: em `/logos/...`), basta preencher
+ * o caminho aqui sem necessidade de alterar a interface de usuário.
+ */
+export const OFFICIAL_LOGO_FILES: Record<string, string | null> = {
+  // Versões com Tagline
+  'comven-logo-principal.png': null, // ex.: '/logos/comven-logo-principal.png' ou SVG
+  'comven-logo-fundo-escuro.png': null,
+  'comven-logo-1cor-azul.png': null,
+  'comven-logo-1cor-branco.png': null,
+
+  // Versões sem Tagline (Somente Marca / Reduções)
+  'comven-logo-somente-marca.png': null,
+  'comven-logo-somente-marca-dark.png': null,
+  'comven-logo-somente-marca-1cor-azul.png': null,
+  'comven-logo-somente-marca-1cor-branco.png': null,
+}
 
 export interface DownloadLogoOptions {
   src: string
   filename: string
   minWidth?: number
-  withBackground?: boolean
-  backgroundColor?: string
+}
+
+/**
+ * Dispara o download direto de uma URL/Blob no navegador.
+ */
+function triggerBrowserDownload(url: string, filename: string): void {
+  const a = document.createElement('a')
+  a.href = url
+  a.download = filename.endsWith('.png') ? filename : `${filename}.png`
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+}
+
+/**
+ * Tenta baixar diretamente o arquivo estático oficial caso esteja configurado e acessível.
+ * Retorna true se o download foi iniciado com sucesso, ou false caso deva usar o fallback.
+ */
+async function tryDownloadOfficialFile(filename: string): Promise<boolean> {
+  const officialPath = OFFICIAL_LOGO_FILES[filename]
+  if (!officialPath) {
+    return false
+  }
+
+  try {
+    const res = await fetch(officialPath, { method: 'HEAD' })
+    if (!res.ok) return false
+
+    // Baixa como Blob para forçar o download local sem abrir nova aba
+    const fileRes = await fetch(officialPath)
+    if (!fileRes.ok) return false
+    const blob = await fileRes.blob()
+    const objectUrl = URL.createObjectURL(blob)
+    triggerBrowserDownload(objectUrl, filename)
+    setTimeout(() => URL.revokeObjectURL(objectUrl), 2000)
+    return true
+  } catch {
+    return false
+  }
 }
 
 /**
@@ -67,15 +127,14 @@ async function loadSourceImage(
 }
 
 /**
- * Renderiza o logotipo em canvas com largura mínima de 2000px e dispara o download do arquivo PNG
+ * Renderiza o logotipo em canvas com fundo transparente em alta resolução (2400px)
+ * e dispara o download do arquivo PNG.
  */
-export async function downloadLogoPng(options: DownloadLogoOptions): Promise<void> {
+async function generateAndDownloadCanvasPng(options: DownloadLogoOptions): Promise<void> {
   const {
     src,
     filename,
-    minWidth = 2400, // Garante resolução bem acima do mínimo de 2000px para nitidez em slides e impressos
-    withBackground = false,
-    backgroundColor = '#141414',
+    minWidth = 2400, // Resolução padrão de 2400px para nitidez excelente
   } = options
 
   const { img, cleanup } = await loadSourceImage(src)
@@ -102,13 +161,8 @@ export async function downloadLogoPng(options: DownloadLogoOptions): Promise<voi
     ctx.imageSmoothingEnabled = true
     ctx.imageSmoothingQuality = 'high'
 
-    // Renderiza fundo escuro (#141414) se solicitado, ou mantém transparente
-    if (withBackground) {
-      ctx.fillStyle = backgroundColor
-      ctx.fillRect(0, 0, targetWidth, targetHeight)
-    } else {
-      ctx.clearRect(0, 0, targetWidth, targetHeight)
-    }
+    // Sempre fundo transparente (limpa o canvas antes de desenhar)
+    ctx.clearRect(0, 0, targetWidth, targetHeight)
 
     // Desenha o logotipo no canvas em alta escala
     ctx.drawImage(img, 0, 0, targetWidth, targetHeight)
@@ -124,12 +178,7 @@ export async function downloadLogoPng(options: DownloadLogoOptions): Promise<voi
 
     // Dispara o download no navegador
     const downloadUrl = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = downloadUrl
-    a.download = filename.endsWith('.png') ? filename : `${filename}.png`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
+    triggerBrowserDownload(downloadUrl, filename)
 
     setTimeout(() => {
       URL.revokeObjectURL(downloadUrl)
@@ -137,4 +186,19 @@ export async function downloadLogoPng(options: DownloadLogoOptions): Promise<voi
   } finally {
     cleanup()
   }
+}
+
+/**
+ * Ponto de entrada principal de download do logotipo.
+ * Primeiro verifica se existe um arquivo oficial configurado; caso contrário, executa a renderização via Canvas.
+ */
+export async function downloadLogoPng(options: DownloadLogoOptions): Promise<void> {
+  // 1. Tenta servir arquivo oficial se estiver configurado
+  const downloadedOfficial = await tryDownloadOfficialFile(options.filename)
+  if (downloadedOfficial) {
+    return
+  }
+
+  // 2. Fallback garantido: geração Canvas transparente em alta resolução (2400px)
+  await generateAndDownloadCanvasPng(options)
 }
