@@ -4,21 +4,24 @@ import { ButtonPlayground } from '@/components/registry/ButtonPlayground'
 import { InputPlayground } from '@/components/registry/InputPlayground'
 import { SelectPlayground } from '@/components/registry/SelectPlayground'
 import { BadgePlayground } from '@/components/registry/BadgePlayground'
+import { InfoCardPlayground } from '@/components/registry/InfoCardPlayground'
 
 export default function Componentes() {
   const { componentId } = useParams<{ componentId?: string }>()
 
   // Normalize: defaults to 'button' when accessing /componentes directly
-  let current: 'button' | 'input' | 'select' | 'badge' = 'button'
+  let current: 'button' | 'input' | 'select' | 'badge' | 'infocard' = 'button'
   if (componentId === 'input') current = 'input'
   else if (componentId === 'select') current = 'select'
   else if (componentId === 'badge') current = 'badge'
+  else if (componentId === 'infocard') current = 'infocard'
 
   const titleMap = {
     button: 'Button',
     input: 'Input (Text Field)',
     select: 'Select (Dropdown)',
     badge: 'Badge (Status & Alertas)',
+    infocard: 'InfoCard (Ícone + Texto)',
   }
 
   return (
@@ -64,6 +67,11 @@ export default function Componentes() {
         {current === 'badge' && (
           <section id="badge" className="w-full">
             <BadgePlayground />
+          </section>
+        )}
+        {current === 'infocard' && (
+          <section id="infocard" className="w-full">
+            <InfoCardPlayground />
           </section>
         )}
       </div>

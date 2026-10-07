@@ -638,3 +638,221 @@ export function generateBadgeCss(config: BadgeConfig): string {
 
   return `${comment}\n${badgeBlock}\n\n${labelBlock}${iconBlock}`
 }
+
+/* ==========================================================================
+   INFOCARD COMPONENT TYPES & DEFINITIONS (05 InfoCard)
+   ========================================================================== */
+
+export type InfoCardVariant = 'Info' | 'Success' | 'Warning' | 'Error' | 'Neutral'
+export type InfoCardSize = 'Large' | 'Medium' | 'Small'
+export type InfoCardState = 'Default' | 'Destaque' | 'Disabled'
+export type InfoCardIconOption = 'Com ícone' | 'Sem ícone'
+
+export interface InfoCardConfig {
+  variant: InfoCardVariant
+  size: InfoCardSize
+  state: InfoCardState
+  icon: InfoCardIconOption
+  title: string
+  description: string
+}
+
+export interface InfoCardSizeMetrics {
+  padding: string
+  radius: number
+  gap: number
+  iconSize: number
+  titleFontSize: number
+  titleLineHeight: number
+  descFontSize: number
+  descLineHeight: number
+}
+
+export const INFOCARD_SIZE_METRICS: Record<InfoCardSize, InfoCardSizeMetrics> = {
+  Large: {
+    padding: '24px 28px',
+    radius: 16,
+    gap: 16,
+    iconSize: 28,
+    titleFontSize: 16,
+    titleLineHeight: 1.4,
+    descFontSize: 14,
+    descLineHeight: 1.5,
+  },
+  Medium: {
+    padding: '18px 22px',
+    radius: 14,
+    gap: 14,
+    iconSize: 24,
+    titleFontSize: 15,
+    titleLineHeight: 1.35,
+    descFontSize: 13,
+    descLineHeight: 1.5,
+  },
+  Small: {
+    padding: '14px 18px',
+    radius: 12,
+    gap: 12,
+    iconSize: 20,
+    titleFontSize: 14,
+    titleLineHeight: 1.3,
+    descFontSize: 12,
+    descLineHeight: 1.45,
+  },
+}
+
+export interface InfoCardColorTokens {
+  bg: string
+  border: string
+  highlightBorder: string
+  iconColor: string
+  titleColor: string
+  descColor: string
+  // Disabled state
+  disabledBg: string
+  disabledBorder: string
+  disabledIconColor: string
+  disabledTitleColor: string
+  disabledDescColor: string
+}
+
+export const INFOCARD_COLOR_TOKENS: Record<InfoCardVariant, InfoCardColorTokens> = {
+  // Azul COMVEN
+  Info: {
+    bg: '#EBF3FC',
+    border: '#B6D5F7',
+    highlightBorder: '#004185',
+    iconColor: '#004185',
+    titleColor: '#002750',
+    descColor: '#235F9D',
+    disabledBg: '#F3F7FC',
+    disabledBorder: '#D8E5F5',
+    disabledIconColor: '#8BB7E7',
+    disabledTitleColor: '#689ACE',
+    disabledDescColor: '#848484',
+  },
+  // Verde COMVEN
+  Success: {
+    bg: '#E6FAED',
+    border: '#9BECB8',
+    highlightBorder: '#05A63E',
+    iconColor: '#047D2E',
+    titleColor: '#02531F',
+    descColor: '#141414',
+    disabledBg: '#F2FBF5',
+    disabledBorder: '#CDF6DB',
+    disabledIconColor: '#6AE394',
+    disabledTitleColor: '#38D971',
+    disabledDescColor: '#848484',
+  },
+  // Amarelo COMVEN (#F2CB05) — permitido em alertas/destaques pontuais
+  Warning: {
+    bg: '#FEFAE6',
+    border: '#F7E069',
+    highlightBorder: '#C2A204',
+    iconColor: '#917A03',
+    titleColor: '#302901',
+    descColor: '#615102',
+    disabledBg: '#FEFDF5',
+    disabledBorder: '#FCF5CD',
+    disabledIconColor: '#F5D537',
+    disabledTitleColor: '#C2A204',
+    disabledDescColor: '#848484',
+  },
+  // Vermelho de alerta/erro
+  Error: {
+    bg: '#FFE5E5',
+    border: '#FF9999',
+    highlightBorder: '#CC0000',
+    iconColor: '#CC0000',
+    titleColor: '#660000',
+    descColor: '#141414',
+    disabledBg: '#FFF2F2',
+    disabledBorder: '#FFCCCC',
+    disabledIconColor: '#FF9999',
+    disabledTitleColor: '#FF6666',
+    disabledDescColor: '#848484',
+  },
+  // Neutro oficial COMVEN (#F5F7FA / #EBEBEB)
+  Neutral: {
+    bg: '#F5F7FA',
+    border: '#DCDCDC',
+    highlightBorder: '#666666',
+    iconColor: '#3D3D3D',
+    titleColor: '#141414',
+    descColor: '#525252',
+    disabledBg: '#FAFAFA',
+    disabledBorder: '#EBEBEB',
+    disabledIconColor: '#A1A1A1',
+    disabledTitleColor: '#848484',
+    disabledDescColor: '#A1A1A1',
+  },
+}
+
+/**
+ * CSS Generator for InfoCard component matching COMVEN Design System specifications:
+ *
+ * .infocard { ... }
+ * .infocard--[variant] { ... }
+ * .infocard--[size] { ... }
+ * .infocard__icon { ... }
+ * .infocard__content { ... }
+ * .infocard__title { ... }
+ * .infocard__description { ... }
+ */
+export function generateInfoCardCss(config: InfoCardConfig): string {
+  const { variant, size, state, icon } = config
+  const metrics = INFOCARD_SIZE_METRICS[size] || INFOCARD_SIZE_METRICS.Large
+  const colors = INFOCARD_COLOR_TOKENS[variant] || INFOCARD_COLOR_TOKENS.Info
+  const iconStatus = icon === 'Com ícone' ? 'Show' : 'Hide'
+  const comment = `/* InfoCard — Variant=${variant}, Size=${size}, State=${state}, Icon=${iconStatus} */`
+
+  const isDisabled = state === 'Disabled'
+  const isHighlight = state === 'Destaque'
+
+  const bgColor = isDisabled ? colors.disabledBg : colors.bg
+  const borderColor = isDisabled
+    ? colors.disabledBorder
+    : isHighlight
+      ? colors.highlightBorder
+      : colors.border
+  const borderWidth = isHighlight ? '1.5px' : '1px'
+  const iconColor = isDisabled ? colors.disabledIconColor : colors.iconColor
+  const titleColor = isDisabled ? colors.disabledTitleColor : colors.titleColor
+  const descColor = isDisabled ? colors.disabledDescColor : colors.descColor
+  const cursor = isDisabled ? 'not-allowed' : 'default'
+  const ring = isHighlight ? `\n  box-shadow: 0 0 0 1px ${colors.highlightBorder};` : ''
+
+  const cardLines: string[] = [
+    '  display: flex;',
+    '  align-items: flex-start;',
+    `  gap: ${metrics.gap}px;`,
+    `  padding: ${metrics.padding};`,
+    `  border-radius: ${metrics.radius}px;`,
+    `  background-color: ${bgColor};`,
+    `  border: ${borderWidth} solid ${borderColor};`,
+  ]
+
+  if (ring) {
+    cardLines.push(ring.trim())
+  }
+  if (cursor !== 'default') {
+    cardLines.push(`  cursor: ${cursor};`)
+  }
+  cardLines.push('  transition: all 0.2s ease;')
+
+  const cardBlock = `.infocard {\n${cardLines.join('\n')}\n}`
+
+  let iconBlock = ''
+  if (icon === 'Com ícone') {
+    iconBlock = `\n\n.infocard__icon {\n  font-size: ${metrics.iconSize}px;\n  width: ${metrics.iconSize}px;\n  height: ${metrics.iconSize}px;\n  line-height: 1;\n  color: ${iconColor};\n  flex-shrink: 0;\n  margin-top: 2px;\n}`
+  }
+
+  const contentBlock = `\n\n.infocard__content {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  flex: 1 1 0%;\n}`
+
+  const titleBlock = `\n\n.infocard__title {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 700;\n  font-size: ${metrics.titleFontSize}px;\n  line-height: ${metrics.titleLineHeight};\n  color: ${titleColor};\n  margin: 0;\n}`
+
+  const descBlock = `\n\n.infocard__description {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 400;\n  font-size: ${metrics.descFontSize}px;\n  line-height: ${metrics.descLineHeight};\n  color: ${descColor};\n  margin: 0;\n}`
+
+  return `${comment}\n${cardBlock}${iconBlock}${contentBlock}${titleBlock}${descBlock}`
+}

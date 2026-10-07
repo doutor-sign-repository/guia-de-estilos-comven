@@ -4,16 +4,19 @@ import {
   InputConfig,
   SelectConfig,
   BadgeConfig,
+  InfoCardConfig,
   ComponentDefinition,
   generateButtonCss,
   generateInputCss,
   generateSelectCss,
   generateBadgeCss,
+  generateInfoCardCss,
 } from './types'
 import { ButtonPlayground } from './ButtonPlayground'
 import { InputPlayground } from './InputPlayground'
 import { SelectPlayground } from './SelectPlayground'
 import { BadgePlayground } from './BadgePlayground'
+import { InfoCardPlayground } from './InfoCardPlayground'
 
 export interface ComponentRegistryItem {
   id: string
@@ -64,6 +67,15 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
       '6 variantes × 4 tamanhos × 3 estados — explorando a escala de cores COMVEN, incluindo o amarelo de alerta',
     category: 'COMPONENTES',
     component: BadgePlayground,
+  },
+  infocard: {
+    id: 'infocard',
+    name: 'InfoCard',
+    number: '5',
+    subtitle:
+      '5 variantes × 3 tamanhos × 3 estados — card informativo com ícone + título + texto descritivo',
+    category: 'COMPONENTES',
+    component: InfoCardPlayground,
   },
 }
 
@@ -165,5 +177,31 @@ export const BADGE_DEFINITION: ComponentDefinition<BadgeConfig> = {
   },
 }
 
-export { ButtonPlayground, InputPlayground, SelectPlayground, BadgePlayground }
+export const INFOCARD_DEFINITION: ComponentDefinition<InfoCardConfig> = {
+  id: 'infocard',
+  name: 'InfoCard',
+  number: '05',
+  category: 'COMPONENTES',
+  subtitle:
+    '5 variantes × 3 tamanhos × 3 estados — card informativo com ícone + título + texto descritivo',
+  description:
+    'Card de destaque para informações de contexto, dicas operacionais, confirmações de sucesso e alertas, explorando a escala oficial de cores COMVEN com o amarelo #F2CB05 em alertas.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    variant: 'Warning',
+    size: 'Large',
+    state: 'Default',
+    icon: 'Com ícone',
+    title: 'Diretriz de uso do amarelo (#F2CB05)',
+    description:
+      'O amarelo COMVEN é permitido em alertas, badges e destaques pontuais. Nunca o utilize como cor principal de uma interface.',
+  },
+  generateCss: generateInfoCardCss,
+  renderPreview: (config) => {
+    return React.createElement(InfoCardPlayground, { initialConfig: config })
+  },
+}
+
+export { ButtonPlayground, InputPlayground, SelectPlayground, BadgePlayground, InfoCardPlayground }
 export { PlaygroundControlGroup } from './PlaygroundControlGroup'

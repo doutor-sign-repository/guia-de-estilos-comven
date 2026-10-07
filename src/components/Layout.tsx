@@ -58,7 +58,7 @@ export default function Layout() {
     }
   }
 
-  // Handle clicking Componentes items (button, input, select, badge)
+  // Handle clicking Componentes items (button, input, select, badge, infocard)
   const handleComponentesItemClick = (componentId: string) => {
     setMobileMenuOpen(false)
     navigate(`/componentes/${componentId}`)
@@ -336,6 +336,32 @@ export default function Layout() {
                       4
                     </span>
                     <span className="text-[14px] leading-snug tracking-normal truncate">Badge</span>
+                  </button>
+                </li>
+
+                {/* 5. InfoCard */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => handleComponentesItemClick('infocard')}
+                    className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center gap-3.5 transition-colors duration-200 group ${
+                      isComponentesPage && location.pathname.startsWith('/componentes/infocard')
+                        ? 'text-[#F2CB05] font-semibold'
+                        : 'text-white hover:text-[#F2CB05]'
+                    }`}
+                  >
+                    <span
+                      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] font-semibold shrink-0 transition-all duration-200 ${
+                        isComponentesPage && location.pathname.startsWith('/componentes/infocard')
+                          ? 'bg-[#F2CB05] text-[#062446] font-bold border-none shadow-sm'
+                          : 'border border-white/25 text-white/90 group-hover:bg-[#F2CB05] group-hover:text-[#062446] group-hover:font-bold group-hover:border-transparent group-hover:shadow-sm'
+                      }`}
+                    >
+                      5
+                    </span>
+                    <span className="text-[14px] leading-snug tracking-normal truncate">
+                      InfoCard
+                    </span>
                   </button>
                 </li>
               </ul>
