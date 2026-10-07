@@ -33,6 +33,13 @@ import {
   generateModalCss,
   BreadcrumbConfig,
   generateBreadcrumbCss,
+  CarouselConfig,
+  CarouselSize,
+  CarouselState,
+  CarouselImageOption,
+  CarouselTextOption,
+  CarouselActionOption,
+  generateCarouselCss,
 } from './types'
 import { ButtonPlayground } from './ButtonPlayground'
 import { InputPlayground } from './InputPlayground'
@@ -48,6 +55,7 @@ import { CardPlayground } from './CardPlayground'
 import { AccordionPlayground } from './AccordionPlayground'
 import { ModalPlayground } from './ModalPlayground'
 import { BreadcrumbPlayground } from './BreadcrumbPlayground'
+import { CarouselPlayground } from './CarouselPlayground'
 
 export interface ComponentRegistryItem {
   id: string
@@ -63,7 +71,7 @@ export interface ComponentRegistryItem {
  * Reorganized by design system domain hierarchy:
  * Formulários e Seleção (Button, Input, Select, Checkbox, Radio Button)
  * Feedback e Status (Badge, Tag, Toast, InfoCard)
- * Overlays e Estrutura de Conteúdo (Tooltip, Card, Accordion, Modal)
+ * Overlays e Estrutura de Conteúdo (Tooltip, Card, Accordion, Modal, Breadcrumb, Carousel)
  */
 export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
   // --- Formulários & Seleção ---
@@ -183,8 +191,15 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
     category: 'COMPONENTES',
     component: BreadcrumbPlayground,
   },
+  carousel: {
+    id: 'carousel',
+    name: 'Carousel',
+    subtitle:
+      '3 tamanhos × 2 estados × 8 combinações — slides navegáveis com imagem, estrutura de texto e botão de ação',
+    category: 'COMPONENTES',
+    component: CarouselPlayground,
+  },
 }
-
 export const BUTTON_DEFINITION: ComponentDefinition<ButtonConfig> = {
   id: 'button',
   name: 'Button',
@@ -577,6 +592,32 @@ export const BREADCRUMB_DEFINITION: ComponentDefinition<BreadcrumbConfig> = {
   },
 }
 
+export const CAROUSEL_DEFINITION: ComponentDefinition<CarouselConfig> = {
+  id: 'carousel',
+  name: 'Carousel',
+  category: 'COMPONENTES',
+  subtitle:
+    '3 tamanhos × 2 estados × 8 combinações — slides navegáveis com imagem, estrutura de texto e botão de ação',
+  description:
+    'Componente de carrossel de conteúdo navegável por setas (‹ ›) e indicadores (dots), com ou sem imagem, estrutura de texto com título + descrição, e botão de ação primário.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    size: 'Large',
+    state: 'Default',
+    hasImage: 'Com imagem',
+    hasText: 'Com texto',
+    hasAction: 'Com botão',
+    title: 'Frota Integrada COMVEN',
+    text: 'Gestão inteligente de transporte e monitoramento em tempo real para toda a malha rodoviária.',
+    actionLabel: 'Conhecer frota',
+  },
+  generateCss: generateCarouselCss,
+  renderPreview: (config) => {
+    return React.createElement(CarouselPlayground, { initialConfig: config })
+  },
+}
+
 export {
   ButtonPlayground,
   InputPlayground,
@@ -592,6 +633,19 @@ export {
   AccordionPlayground,
   ModalPlayground,
   BreadcrumbPlayground,
+  CarouselPlayground,
 }
-export type { ModalVariant, ModalSize, ModalState, ModalIconOption, ModalConfig }
+export type {
+  ModalVariant,
+  ModalSize,
+  ModalState,
+  ModalIconOption,
+  ModalConfig,
+  CarouselConfig,
+  CarouselSize,
+  CarouselState,
+  CarouselImageOption,
+  CarouselTextOption,
+  CarouselActionOption,
+}
 export { PlaygroundControlGroup } from './PlaygroundControlGroup'

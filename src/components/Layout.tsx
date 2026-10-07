@@ -237,6 +237,7 @@ export default function Layout() {
                   { id: 'accordion', label: 'Accordion' },
                   { id: 'modal', label: 'Modal' },
                   { id: 'breadcrumb', label: 'Breadcrumb' },
+                  { id: 'carousel', label: 'Carousel' },
                 ].map((comp) => {
                   const isActive =
                     isComponentesPage &&

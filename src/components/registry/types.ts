@@ -2434,3 +2434,238 @@ export function generateBreadcrumbCss(config: BreadcrumbConfig): string {
 
   return sections.join('\n\n')
 }
+
+// ==========================================
+// 15. CAROUSEL (CARROSSEL) COMPONENT TYPES
+// ==========================================
+
+export type CarouselState = 'Default' | 'Hover'
+export type CarouselImageOption = 'Com imagem' | 'Sem imagem'
+export type CarouselTextOption = 'Com texto' | 'Sem texto'
+export type CarouselActionOption = 'Com botão' | 'Sem botão'
+export type CarouselSize = 'Large' | 'Medium' | 'Small'
+
+export interface CarouselSlideData {
+  id: string
+  title?: string
+  text?: string
+  imageUrl?: string
+  imageAlt?: string
+  actionLabel?: string
+}
+
+export interface CarouselConfig {
+  size: CarouselSize
+  state: CarouselState
+  hasImage: CarouselImageOption
+  hasText: CarouselTextOption
+  hasAction: CarouselActionOption
+  title: string
+  text: string
+  actionLabel: string
+}
+
+export interface CarouselSizeMetrics {
+  maxWidth: number
+  imageHeight: number
+  titleSize: number
+  titleLineHeight: number
+  textSize: number
+  textLineHeight: number
+  navButtonSize: number
+  navIconSize: number
+  dotSize: number
+  padding: string
+  buttonHeight: number
+}
+
+export const CAROUSEL_SIZE_METRICS: Record<CarouselSize, CarouselSizeMetrics> = {
+  Large: {
+    maxWidth: 720,
+    imageHeight: 280,
+    titleSize: 22,
+    titleLineHeight: 28,
+    textSize: 15,
+    textLineHeight: 22,
+    navButtonSize: 40,
+    navIconSize: 22,
+    dotSize: 10,
+    padding: '24px 28px',
+    buttonHeight: 40,
+  },
+  Medium: {
+    maxWidth: 580,
+    imageHeight: 230,
+    titleSize: 18,
+    titleLineHeight: 24,
+    textSize: 14,
+    textLineHeight: 20,
+    navButtonSize: 36,
+    navIconSize: 20,
+    dotSize: 8,
+    padding: '20px 24px',
+    buttonHeight: 36,
+  },
+  Small: {
+    maxWidth: 440,
+    imageHeight: 180,
+    titleSize: 16,
+    titleLineHeight: 22,
+    textSize: 13,
+    textLineHeight: 18,
+    navButtonSize: 32,
+    navIconSize: 18,
+    dotSize: 7,
+    padding: '16px 18px',
+    buttonHeight: 32,
+  },
+}
+
+/**
+ * CSS Generator for Carousel component matching COMVEN design system standards:
+ * - Slides navegáveis com setas (‹ ›) e indicadores (dots)
+ * - Suporte a imagem, estrutura de texto (título + texto) e botão de ação (#004185)
+ * - Foco acessível 1px em azul primário (#004185) e destaque pontual amarelo (#F2CB05) nos dots ativos
+ */
+export function generateCarouselCss(config: CarouselConfig): string {
+  const { size, state, hasImage, hasText, hasAction } = config
+  const metrics = CAROUSEL_SIZE_METRICS[size] || CAROUSEL_SIZE_METRICS.Medium
+
+  const isHover = state === 'Hover'
+  const navBg = isHover ? '#00346A' : '#004185'
+  const navColor = '#FFFFFF'
+  const btnBg = isHover ? '#00346A' : '#004185'
+
+  const comment = `/* Component=Carousel, Size=${size}, State=${state}, Image=${hasImage}, Text=${hasText}, Action=${hasAction} */`
+
+  const containerLines = [
+    '  position: relative;',
+    '  width: 100%;',
+    `  max-width: ${metrics.maxWidth}px;`,
+    '  border-radius: 16px;',
+    '  background-color: #FFFFFF;',
+    '  border: 1px solid #EBEBEB;',
+    '  box-shadow: 0 4px 16px -2px rgba(6, 36, 70, 0.08);',
+    '  overflow: hidden;',
+    "  font-family: 'Open Sans', sans-serif;",
+  ]
+
+  const navBtnLines = [
+    '  position: absolute;',
+    '  top: 50%;',
+    '  transform: translateY(-50%);',
+    `  width: ${metrics.navButtonSize}px;`,
+    `  height: ${metrics.navButtonSize}px;`,
+    '  border-radius: 50%;',
+    `  background-color: ${navBg};`,
+    `  color: ${navColor};`,
+    '  display: flex;',
+    '  align-items: center;',
+    '  justify-content: center;',
+    '  border: none;',
+    '  cursor: pointer;',
+    '  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);',
+    '  transition: background-color 0.15s ease, transform 0.15s ease;',
+    '  z-index: 10;',
+  ]
+
+  if (isHover) {
+    navBtnLines.push('  outline: 1px solid #004185;')
+    navBtnLines.push('  outline-offset: 1px;')
+  }
+
+  const sections: string[] = [
+    comment,
+    `.comven-carousel {\n${containerLines.join('\n')}\n}`,
+    `.comven-carousel__nav-prev {\n${navBtnLines.join('\n')}\n  left: 12px;\n}`,
+    `.comven-carousel__nav-next {\n${navBtnLines.join('\n')}\n  right: 12px;\n}`,
+  ]
+
+  if (hasImage === 'Com imagem') {
+    sections.push(`.comven-carousel__image-wrapper {
+  position: relative;
+  width: 100%;
+  height: ${metrics.imageHeight}px;
+  overflow: hidden;
+  background-color: #062446;
+}
+.comven-carousel__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}`)
+  } else {
+    sections.push(`.comven-carousel__image-placeholder {
+  display: none; /* Sem imagem selecionado */
+}`)
+  }
+
+  if (hasText === 'Com texto') {
+    sections.push(`.comven-carousel__content {
+  padding: ${metrics.padding};
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.comven-carousel__title {
+  font-size: ${metrics.titleSize}px;
+  line-height: ${metrics.titleLineHeight}px;
+  font-weight: 700;
+  color: #141414;
+  margin: 0;
+}
+.comven-carousel__text {
+  font-size: ${metrics.textSize}px;
+  line-height: ${metrics.textLineHeight}px;
+  color: #525252;
+  margin: 0;
+}`)
+  }
+
+  if (hasAction === 'Com botão') {
+    sections.push(`.comven-carousel__action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: ${metrics.buttonHeight}px;
+  padding: 0 20px;
+  border-radius: 6px;
+  background-color: ${btnBg};
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  outline: 1px solid #004185;
+  outline-offset: 1px;
+  transition: background-color 0.15s ease;
+  width: fit-content;
+  margin-top: 6px;
+}`)
+  }
+
+  sections.push(`.comven-carousel__dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+}
+.comven-carousel__dot {
+  width: ${metrics.dotSize}px;
+  height: ${metrics.dotSize}px;
+  border-radius: 50%;
+  background-color: #D5DCE5;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, width 0.2s ease;
+}
+.comven-carousel__dot--active {
+  background-color: #004185;
+  width: ${metrics.dotSize * 2.2}px;
+  border-radius: 999px;
+}`)
+
+  return sections.join('\n\n')
+}

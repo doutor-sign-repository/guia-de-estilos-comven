@@ -14,6 +14,7 @@ import { CardPlayground } from '@/components/registry/CardPlayground'
 import { AccordionPlayground } from '@/components/registry/AccordionPlayground'
 import { ModalPlayground } from '@/components/registry/ModalPlayground'
 import { BreadcrumbPlayground } from '@/components/registry/BreadcrumbPlayground'
+import { CarouselPlayground } from '@/components/registry/CarouselPlayground'
 
 export default function Componentes() {
   const { componentId } = useParams<{ componentId?: string }>()
@@ -33,7 +34,8 @@ export default function Componentes() {
     | 'card'
     | 'accordion'
     | 'modal'
-    | 'breadcrumb' = 'button'
+    | 'breadcrumb'
+    | 'carousel' = 'button'
 
   if (componentId === 'input') current = 'input'
   else if (componentId === 'select') current = 'select'
@@ -48,6 +50,7 @@ export default function Componentes() {
   else if (componentId === 'accordion') current = 'accordion'
   else if (componentId === 'modal') current = 'modal'
   else if (componentId === 'breadcrumb') current = 'breadcrumb'
+  else if (componentId === 'carousel' || componentId === 'carrossel') current = 'carousel'
 
   const titleMap = {
     button: 'Button',
@@ -64,6 +67,7 @@ export default function Componentes() {
     accordion: 'Accordion (Acordeão)',
     modal: 'Modal (Janela Sobreposta)',
     breadcrumb: 'Breadcrumb (Trilha de Navegação)',
+    carousel: 'Carousel (Carrossel de Conteúdo)',
   }
 
   return (
@@ -159,6 +163,11 @@ export default function Componentes() {
         {current === 'breadcrumb' && (
           <section id="breadcrumb" className="w-full">
             <BreadcrumbPlayground />
+          </section>
+        )}
+        {current === 'carousel' && (
+          <section id="carousel" className="w-full">
+            <CarouselPlayground />
           </section>
         )}
       </div>
