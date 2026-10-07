@@ -642,10 +642,10 @@ const TYPE_BLOCKS: TypeBlockInfo[] = [
 ]
 
 const STATE_BADGES: Record<ButtonState, string> = {
-  Default: 'Linha 1 — Default (Estado Inicial)',
-  Hover: 'Linha 2 — Hover (Ao passar o cursor)',
-  'Active/Focus': 'Linha 3 — Active / Focus (Pressionado ou focado)',
-  Disabled: 'Linha 4 — Disabled (Desabilitado)',
+  Default: 'Default (Estado Inicial)',
+  Hover: 'Hover (Ao passar o cursor)',
+  'Active/Focus': 'Active / Focus (Pressionado ou focado)',
+  Disabled: 'Disabled (Desabilitado)',
 }
 
 /** Complete variation matrix for Button over #062446 navy background without internal scroll */

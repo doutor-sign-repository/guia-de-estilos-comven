@@ -430,7 +430,6 @@ export function SingleModalPreview({
       {showHeader && (
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#F0F2F5] bg-white">
           <div className="flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#004185] shrink-0" aria-hidden="true" />
             <h3
               id="comven-dialog-title"
               className="font-bold text-[#141414] tracking-tight m-0"

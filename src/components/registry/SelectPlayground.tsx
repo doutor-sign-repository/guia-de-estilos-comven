@@ -525,11 +525,11 @@ function SelectStateGallery({
   supportingText,
 }: Pick<SelectConfig, 'label' | 'placeholder' | 'supportingText'>) {
   const rows: { state: SelectState; label: string; badge: string }[] = [
-    { state: 'Default', label: 'Default', badge: 'Linha 1 — Estado Inicial' },
-    { state: 'Focus', label: 'Focus', badge: 'Linha 2 — Em Foco (Ring Azul)' },
-    { state: 'Hover', label: 'Hover', badge: 'Linha 3 — Ao passar o cursor' },
-    { state: 'Error', label: 'Error', badge: 'Linha 4 — Validação com Erro' },
-    { state: 'Disabled', label: 'Disabled', badge: 'Linha 5 — Desabilitado' },
+    { state: 'Default', label: 'Default', badge: 'Default — Estado Inicial' },
+    { state: 'Focus', label: 'Focus', badge: 'Focus — Em Foco (Ring Azul)' },
+    { state: 'Hover', label: 'Hover', badge: 'Hover — Ao passar o cursor' },
+    { state: 'Error', label: 'Error', badge: 'Error — Validação com Erro' },
+    { state: 'Disabled', label: 'Disabled', badge: 'Disabled — Desabilitado' },
   ]
 
   return (

@@ -640,7 +640,7 @@ export function generateBadgeCss(config: BadgeConfig): string {
 }
 
 /* ==========================================================================
-   INFOCARD COMPONENT TYPES & DEFINITIONS (05 InfoCard)
+   INFOCARD COMPONENT TYPES & DEFINITIONS (InfoCard)
    ========================================================================== */
 
 export type InfoCardVariant = 'Info' | 'Success' | 'Warning' | 'Error' | 'Neutral'
@@ -818,7 +818,7 @@ export function generateInfoCardCss(config: InfoCardConfig): string {
 }
 
 /* ==========================================================================
-   CARD COMPONENT TYPES & DEFINITIONS (06 Card)
+   CARD COMPONENT TYPES & DEFINITIONS (Card)
    ========================================================================== */
 
 export type CardVariant = 'Elevada' | 'Borda' | 'Simples'
@@ -977,7 +977,7 @@ export function generateCardCss(config: CardConfig): string {
 }
 
 /* ==========================================================================
-   TOOLTIP COMPONENT TYPES & DEFINITIONS (07 Tooltip)
+   TOOLTIP COMPONENT TYPES & DEFINITIONS (Tooltip)
    ========================================================================== */
 
 export type TooltipPlacement = 'Topo' | 'Base' | 'Esquerda' | 'Direita'
@@ -1076,7 +1076,7 @@ export function generateTooltipCss(config: TooltipConfig): string {
 }
 
 /* ==========================================================================
-   TAG COMPONENT TYPES & DEFINITIONS (08 Tag)
+   TAG COMPONENT TYPES & DEFINITIONS (Tag)
    ========================================================================== */
 
 export type TagVariant = 'Primary' | 'Secondary' | 'Success' | 'Warning' | 'Error' | 'Neutral'
@@ -1278,7 +1278,7 @@ export function generateTagCss(config: TagConfig): string {
 }
 
 /* ==========================================================================
-   TOAST COMPONENT TYPES & DEFINITIONS (09 Toast)
+   TOAST COMPONENT TYPES & DEFINITIONS (Toast)
    ========================================================================== */
 
 export type ToastVariant = 'Info' | 'Success' | 'Warning' | 'Error' | 'Neutral'

@@ -86,7 +86,7 @@ export default function Index() {
                     Fundo Claro · Colorida (Principal)
                   </span>
                   <span className="text-[11px] font-medium px-2 py-0.5 bg-white text-[#047D2E] rounded shadow-xs">
-                    Oficial #1
+                    Oficial
                   </span>
                 </div>
                 <div className="w-full max-w-[420px] mx-auto py-8 flex items-center justify-center">
@@ -839,7 +839,7 @@ export default function Index() {
               </div>
               <div className="mt-4">
                 <div className="text-xs font-bold uppercase text-[#FF0000]">
-                  1. Distorção / esticar
+                  Distorção / esticar
                 </div>
                 <p className="text-xs text-[#666666] mt-1">
                   Nunca esticar ou comprimir o logotipo desproporcionalmente.
@@ -858,7 +858,7 @@ export default function Index() {
                 </div>
               </div>
               <div className="mt-4">
-                <div className="text-xs font-bold uppercase text-[#FF0000]">2. Rotação</div>
+                <div className="text-xs font-bold uppercase text-[#FF0000]">Rotação</div>
                 <p className="text-xs text-[#666666] mt-1">
                   Nunca rotacionar o logotipo em nenhum ângulo.
                 </p>
@@ -877,7 +877,7 @@ export default function Index() {
               </div>
               <div className="mt-4">
                 <div className="text-xs font-bold uppercase text-[#FF0000]">
-                  3. Alterar cores originais
+                  Alterar cores originais
                 </div>
                 <p className="text-xs text-[#666666] mt-1">
                   Nunca aplicar cores fora da paleta oficial COMVEN.
@@ -897,7 +897,7 @@ export default function Index() {
               </div>
               <div className="mt-4">
                 <div className="text-xs font-bold uppercase text-[#FF0000]">
-                  4. Amarelo usado fora do check
+                  Amarelo usado fora do check
                 </div>
                 <p className="text-xs text-[#666666] mt-1">
                   O amarelo #F2CB05 tem uso restrito e nunca deve tingir o wordmark sobre branco.
@@ -917,7 +917,7 @@ export default function Index() {
               </div>
               <div className="mt-4">
                 <div className="text-xs font-bold uppercase text-[#FF0000]">
-                  5. Baixo contraste de fundo
+                  Baixo contraste de fundo
                 </div>
                 <p className="text-xs text-[#666666] mt-1">
                   Evitar aplicar sobre fundos de luminosidade similar que prejudiquem a
@@ -938,7 +938,7 @@ export default function Index() {
               </div>
               <div className="mt-4">
                 <div className="text-xs font-bold uppercase text-[#FF0000]">
-                  6. Abaixo do tamanho mínimo (120px)
+                  Abaixo do tamanho mínimo (120px)
                 </div>
                 <p className="text-xs text-[#666666] mt-1">
                   Nunca renderizar o logotipo com largura inferior a 120px em materiais digitais.

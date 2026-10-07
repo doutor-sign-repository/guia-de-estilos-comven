@@ -527,9 +527,9 @@ const VARIANT_BLOCKS: VariantBlockInfo[] = [
 ]
 
 const BADGE_STATE_LABELS: Record<BadgeState, string> = {
-  Default: 'Linha 1 — Default (Estado Inicial)',
-  Hover: 'Linha 2 — Hover (Interativo / Clicável)',
-  Disabled: 'Linha 3 — Disabled (Desabilitado / Inativo)',
+  Default: 'Default (Estado Inicial)',
+  Hover: 'Hover (Interativo / Clicável)',
+  Disabled: 'Disabled (Desabilitado / Inativo)',
 }
 
 /** Resolves visual styles when rendering over #062446 dark navy background */
