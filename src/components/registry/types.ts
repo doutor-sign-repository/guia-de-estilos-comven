@@ -2052,11 +2052,16 @@ export function generateModalCss(config: ModalConfig): string {
   const { variant, size, state, icon = 'Com ícone' } = config
   const metrics = MODAL_SIZE_METRICS[size] || MODAL_SIZE_METRICS.Medium
 
+  const isSimple = variant === 'Simples'
+  const isComplete = variant === 'Completo'
+
   const isHover = state === 'Hover'
   const primaryBtnBg = isHover ? '#00346A' : '#004185'
   const closeBtnBg = isHover ? '#F0F2F5' : 'transparent'
 
-  const comment = `/* COMVEN Modal — Variante=${variant}, Tamanho=${size}, Estado=${state}, Ícone=${icon} */`
+  const comment = isSimple
+    ? `/* COMVEN Modal — Variante=${variant}, Tamanho=${size}, Estado=${state} */`
+    : `/* COMVEN Modal — Variante=${variant}, Tamanho=${size}, Estado=${state}, Ícone=${icon} */`
 
   const overlayLines = [
     '  position: fixed;',
@@ -2084,18 +2089,14 @@ export function generateModalCss(config: ModalConfig): string {
     '  animation: comvenModalScaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);',
   ]
 
-  const isSimple = variant === 'Simples'
-  const isComplete = variant === 'Completo'
+  const [topPadding, sidePadding] = metrics.padding.split(' ')
 
   const headerLines = [
     '  display: flex;',
     '  align-items: center;',
     '  justify-content: space-between;',
-    '  padding: ' +
-      (isSimple
-        ? '16px ' + metrics.padding.split(' ')[1] + ' 8px;'
-        : metrics.padding.split(' ')[0] + ' ' + metrics.padding.split(' ')[1] + ' 16px;'),
-    ...(isSimple ? [] : ['  border-bottom: 1px solid #F0F2F5;']),
+    `  padding: ${topPadding} ${sidePadding} 16px;`,
+    '  border-bottom: 1px solid #F0F2F5;',
   ]
 
   const titleGroupLines = ['  display: flex;', '  align-items: center;', '  gap: 10px;']
@@ -2119,8 +2120,11 @@ export function generateModalCss(config: ModalConfig): string {
     '  margin: 0;',
   ]
 
+  // Na variante Simples: o modal não possui header. O corpo sobe e ocupa o topo.
+  // O botão fechar (×) fica alinhado ao topo do texto no canto superior direito.
+  // Adiciona-se padding direito extra para o texto não colidir com o botão fechar (×).
   const bodyLines = [
-    `  padding: ${isSimple ? '4px ' + metrics.padding.split(' ')[1] + ' 24px' : '20px ' + metrics.padding.split(' ')[1]};`,
+    `  padding: ${isSimple ? `${topPadding} calc(${sidePadding} + ${metrics.closeButtonSize + 8}px) ${topPadding} ${sidePadding}` : `20px ${sidePadding}`};`,
     "  font-family: 'Open Sans', sans-serif;",
     '  font-weight: 400;',
     `  font-size: ${metrics.bodyFontSize}px;`,
@@ -2133,7 +2137,7 @@ export function generateModalCss(config: ModalConfig): string {
     '  align-items: center;',
     '  justify-content: flex-end;',
     '  gap: 12px;',
-    '  padding: 16px ' + metrics.padding.split(' ')[1] + ' ' + metrics.padding.split(' ')[0] + ';',
+    `  padding: 16px ${sidePadding} ${topPadding};`,
     '  border-top: 1px solid #F0F2F5;',
     '  background-color: #FAFCFE;',
   ]
@@ -2164,37 +2168,49 @@ export function generateModalCss(config: ModalConfig): string {
     '  transition: background-color 0.15s ease, border-color 0.15s ease;',
   ]
 
-  const closeButtonLines = [
-    `  width: ${metrics.closeButtonSize}px;`,
-    `  height: ${metrics.closeButtonSize}px;`,
-    '  border-radius: 8px;',
-    '  border: none;',
-    `  background-color: ${closeBtnBg};`,
-    '  color: #666666;',
-    '  display: inline-flex;',
-    '  align-items: center;',
-    '  justify-content: center;',
-    '  cursor: pointer;',
-    '  transition: background-color 0.15s ease, color 0.15s ease;',
-    ...(isSimple ? ['  margin-left: auto;'] : []),
-  ]
+  const closeButtonLines = isSimple
+    ? [
+        '  position: absolute;',
+        `  top: ${topPadding};`,
+        `  right: ${sidePadding};`,
+        `  width: ${metrics.closeButtonSize}px;`,
+        `  height: ${metrics.closeButtonSize}px;`,
+        '  border-radius: 8px;',
+        '  border: none;',
+        `  background-color: ${closeBtnBg};`,
+        '  color: #666666;',
+        '  display: inline-flex;',
+        '  align-items: center;',
+        '  justify-content: center;',
+        '  cursor: pointer;',
+        '  transition: background-color 0.15s ease, color 0.15s ease;',
+      ]
+    : [
+        `  width: ${metrics.closeButtonSize}px;`,
+        `  height: ${metrics.closeButtonSize}px;`,
+        '  border-radius: 8px;',
+        '  border: none;',
+        `  background-color: ${closeBtnBg};`,
+        '  color: #666666;',
+        '  display: inline-flex;',
+        '  align-items: center;',
+        '  justify-content: center;',
+        '  cursor: pointer;',
+        '  transition: background-color 0.15s ease, color 0.15s ease;',
+      ]
 
   const sections: string[] = [
     comment,
     `.comven-modal-overlay {\n${overlayLines.join('\n')}\n}`,
     `.comven-modal-dialog {\n${dialogLines.join('\n')}\n}`,
-    `.comven-modal-header {\n${headerLines.join('\n')}\n}`,
   ]
 
   if (!isSimple) {
+    sections.push(`.comven-modal-header {\n${headerLines.join('\n')}\n}`)
     sections.push(`.comven-modal-title-group {\n${titleGroupLines.join('\n')}\n}`)
-  }
-
-  if (icon === 'Com ícone') {
-    sections.push(`.comven-modal-title-icon {\n${titleIconLines.join('\n')}\n}`)
-  }
-
-  if (!isSimple) {
+    if (icon === 'Com ícone') {
+      sections.push(`.comven-modal-title-icon {\n${titleIconLines.join('\n')}\n}`)
+    }
     sections.push(`.comven-modal-title {\n${titleLines.join('\n')}\n}`)
   }
 

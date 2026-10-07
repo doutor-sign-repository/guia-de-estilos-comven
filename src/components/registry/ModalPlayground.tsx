@@ -192,6 +192,20 @@ export const ModalPlayground: React.FC<ModalPlaygroundProps> = ({ initialConfig 
           <PlaygroundControlGroup label="ÍCONE">
             {MODAL_ICONS.map((ic) => {
               const isSelected = icon === ic
+              const isNotApplicable = variant === 'Simples'
+
+              if (isNotApplicable) {
+                return (
+                  <span
+                    key={ic}
+                    title="Não aplicável para a variante Simples (não possui ícone/header)"
+                    className="h-8 px-3.5 rounded-md text-xs font-medium inline-flex items-center text-[#9CA3AF] bg-[#F5F7FA] border border-dashed border-[#D5DCE5] cursor-not-allowed select-none shrink-0"
+                  >
+                    {ic} (N/A)
+                  </span>
+                )
+              }
+
               return (
                 <button
                   key={ic}
@@ -450,12 +464,14 @@ export function SingleModalPreview({
   const isSimple = variant === 'Simples'
   const showHeader = !isSimple
   const showFooter = variant === 'Completo'
-  const hasIcon = icon === 'Com ícone'
+  const hasIcon = !isSimple && icon === 'Com ícone'
+
+  const [topPadding, sidePadding] = metrics.padding.split(' ')
 
   return (
     <div
       role="dialog"
-      aria-labelledby="comven-dialog-title"
+      aria-labelledby={isSimple ? undefined : 'comven-dialog-title'}
       className={`relative w-full bg-white border border-[#EBEBEB] rounded-2xl shadow-xl flex flex-col overflow-hidden text-left ${className}`}
       style={{
         maxWidth: `${metrics.maxWidth}px`,
@@ -464,7 +480,12 @@ export function SingleModalPreview({
     >
       {/* Header (Completo e Sem rodapé) */}
       {showHeader && (
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#F0F2F5] bg-white gap-3">
+        <div
+          className="flex items-center justify-between border-b border-[#F0F2F5] bg-white gap-3"
+          style={{
+            padding: `${topPadding} ${sidePadding} 16px`,
+          }}
+        >
           <div className="flex items-center gap-2.5 min-w-0">
             {hasIcon && (
               <span
@@ -511,46 +532,39 @@ export function SingleModalPreview({
         </div>
       )}
 
-      {/* Botão fechar (x) na variante Simples (posicionado no canto superior direito) */}
+      {/* Botão fechar (x) na variante Simples: posicionado no topo direito, alinhado exatamente ao topo do texto do corpo */}
       {isSimple && (
-        <div className="flex items-center justify-between px-6 pt-4 pb-2 bg-white gap-3">
-          <div className="flex items-center gap-2.5 min-w-0">
-            {hasIcon && (
-              <span
-                className="material-symbols-rounded shrink-0 select-none text-[#004185]"
-                style={{
-                  fontSize: `${metrics.titleIconSize}px`,
-                  lineHeight: 1,
-                }}
-                aria-hidden="true"
-              >
-                info
-              </span>
-            )}
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Fechar modal"
-            className="rounded-lg text-[#666666] hover:text-[#141414] transition-colors flex items-center justify-center shrink-0 ml-auto"
-            style={{
-              width: `${metrics.closeButtonSize}px`,
-              height: `${metrics.closeButtonSize}px`,
-              backgroundColor: closeBtnBg,
-            }}
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Fechar modal"
+          className="absolute rounded-lg text-[#666666] hover:text-[#141414] transition-colors flex items-center justify-center z-10"
+          style={{
+            top: topPadding,
+            right: sidePadding,
+            width: `${metrics.closeButtonSize}px`,
+            height: `${metrics.closeButtonSize}px`,
+            backgroundColor: closeBtnBg,
+          }}
+        >
+          <span
+            className="material-symbols-rounded select-none"
+            style={{ fontSize: `${metrics.closeIconSize}px` }}
           >
-            <span
-              className="material-symbols-rounded select-none"
-              style={{ fontSize: `${metrics.closeIconSize}px` }}
-            >
-              close
-            </span>
-          </button>
-        </div>
+            close
+          </span>
+        </button>
       )}
 
-      {/* Body */}
-      <div className={`px-6 ${isSimple ? 'pt-1 pb-6' : 'py-5'} bg-white`}>
+      {/* Body: na variante Simples, sobe para o topo ocupando o lugar do header com padding direito reservado para o × */}
+      <div
+        className="bg-white"
+        style={{
+          padding: isSimple
+            ? `${topPadding} calc(${sidePadding} + ${metrics.closeButtonSize + 8}px) ${topPadding} ${sidePadding}`
+            : `20px ${sidePadding}`,
+        }}
+      >
         <p
           className="font-normal text-[#525252] m-0 leading-relaxed"
           style={{
@@ -627,9 +641,9 @@ function ModalStateGallery({
     },
     {
       variant: 'Simples',
-      badge: 'Variante Simples (Corpo + Botão de Fechar ×)',
+      badge: 'Variante Simples (Corpo + Fechar ×)',
       description:
-        'Apresentação limpa com botão de fechar (×) para notificações modais compactas ou avisos diretos sem ações inferiores.',
+        'Apresentação direta sem cabeçalho nem ícone: o corpo ocupa o topo e o botão fechar (×) fica alinhado ao topo do texto.',
     },
   ]
 
@@ -657,7 +671,9 @@ function ModalStateGallery({
                   {b.badge}
                 </span>
                 <span className="text-xs text-[#8BB7E7] font-medium">
-                  3 tamanhos × 2 estados (Default / Hover)
+                  {b.variant === 'Simples'
+                    ? '3 tamanhos × 2 estados (Sem ícone)'
+                    : '3 tamanhos × 2 estados × 2 ícones'}
                 </span>
               </div>
               <p className="text-xs text-[#D2E4F7] mt-1 font-normal">{b.description}</p>
@@ -673,67 +689,96 @@ function ModalStateGallery({
                     <div className="flex-1 h-px bg-[#113C68]/60" />
                   </div>
 
-                  {/* Sub-row: COM ÍCONE */}
-                  <div className="space-y-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#8BB7E7]/80">
-                      • Com ícone
-                    </span>
-                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
-                      {MODAL_SIZES.map((sz) => (
-                        <div
-                          key={`${b.variant}-${st}-${sz}-com-icone`}
-                          className="flex flex-col gap-2"
-                        >
-                          <span className="text-[11px] font-mono text-[#8BB7E7] uppercase">
-                            Tamanho: {sz} ({MODAL_SIZE_METRICS[sz].maxWidth}px)
-                          </span>
-                          <SingleModalPreview
-                            config={{
-                              variant: b.variant,
-                              size: sz,
-                              state: st,
-                              icon: 'Com ícone',
-                              title: currentTitle || DEFAULT_TITLE,
-                              content: currentContent || DEFAULT_CONTENT,
-                              cancelLabel: currentCancel || DEFAULT_CANCEL,
-                              confirmLabel: currentConfirm || DEFAULT_CONFIRM,
-                            }}
-                          />
-                        </div>
-                      ))}
+                  {b.variant === 'Simples' ? (
+                    /* Variante Simples não possui ícone: apenas uma forma direta */
+                    <div className="space-y-2">
+                      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+                        {MODAL_SIZES.map((sz) => (
+                          <div key={`${b.variant}-${st}-${sz}`} className="flex flex-col gap-2">
+                            <span className="text-[11px] font-mono text-[#8BB7E7] uppercase">
+                              Tamanho: {sz} ({MODAL_SIZE_METRICS[sz].maxWidth}px)
+                            </span>
+                            <SingleModalPreview
+                              config={{
+                                variant: b.variant,
+                                size: sz,
+                                state: st,
+                                icon: 'Sem ícone',
+                                title: currentTitle || DEFAULT_TITLE,
+                                content: currentContent || DEFAULT_CONTENT,
+                                cancelLabel: currentCancel || DEFAULT_CANCEL,
+                                confirmLabel: currentConfirm || DEFAULT_CONFIRM,
+                              }}
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <>
+                      {/* Sub-row: COM ÍCONE */}
+                      <div className="space-y-2">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#8BB7E7]/80">
+                          • Com ícone
+                        </span>
+                        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+                          {MODAL_SIZES.map((sz) => (
+                            <div
+                              key={`${b.variant}-${st}-${sz}-com-icone`}
+                              className="flex flex-col gap-2"
+                            >
+                              <span className="text-[11px] font-mono text-[#8BB7E7] uppercase">
+                                Tamanho: {sz} ({MODAL_SIZE_METRICS[sz].maxWidth}px)
+                              </span>
+                              <SingleModalPreview
+                                config={{
+                                  variant: b.variant,
+                                  size: sz,
+                                  state: st,
+                                  icon: 'Com ícone',
+                                  title: currentTitle || DEFAULT_TITLE,
+                                  content: currentContent || DEFAULT_CONTENT,
+                                  cancelLabel: currentCancel || DEFAULT_CANCEL,
+                                  confirmLabel: currentConfirm || DEFAULT_CONFIRM,
+                                }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
 
-                  {/* Sub-row: SEM ÍCONE */}
-                  <div className="space-y-2 pt-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#8BB7E7]/80">
-                      • Sem ícone
-                    </span>
-                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
-                      {MODAL_SIZES.map((sz) => (
-                        <div
-                          key={`${b.variant}-${st}-${sz}-sem-icone`}
-                          className="flex flex-col gap-2"
-                        >
-                          <span className="text-[11px] font-mono text-[#8BB7E7] uppercase">
-                            Tamanho: {sz} ({MODAL_SIZE_METRICS[sz].maxWidth}px)
-                          </span>
-                          <SingleModalPreview
-                            config={{
-                              variant: b.variant,
-                              size: sz,
-                              state: st,
-                              icon: 'Sem ícone',
-                              title: currentTitle || DEFAULT_TITLE,
-                              content: currentContent || DEFAULT_CONTENT,
-                              cancelLabel: currentCancel || DEFAULT_CANCEL,
-                              confirmLabel: currentConfirm || DEFAULT_CONFIRM,
-                            }}
-                          />
+                      {/* Sub-row: SEM ÍCONE */}
+                      <div className="space-y-2 pt-2">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#8BB7E7]/80">
+                          • Sem ícone
+                        </span>
+                        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+                          {MODAL_SIZES.map((sz) => (
+                            <div
+                              key={`${b.variant}-${st}-${sz}-sem-icone`}
+                              className="flex flex-col gap-2"
+                            >
+                              <span className="text-[11px] font-mono text-[#8BB7E7] uppercase">
+                                Tamanho: {sz} ({MODAL_SIZE_METRICS[sz].maxWidth}px)
+                              </span>
+                              <SingleModalPreview
+                                config={{
+                                  variant: b.variant,
+                                  size: sz,
+                                  state: st,
+                                  icon: 'Sem ícone',
+                                  title: currentTitle || DEFAULT_TITLE,
+                                  content: currentContent || DEFAULT_CONTENT,
+                                  cancelLabel: currentCancel || DEFAULT_CANCEL,
+                                  confirmLabel: currentConfirm || DEFAULT_CONFIRM,
+                                }}
+                              />
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
