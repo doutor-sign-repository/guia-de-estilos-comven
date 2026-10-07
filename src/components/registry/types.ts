@@ -2084,12 +2084,18 @@ export function generateModalCss(config: ModalConfig): string {
     '  animation: comvenModalScaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);',
   ]
 
+  const isSimple = variant === 'Simples'
+  const isComplete = variant === 'Completo'
+
   const headerLines = [
     '  display: flex;',
     '  align-items: center;',
     '  justify-content: space-between;',
-    '  padding: ' + metrics.padding.split(' ')[0] + ' ' + metrics.padding.split(' ')[1] + ' 16px;',
-    '  border-bottom: 1px solid #F0F2F5;',
+    '  padding: ' +
+      (isSimple
+        ? '16px ' + metrics.padding.split(' ')[1] + ' 8px;'
+        : metrics.padding.split(' ')[0] + ' ' + metrics.padding.split(' ')[1] + ' 16px;'),
+    ...(isSimple ? [] : ['  border-bottom: 1px solid #F0F2F5;']),
   ]
 
   const titleGroupLines = ['  display: flex;', '  align-items: center;', '  gap: 10px;']
@@ -2114,7 +2120,7 @@ export function generateModalCss(config: ModalConfig): string {
   ]
 
   const bodyLines = [
-    '  padding: 20px ' + metrics.padding.split(' ')[1] + ';',
+    `  padding: ${isSimple ? '4px ' + metrics.padding.split(' ')[1] + ' 24px' : '20px ' + metrics.padding.split(' ')[1]};`,
     "  font-family: 'Open Sans', sans-serif;",
     '  font-weight: 400;',
     `  font-size: ${metrics.bodyFontSize}px;`,
@@ -2170,64 +2176,48 @@ export function generateModalCss(config: ModalConfig): string {
     '  justify-content: center;',
     '  cursor: pointer;',
     '  transition: background-color 0.15s ease, color 0.15s ease;',
+    ...(isSimple ? ['  margin-left: auto;'] : []),
   ]
 
-  return `${comment}
-.comven-modal-overlay {
-${overlayLines.join('\n')}
-}
+  const sections: string[] = [
+    comment,
+    `.comven-modal-overlay {\n${overlayLines.join('\n')}\n}`,
+    `.comven-modal-dialog {\n${dialogLines.join('\n')}\n}`,
+    `.comven-modal-header {\n${headerLines.join('\n')}\n}`,
+  ]
 
-.comven-modal-dialog {
-${dialogLines.join('\n')}
-}
+  if (!isSimple) {
+    sections.push(`.comven-modal-title-group {\n${titleGroupLines.join('\n')}\n}`)
+  }
 
-.comven-modal-header {
-${headerLines.join('\n')}
-}
+  if (icon === 'Com ícone') {
+    sections.push(`.comven-modal-title-icon {\n${titleIconLines.join('\n')}\n}`)
+  }
 
-.comven-modal-title-group {
-${titleGroupLines.join('\n')}
-}
-${
-  icon === 'Com ícone'
-    ? `
-.comven-modal-title-icon {
-${titleIconLines.join('\n')}
-}
-`
-    : ''
-}
-.comven-modal-title {
-${titleLines.join('\n')}
-}
+  if (!isSimple) {
+    sections.push(`.comven-modal-title {\n${titleLines.join('\n')}\n}`)
+  }
 
-.comven-modal-close {
-${closeButtonLines.join('\n')}
-}
+  // O botão de fechar está sempre presente em todas as variantes (Completo, Sem rodapé e Simples)
+  sections.push(`.comven-modal-close {\n${closeButtonLines.join('\n')}\n}`)
 
-.comven-modal-body {
-${bodyLines.join('\n')}
-}
+  sections.push(`.comven-modal-body {\n${bodyLines.join('\n')}\n}`)
 
-.comven-modal-footer {
-${footerLines.join('\n')}
-}
+  if (isComplete) {
+    sections.push(`.comven-modal-footer {\n${footerLines.join('\n')}\n}`)
+    sections.push(`.comven-modal-btn-primary {\n${primaryButtonLines.join('\n')}\n}`)
+    sections.push(`.comven-modal-btn-secondary {\n${secondaryButtonLines.join('\n')}\n}`)
+  }
 
-.comven-modal-btn-primary {
-${primaryButtonLines.join('\n')}
-}
-
-.comven-modal-btn-secondary {
-${secondaryButtonLines.join('\n')}
-}
-
-@keyframes comvenModalFadeIn {
+  sections.push(`@keyframes comvenModalFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
-}
+}`)
 
-@keyframes comvenModalScaleUp {
+  sections.push(`@keyframes comvenModalScaleUp {
   from { opacity: 0; transform: scale(0.96) translateY(8px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
-}`
+}`)
+
+  return sections.join('\n\n')
 }

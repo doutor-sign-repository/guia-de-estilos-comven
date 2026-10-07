@@ -122,7 +122,7 @@ export const ModalPlayground: React.FC<ModalPlaygroundProps> = ({ initialConfig 
               const labels: Record<ModalVariant, string> = {
                 Completo: 'Completo (Header + Ações)',
                 'Sem rodapé': 'Sem rodapé (Informativo)',
-                Simples: 'Simples (Apenas corpo)',
+                Simples: 'Simples (Corpo + Fechar ×)',
               }
               return (
                 <button
@@ -447,7 +447,8 @@ export function SingleModalPreview({
   const secondaryBg = isHover ? '#F5F7FA' : '#FFFFFF'
   const closeBtnBg = isHover ? '#F0F2F5' : 'transparent'
 
-  const showHeader = variant !== 'Simples'
+  const isSimple = variant === 'Simples'
+  const showHeader = !isSimple
   const showFooter = variant === 'Completo'
   const hasIcon = icon === 'Com ícone'
 
@@ -455,13 +456,13 @@ export function SingleModalPreview({
     <div
       role="dialog"
       aria-labelledby="comven-dialog-title"
-      className={`w-full bg-white border border-[#EBEBEB] rounded-2xl shadow-xl flex flex-col overflow-hidden text-left ${className}`}
+      className={`relative w-full bg-white border border-[#EBEBEB] rounded-2xl shadow-xl flex flex-col overflow-hidden text-left ${className}`}
       style={{
         maxWidth: `${metrics.maxWidth}px`,
         borderRadius: `${metrics.borderRadius}px`,
       }}
     >
-      {/* Header */}
+      {/* Header (Completo e Sem rodapé) */}
       {showHeader && (
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#F0F2F5] bg-white gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -510,8 +511,46 @@ export function SingleModalPreview({
         </div>
       )}
 
+      {/* Botão fechar (x) na variante Simples (posicionado no canto superior direito) */}
+      {isSimple && (
+        <div className="flex items-center justify-between px-6 pt-4 pb-2 bg-white gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            {hasIcon && (
+              <span
+                className="material-symbols-rounded shrink-0 select-none text-[#004185]"
+                style={{
+                  fontSize: `${metrics.titleIconSize}px`,
+                  lineHeight: 1,
+                }}
+                aria-hidden="true"
+              >
+                info
+              </span>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fechar modal"
+            className="rounded-lg text-[#666666] hover:text-[#141414] transition-colors flex items-center justify-center shrink-0 ml-auto"
+            style={{
+              width: `${metrics.closeButtonSize}px`,
+              height: `${metrics.closeButtonSize}px`,
+              backgroundColor: closeBtnBg,
+            }}
+          >
+            <span
+              className="material-symbols-rounded select-none"
+              style={{ fontSize: `${metrics.closeIconSize}px` }}
+            >
+              close
+            </span>
+          </button>
+        </div>
+      )}
+
       {/* Body */}
-      <div className="px-6 py-5 bg-white">
+      <div className={`px-6 ${isSimple ? 'pt-1 pb-6' : 'py-5'} bg-white`}>
         <p
           className="font-normal text-[#525252] m-0 leading-relaxed"
           style={{
@@ -588,9 +627,9 @@ function ModalStateGallery({
     },
     {
       variant: 'Simples',
-      badge: 'Variante Simples (Apenas conteúdo textual centralizado)',
+      badge: 'Variante Simples (Corpo + Botão de Fechar ×)',
       description:
-        'Apresentação limpa para mensagens rápidas, notificações modais compactas ou prompts focados.',
+        'Apresentação limpa com botão de fechar (×) para notificações modais compactas ou avisos diretos sem ações inferiores.',
     },
   ]
 
