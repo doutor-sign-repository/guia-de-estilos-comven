@@ -100,8 +100,8 @@ export const COLOR_FAMILIES: ColorFamily[] = [
   },
   {
     id: 'amarelo-logo',
-    name: 'Amarelo — uso restrito ao logotipo',
-    subtitle: 'Utilizado estritamente na identidade visual do logotipo',
+    name: 'Amarelo — destaque e sinalização',
+    subtitle: 'Aplicado em alertas, badges e tags. Nunca como cor principal ou fundo de interface',
     shades: [
       { shade: '50', hex: '#FEFAE6' },
       { shade: '100', hex: '#FCF5CD' },
