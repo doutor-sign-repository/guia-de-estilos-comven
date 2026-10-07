@@ -31,7 +31,7 @@ export interface ComponentDefinition<TConfig> {
   id: string
   name: string
   category: 'COMPONENTES'
-  number: string
+  number?: string
   subtitle: string
   description: string
   figmaUrl?: string
@@ -2234,6 +2234,203 @@ export function generateModalCss(config: ModalConfig): string {
   from { opacity: 0; transform: scale(0.96) translateY(8px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
 }`)
+
+  return sections.join('\n\n')
+}
+
+// ============================================================================
+// BREADCRUMB COMPONENT DEFINITIONS & TYPES
+// ============================================================================
+
+export type BreadcrumbSize = 'Large' | 'Medium' | 'Small'
+export type BreadcrumbState = 'Default' | 'Hover' | 'Focado' | 'Disabled'
+export type BreadcrumbSeparator = 'Chevron' | 'Barra' | 'MaiorQue'
+export type BreadcrumbIconOption = 'Com ícone' | 'Sem ícone'
+
+export interface BreadcrumbItemData {
+  id: string
+  label: string
+  href?: string
+  isCurrent?: boolean
+  icon?: string
+}
+
+export interface BreadcrumbConfig {
+  size: BreadcrumbSize
+  state: BreadcrumbState
+  separator: BreadcrumbSeparator
+  icon: BreadcrumbIconOption
+  markLastAsCurrent: boolean
+  items: BreadcrumbItemData[]
+}
+
+export interface BreadcrumbSizeMetrics {
+  fontSize: number
+  lineHeight: number
+  itemGap: number
+  containerGap: number
+  iconSize: number
+  separatorSize: number
+  paddingY: number
+  paddingX: number
+}
+
+export const BREADCRUMB_SIZE_METRICS: Record<BreadcrumbSize, BreadcrumbSizeMetrics> = {
+  Large: {
+    fontSize: 16,
+    lineHeight: 24,
+    itemGap: 8,
+    containerGap: 8,
+    iconSize: 18,
+    separatorSize: 18,
+    paddingY: 6,
+    paddingX: 8,
+  },
+  Medium: {
+    fontSize: 14,
+    lineHeight: 20,
+    itemGap: 6,
+    containerGap: 6,
+    iconSize: 16,
+    separatorSize: 16,
+    paddingY: 4,
+    paddingX: 6,
+  },
+  Small: {
+    fontSize: 12,
+    lineHeight: 16,
+    itemGap: 6,
+    containerGap: 4,
+    iconSize: 14,
+    separatorSize: 14,
+    paddingY: 2,
+    paddingX: 4,
+  },
+}
+
+/**
+ * CSS Generator for Breadcrumb component matching COMVEN design system standards:
+ * - Hierarchy navigation for deep levels (>= 3 levels)
+ * - Clickable links for previous levels (#004185 / #00346A / focus outline 1px #004185)
+ * - Current level rendered as active/bold with high contrast text (#141414)
+ * - Separators styled discretely (#7A7A7A / #9CA3AF)
+ */
+export function generateBreadcrumbCss(config: BreadcrumbConfig): string {
+  const { size, state, separator, icon } = config
+  const metrics = BREADCRUMB_SIZE_METRICS[size] || BREADCRUMB_SIZE_METRICS.Medium
+
+  const comment = `/* Component=Breadcrumb, Size=${size}, State=${state}, Separator=${separator}, Icon=${icon} */`
+
+  const navLines = [
+    '  display: flex;',
+    '  align-items: center;',
+    '  flex-wrap: wrap;',
+    '  width: 100%;',
+    "  font-family: 'Open Sans', sans-serif;",
+  ]
+
+  const listLines = [
+    '  display: flex;',
+    '  align-items: center;',
+    '  flex-wrap: wrap;',
+    `  gap: ${metrics.containerGap}px;`,
+    '  list-style: none;',
+    '  margin: 0;',
+    '  padding: 0;',
+  ]
+
+  const itemLines = [
+    '  display: inline-flex;',
+    '  align-items: center;',
+    `  gap: ${metrics.itemGap}px;`,
+    `  font-size: ${metrics.fontSize}px;`,
+    `  line-height: ${metrics.lineHeight}px;`,
+  ]
+
+  let linkColor = '#004185'
+  let linkBg = 'transparent'
+  let linkOutline = 'none'
+  let linkCursor = 'pointer'
+  let linkTextDecoration = 'none'
+
+  if (state === 'Hover') {
+    linkColor = '#00346A'
+    linkTextDecoration = 'underline'
+    linkBg = 'rgba(0, 65, 133, 0.04)'
+  } else if (state === 'Focado') {
+    linkColor = '#004185'
+    linkOutline = '1px solid #004185'
+    linkBg = 'rgba(0, 65, 133, 0.08)'
+  } else if (state === 'Disabled') {
+    linkColor = '#9CA3AF'
+    linkCursor = 'not-allowed'
+  }
+
+  const linkLines = [
+    '  display: inline-flex;',
+    '  align-items: center;',
+    `  gap: ${metrics.itemGap}px;`,
+    `  color: ${linkColor};`,
+    '  font-weight: 600;',
+    `  text-decoration: ${linkTextDecoration};`,
+    `  background-color: ${linkBg};`,
+    `  border-radius: 4px;`,
+    `  padding: ${metrics.paddingY}px ${metrics.paddingX}px;`,
+    `  cursor: ${linkCursor};`,
+    `  transition: color 0.15s ease, background-color 0.15s ease;`,
+  ]
+
+  if (linkOutline !== 'none') {
+    linkLines.push(`  outline: ${linkOutline};`)
+    linkLines.push(`  outline-offset: 1px;`)
+  }
+
+  const currentLines = [
+    '  display: inline-flex;',
+    '  align-items: center;',
+    `  gap: ${metrics.itemGap}px;`,
+    '  color: #141414;',
+    '  font-weight: 700;',
+    `  padding: ${metrics.paddingY}px ${metrics.paddingX}px;`,
+    '  cursor: default;',
+    '  user-select: none;',
+  ]
+
+  if (state === 'Disabled') {
+    currentLines[3] = '  color: #9CA3AF;'
+  }
+
+  const separatorLines = [
+    '  display: inline-flex;',
+    '  align-items: center;',
+    '  justify-content: center;',
+    '  color: #7A7A7A;',
+    `  font-size: ${metrics.separatorSize}px;`,
+    '  user-select: none;',
+    '  opacity: 0.75;',
+  ]
+
+  const sections: string[] = [
+    comment,
+    `.comven-breadcrumb {\n${navLines.join('\n')}\n}`,
+    `.comven-breadcrumb__list {\n${listLines.join('\n')}\n}`,
+    `.comven-breadcrumb__item {\n${itemLines.join('\n')}\n}`,
+    `.comven-breadcrumb__link {\n${linkLines.join('\n')}\n}`,
+    `.comven-breadcrumb__current {\n${currentLines.join('\n')}\n}`,
+    `.comven-breadcrumb__separator {\n${separatorLines.join('\n')}\n}`,
+  ]
+
+  if (icon === 'Com ícone') {
+    sections.push(`.comven-breadcrumb__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: ${metrics.iconSize}px;
+  width: ${metrics.iconSize}px;
+  height: ${metrics.iconSize}px;
+  flex-shrink: 0;
+}`)
+  }
 
   return sections.join('\n\n')
 }

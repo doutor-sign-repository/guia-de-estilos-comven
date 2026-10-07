@@ -268,7 +268,7 @@ export const CheckboxPlayground: React.FC<CheckboxPlaygroundProps> = ({ initialC
                   className="flex flex-col gap-1.5 p-2.5 rounded-lg border border-[#E2E6EB] bg-[#FAFCFE]"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-[#004185]">Opção #{idx + 1}</span>
+                    <span className="text-[11px] font-bold text-[#004185]">Opção</span>
                     <div className="flex items-center gap-1">
                       {/* State switch: checked | unchecked | indeterminate */}
                       <button
@@ -324,7 +324,7 @@ export const CheckboxPlayground: React.FC<CheckboxPlaygroundProps> = ({ initialC
                     type="text"
                     value={opt.label}
                     onChange={(e) => handleOptionLabelChange(idx, e.target.value)}
-                    placeholder={`Rótulo da opção ${idx + 1}`}
+                    placeholder="Rótulo da opção"
                     maxLength={40}
                     className="w-full h-7 px-2 rounded border border-[#D5DCE5] bg-white text-xs font-medium text-[#141414] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors"
                   />

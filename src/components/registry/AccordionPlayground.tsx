@@ -277,14 +277,12 @@ export const AccordionPlayground: React.FC<AccordionPlaygroundProps> = ({ initia
               >
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2 flex-1">
-                    <span className="text-[11px] font-bold text-[#004185] shrink-0">
-                      Item #{idx + 1}
-                    </span>
+                    <span className="text-[11px] font-bold text-[#004185] shrink-0">Item</span>
                     <input
                       type="text"
                       value={it.title}
                       onChange={(e) => handleItemTitleChange(idx, e.target.value)}
-                      placeholder={`Título do item ${idx + 1}`}
+                      placeholder="Título do item"
                       className="flex-1 h-7 px-2.5 rounded border border-[#D5DCE5] bg-white text-xs font-semibold text-[#141414] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors"
                     />
                   </div>
@@ -321,7 +319,7 @@ export const AccordionPlayground: React.FC<AccordionPlaygroundProps> = ({ initia
                   value={it.content}
                   onChange={(e) => handleItemContentChange(idx, e.target.value)}
                   rows={2}
-                  placeholder={`Conteúdo detalhado do item ${idx + 1}`}
+                  placeholder="Conteúdo detalhado do item"
                   className="w-full p-2 rounded border border-[#D5DCE5] bg-white text-xs font-normal text-[#4A5568] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors resize-none"
                 />
               </div>

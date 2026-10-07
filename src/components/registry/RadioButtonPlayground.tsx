@@ -242,14 +242,12 @@ export const RadioButtonPlayground: React.FC<RadioButtonPlaygroundProps> = ({ in
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-w-4xl">
               {options.map((opt, idx) => (
                 <div key={opt.id} className="flex items-center gap-2">
-                  <span className="text-[11px] font-bold text-[#7A7A7A] w-5 shrink-0">
-                    #{idx + 1}
-                  </span>
+                  <span className="text-[11px] font-bold text-[#7A7A7A] shrink-0">Opção</span>
                   <input
                     type="text"
                     value={opt.label}
                     onChange={(e) => handleOptionLabelChange(idx, e.target.value)}
-                    placeholder={`Rótulo da opção ${idx + 1}`}
+                    placeholder="Rótulo da opção"
                     maxLength={40}
                     className="flex-1 h-8 px-2.5 rounded-md border border-[#D5DCE5] bg-white text-xs font-medium text-[#141414] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors"
                   />

@@ -31,6 +31,8 @@ import {
   ModalIconOption,
   ModalConfig,
   generateModalCss,
+  BreadcrumbConfig,
+  generateBreadcrumbCss,
 } from './types'
 import { ButtonPlayground } from './ButtonPlayground'
 import { InputPlayground } from './InputPlayground'
@@ -45,6 +47,7 @@ import { TooltipPlayground } from './TooltipPlayground'
 import { CardPlayground } from './CardPlayground'
 import { AccordionPlayground } from './AccordionPlayground'
 import { ModalPlayground } from './ModalPlayground'
+import { BreadcrumbPlayground } from './BreadcrumbPlayground'
 
 export interface ComponentRegistryItem {
   id: string
@@ -172,12 +175,19 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
     category: 'COMPONENTES',
     component: ModalPlayground,
   },
+  breadcrumb: {
+    id: 'breadcrumb',
+    name: 'Breadcrumb',
+    subtitle:
+      '3 tamanhos × 4 estados × 3 separadores — navegação estrutural para hierarquias profundas (≥ 3 níveis)',
+    category: 'COMPONENTES',
+    component: BreadcrumbPlayground,
+  },
 }
 
 export const BUTTON_DEFINITION: ComponentDefinition<ButtonConfig> = {
   id: 'button',
   name: 'Button',
-  number: '01',
   category: 'COMPONENTES',
   subtitle:
     '4 tipos × 3 tamanhos × 4 estados — com ícone e texto configuráveis via painel de propriedades',
@@ -201,7 +211,6 @@ export const BUTTON_DEFINITION: ComponentDefinition<ButtonConfig> = {
 export const INPUT_DEFINITION: ComponentDefinition<InputConfig> = {
   id: 'input',
   name: 'Input',
-  number: '02',
   category: 'COMPONENTES',
   subtitle:
     '4 estados × 4 tamanhos — com ícone de busca, ícone auxiliar, label e supporting text configuráveis',
@@ -227,7 +236,6 @@ export const INPUT_DEFINITION: ComponentDefinition<InputConfig> = {
 export const SELECT_DEFINITION: ComponentDefinition<SelectConfig> = {
   id: 'select',
   name: 'Select',
-  number: '03',
   category: 'COMPONENTES',
   subtitle:
     '5 estados × 4 tamanhos — com label, seta dropdown expansível e supporting text configuráveis',
@@ -251,7 +259,6 @@ export const SELECT_DEFINITION: ComponentDefinition<SelectConfig> = {
 export const CHECKBOX_DEFINITION: ComponentDefinition<CheckboxConfig> = {
   id: 'checkbox',
   name: 'Checkbox',
-  number: '04',
   category: 'COMPONENTES',
   subtitle:
     '4 estados × 3 tamanhos × 2 orientações — múltipla seleção com estado indeterminado e foco COMVEN (1px)',
@@ -294,7 +301,6 @@ export const CHECKBOX_DEFINITION: ComponentDefinition<CheckboxConfig> = {
 export const RADIO_BUTTON_DEFINITION: ComponentDefinition<RadioButtonConfig> = {
   id: 'radio-button',
   name: 'Radio Button',
-  number: '05',
   category: 'COMPONENTES',
   subtitle:
     '4 estados × 3 tamanhos × 2 orientações — seleção exclusiva com foco acessível COMVEN #004185 (1px)',
@@ -331,7 +337,6 @@ export const RADIO_BUTTON_DEFINITION: ComponentDefinition<RadioButtonConfig> = {
 export const BADGE_DEFINITION: ComponentDefinition<BadgeConfig> = {
   id: 'badge',
   name: 'Badge',
-  number: '06',
   category: 'COMPONENTES',
   subtitle:
     '6 variantes × 4 tamanhos × 3 estados — explorando a escala de cores COMVEN, incluindo o amarelo de alerta',
@@ -355,7 +360,6 @@ export const BADGE_DEFINITION: ComponentDefinition<BadgeConfig> = {
 export const TAG_DEFINITION: ComponentDefinition<TagConfig> = {
   id: 'tag',
   name: 'Tag',
-  number: '07',
   category: 'COMPONENTES',
   subtitle:
     '6 variantes × 3 tamanhos × 3 estados — chip compacto para categorização com remoção opcional',
@@ -379,7 +383,6 @@ export const TAG_DEFINITION: ComponentDefinition<TagConfig> = {
 export const TOAST_DEFINITION: ComponentDefinition<ToastConfig> = {
   id: 'toast',
   name: 'Toast',
-  number: '08',
   category: 'COMPONENTES',
   subtitle:
     '5 variantes × 3 tamanhos × 2 estados — notificação flutuante com botão de ação estilo Link e fechar',
@@ -404,7 +407,6 @@ export const TOAST_DEFINITION: ComponentDefinition<ToastConfig> = {
 export const INFOCARD_DEFINITION: ComponentDefinition<InfoCardConfig> = {
   id: 'infocard',
   name: 'InfoCard',
-  number: '09',
   category: 'COMPONENTES',
   subtitle:
     '5 variantes × 3 tamanhos × 2 estados — card informativo com ícone + título + texto descritivo',
@@ -430,7 +432,6 @@ export const INFOCARD_DEFINITION: ComponentDefinition<InfoCardConfig> = {
 export const TOOLTIP_DEFINITION: ComponentDefinition<TooltipConfig> = {
   id: 'tooltip',
   name: 'Tooltip',
-  number: '10',
   category: 'COMPONENTES',
   subtitle:
     '4 posicionamentos × 2 temas × 3 tamanhos — balão de dica contextual acionado ao hover/foco do gatilho',
@@ -455,7 +456,6 @@ export const TOOLTIP_DEFINITION: ComponentDefinition<TooltipConfig> = {
 export const CARD_DEFINITION: ComponentDefinition<CardConfig> = {
   id: 'card',
   name: 'Card',
-  number: '11',
   category: 'COMPONENTES',
   subtitle:
     '3 variantes × 3 tamanhos × 2 estados — card de conteúdo genérico com header, corpo e ações opcionais',
@@ -482,7 +482,6 @@ export const CARD_DEFINITION: ComponentDefinition<CardConfig> = {
 export const ACCORDION_DEFINITION: ComponentDefinition<AccordionConfig> = {
   id: 'accordion',
   name: 'Accordion',
-  number: '12',
   category: 'COMPONENTES',
   subtitle:
     '3 variantes × 3 tamanhos × 4 estados × 2 modos — seções colapsáveis com animação de rotação e foco COMVEN',
@@ -526,7 +525,6 @@ export const ACCORDION_DEFINITION: ComponentDefinition<AccordionConfig> = {
 export const MODAL_DEFINITION: ComponentDefinition<ModalConfig> = {
   id: 'modal',
   name: 'Modal',
-  number: '13',
   category: 'COMPONENTES',
   subtitle:
     '3 variantes × 3 tamanhos × 2 estados — overlay escuro com diálogo centralizado, header com fechar × e rodapé com ações',
@@ -551,6 +549,34 @@ export const MODAL_DEFINITION: ComponentDefinition<ModalConfig> = {
   },
 }
 
+export const BREADCRUMB_DEFINITION: ComponentDefinition<BreadcrumbConfig> = {
+  id: 'breadcrumb',
+  name: 'Breadcrumb',
+  category: 'COMPONENTES',
+  subtitle:
+    '3 tamanhos × 4 estados × 3 separadores — navegação estrutural para hierarquias profundas (≥ 3 níveis)',
+  description:
+    'Trilha de navegação hierárquica para orientar o usuário em estruturas profundas nos produtos digitais COMVEN. Diretriz oficial: usar a partir de 3 níveis de profundidade hierárquica.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    size: 'Large',
+    state: 'Default',
+    separator: 'Chevron',
+    icon: 'Com ícone',
+    markLastAsCurrent: true,
+    items: [
+      { id: 'level-1', label: 'Negócios', href: '#negocios', icon: 'storefront' },
+      { id: 'level-2', label: 'Campanha', href: '#campanha', icon: 'campaign' },
+      { id: 'level-3', label: 'Oferta', href: '#oferta', isCurrent: true, icon: 'local_offer' },
+    ],
+  },
+  generateCss: generateBreadcrumbCss,
+  renderPreview: (config) => {
+    return React.createElement(BreadcrumbPlayground, { initialConfig: config })
+  },
+}
+
 export {
   ButtonPlayground,
   InputPlayground,
@@ -565,6 +591,7 @@ export {
   CardPlayground,
   AccordionPlayground,
   ModalPlayground,
+  BreadcrumbPlayground,
 }
 export type { ModalVariant, ModalSize, ModalState, ModalIconOption, ModalConfig }
 export { PlaygroundControlGroup } from './PlaygroundControlGroup'

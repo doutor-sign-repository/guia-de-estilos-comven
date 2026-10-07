@@ -236,6 +236,7 @@ export default function Layout() {
                   { id: 'card', label: 'Card' },
                   { id: 'accordion', label: 'Accordion' },
                   { id: 'modal', label: 'Modal' },
+                  { id: 'breadcrumb', label: 'Breadcrumb' },
                 ].map((comp) => {
                   const isActive =
                     isComponentesPage &&
