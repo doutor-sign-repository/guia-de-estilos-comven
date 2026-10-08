@@ -2489,9 +2489,9 @@ export const CAROUSEL_SIZE_METRICS: Record<CarouselSize, CarouselSizeMetrics> = 
     textSize: 15,
     textLineHeight: 22,
     navButtonSize: 40,
-    navIconSize: 22,
+    navIconSize: 28,
     dotSize: 10,
-    padding: '28px 32px 30px',
+    padding: '28px 32px 32px 32px',
     buttonHeight: 40,
   },
   Medium: {
@@ -2502,9 +2502,9 @@ export const CAROUSEL_SIZE_METRICS: Record<CarouselSize, CarouselSizeMetrics> = 
     textSize: 14,
     textLineHeight: 20,
     navButtonSize: 36,
-    navIconSize: 20,
+    navIconSize: 24,
     dotSize: 8,
-    padding: '24px 28px 26px',
+    padding: '24px 28px 28px 28px',
     buttonHeight: 36,
   },
   Small: {
@@ -2515,17 +2515,17 @@ export const CAROUSEL_SIZE_METRICS: Record<CarouselSize, CarouselSizeMetrics> = 
     textSize: 13,
     textLineHeight: 18,
     navButtonSize: 32,
-    navIconSize: 18,
+    navIconSize: 22,
     dotSize: 7,
-    padding: '20px 24px 22px',
+    padding: '20px 24px 24px 24px',
     buttonHeight: 32,
   },
 }
 
 /**
  * CSS Generator for Carousel component matching COMVEN design system standards:
- * - Slides navegáveis com setas (‹ ›) e indicadores (dots)
- * - Suporte a imagem, estrutura de texto (título + texto) e botão de ação (#004185)
+ * - Slides navegáveis com chevron simples e discreto (chevron_left / chevron_right) e indicadores (dots)
+ * - Suporte a imagem, estrutura de texto (título + texto com padding generoso) e botão de ação (#004185)
  * - Foco acessível 1px em azul primário (#004185) e destaque pontual amarelo (#F2CB05) nos dots ativos
  */
 export function generateCarouselCss(config: CarouselConfig): string {
@@ -2533,11 +2533,17 @@ export function generateCarouselCss(config: CarouselConfig): string {
   const metrics = CAROUSEL_SIZE_METRICS[size] || CAROUSEL_SIZE_METRICS.Medium
 
   const isHover = state === 'Hover'
-  const navBg = isHover ? '#00346A' : '#004185'
-  const navColor = '#FFFFFF'
-  const btnBg = isHover ? '#00346A' : '#004185'
   const isPhotoOnly = hasImage === 'Com imagem' && hasText === 'Sem texto'
   const isNoImage = hasImage === 'Sem imagem'
+  const btnBg = isHover ? '#00346A' : '#004185'
+  // Chevron simples e discreto (sem círculo/badge)
+  const navColor = isNoImage
+    ? isHover
+      ? '#00346A'
+      : '#004185'
+    : isHover
+      ? '#FFFFFF'
+      : 'rgba(255, 255, 255, 0.95)'
 
   const actionDetails =
     hasAction === 'Com botão'
@@ -2568,27 +2574,26 @@ export function generateCarouselCss(config: CarouselConfig): string {
     '  transform: translateY(-50%);',
     `  width: ${metrics.navButtonSize}px;`,
     `  height: ${metrics.navButtonSize}px;`,
-    '  border-radius: 50%;',
-    `  background-color: ${navBg};`,
+    '  padding: 0;',
+    '  border: none;',
+    '  background: transparent; /* Chevron simples sem círculo/badge ao redor */',
     `  color: ${navColor};`,
     '  display: flex;',
     '  align-items: center;',
     '  justify-content: center;',
-    '  border: none;',
     '  cursor: pointer;',
-    '  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);',
-    '  transition: background-color 0.15s ease, transform 0.15s ease;',
+    '  transition: color 0.15s ease, transform 0.15s ease, opacity 0.15s ease;',
     '  z-index: 10;',
   ]
 
   if (isHover) {
     navBtnBaseLines.push('  outline: 1px solid #004185;')
-    navBtnBaseLines.push('  outline-offset: 1px;')
+    navBtnBaseLines.push('  outline-offset: 2px;')
   }
 
-  // Quando sem imagem, as setas ficam externas ao conteúdo para não sobrepor texto/CTA
-  const prevPosition = isNoImage ? `calc(-${metrics.navButtonSize}px - 10px)` : '12px'
-  const nextPosition = isNoImage ? `calc(-${metrics.navButtonSize}px - 10px)` : '12px'
+  // Quando sem imagem, os chevrons ficam externos ao conteúdo para não sobrepor texto/CTA
+  const prevPosition = isNoImage ? `calc(-${metrics.navButtonSize}px - 6px)` : '8px'
+  const nextPosition = isNoImage ? `calc(-${metrics.navButtonSize}px - 6px)` : '8px'
 
   const sections: string[] = [
     comment,

@@ -183,8 +183,9 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
             ou avisos com múltiplos conteúdos sem ocupar espaço vertical excessivo.
           </p>
           <p className="text-[#33567F]">
-            Garante acessibilidade e autonomia ao usuário: navegação sempre disponível por setas (‹
-            ›) e indicadores (dots), com foco acessível de 1px e transição suave entre os slides.
+            Garante acessibilidade e autonomia ao usuário: navegação sempre disponível por chevrons
+            simples e discretos (chevron_left / chevron_right) e indicadores (dots), com foco
+            acessível de 1px e transição suave entre os slides.
           </p>
         </div>
       </div>
@@ -419,8 +420,8 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
                 PRÉVIA INTERATIVA
               </span>
               <p className="text-xs text-[#555555] mt-0.5">
-                Navegue usando as setas laterais (‹ ›) ou clicando diretamente nos indicadores
-                (dots).
+                Navegue usando os chevrons laterais discretos ou clicando diretamente nos
+                indicadores (dots).
               </p>
             </div>
 
@@ -556,12 +557,11 @@ export function SingleCarouselPreview({
   // Nessa combinação, o botão no corpo deixa de existir e o link fica sobreposto à foto
   const isPhotoOnly = showImage && !showText
 
-  // Cores de botão e navegação
-  const navBtnBg = isHoverState ? '#00346A' : '#004185'
+  // Cores de botão
   const actionBtnBg = isHoverState ? '#00346A' : '#004185'
 
-  // Quando "Sem imagem", as setas não podem sobrepor o texto.
-  // Colocamos o container do carrossel com overflow visível e posicionamos as setas externamente.
+  // Quando "Sem imagem", os chevrons não podem sobrepor o texto.
+  // Colocamos o container do carrossel com overflow visível e posicionamos os chevrons externamente.
   const isNoImage = !showImage
 
   // Se não tem texto nem imagem e nem botão, mostra um aviso visual harmonioso
@@ -670,12 +670,13 @@ export function SingleCarouselPreview({
       {/* Nota: quando isPhotoOnly (Com imagem + Sem texto), a imagem inteira é o link de ação sem bloco inferior */}
       {!isPhotoOnly && (showText || showAction) && (
         <div
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-4 w-full box-border"
           style={{
             padding: metrics.padding,
-            /* Quando sem imagem, se as setas ficarem coladas ou externas, damos respiro extra */
-            paddingLeft: isNoImage ? '32px' : undefined,
-            paddingRight: isNoImage ? '32px' : undefined,
+            boxSizing: 'border-box',
+            /* Quando sem imagem, se os chevrons ficarem colados ou externos, garantimos respiro lateral confortável */
+            paddingLeft: isNoImage ? '36px' : undefined,
+            paddingRight: isNoImage ? '36px' : undefined,
           }}
         >
           {showText && (
@@ -766,26 +767,32 @@ export function SingleCarouselPreview({
         </div>
       )}
 
-      {/* Botões de Navegação (‹ e ›) */}
-      {/* Quando "Sem imagem", as setas ficam externamente nas laterais do container para nunca sobrepor texto */}
+      {/* Botões de Navegação — Chevron simples e discreto (sem círculo/badge ao redor) */}
+      {/* Quando "Sem imagem", os chevrons ficam externamente nas laterais para nunca sobrepor texto */}
       <button
         type="button"
         aria-label="Slide anterior"
         onClick={() => handleIndexChange(activeIdx - 1)}
-        className={`absolute top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full text-white shadow-lg transition-transform active:scale-95 focus:outline-none z-20 cursor-pointer ${
-          isNoImage ? '-left-4 sm:-left-5' : 'left-3'
+        className={`absolute top-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent border-0 p-0 transition-all duration-150 active:scale-90 focus:outline-none z-20 cursor-pointer group ${
+          isNoImage
+            ? '-left-6 sm:-left-8 text-[#004185] hover:text-[#00346A]'
+            : darkMode
+              ? 'left-2 sm:left-3 text-white/90 hover:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]'
+              : 'left-2 sm:left-3 text-white/95 hover:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]'
         }`}
         style={{
           width: `${metrics.navButtonSize}px`,
           height: `${metrics.navButtonSize}px`,
-          backgroundColor: navBtnBg,
           outline: isHoverState ? '1px solid #004185' : 'none',
-          outlineOffset: '1px',
+          outlineOffset: '2px',
         }}
       >
         <span
-          className="material-symbols-rounded select-none"
-          style={{ fontSize: `${metrics.navIconSize}px` }}
+          className="material-symbols-rounded select-none transition-transform group-hover:-translate-x-0.5 leading-none"
+          style={{
+            fontSize: `${metrics.navIconSize}px`,
+            lineHeight: 1,
+          }}
         >
           chevron_left
         </span>
@@ -795,20 +802,26 @@ export function SingleCarouselPreview({
         type="button"
         aria-label="Próximo slide"
         onClick={() => handleIndexChange(activeIdx + 1)}
-        className={`absolute top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full text-white shadow-lg transition-transform active:scale-95 focus:outline-none z-20 cursor-pointer ${
-          isNoImage ? '-right-4 sm:-right-5' : 'right-3'
+        className={`absolute top-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent border-0 p-0 transition-all duration-150 active:scale-90 focus:outline-none z-20 cursor-pointer group ${
+          isNoImage
+            ? '-right-6 sm:-right-8 text-[#004185] hover:text-[#00346A]'
+            : darkMode
+              ? 'right-2 sm:right-3 text-white/90 hover:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]'
+              : 'right-2 sm:right-3 text-white/95 hover:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]'
         }`}
         style={{
           width: `${metrics.navButtonSize}px`,
           height: `${metrics.navButtonSize}px`,
-          backgroundColor: navBtnBg,
           outline: isHoverState ? '1px solid #004185' : 'none',
-          outlineOffset: '1px',
+          outlineOffset: '2px',
         }}
       >
         <span
-          className="material-symbols-rounded select-none"
-          style={{ fontSize: `${metrics.navIconSize}px` }}
+          className="material-symbols-rounded select-none transition-transform group-hover:translate-x-0.5 leading-none"
+          style={{
+            fontSize: `${metrics.navIconSize}px`,
+            lineHeight: 1,
+          }}
         >
           chevron_right
         </span>
@@ -910,7 +923,7 @@ function CarouselStateGallery({
       id: 'comb-5',
       title: '5. Sem imagem + Com texto + Com botão',
       description:
-        'Comunicação tipográfica com ação direta — setas posicionadas externamente para não sobrepor o texto.',
+        'Comunicação tipográfica com ação direta — chevrons posicionados externamente para não sobrepor o texto.',
       hasImage: 'Sem imagem',
       hasText: 'Com texto',
       hasAction: 'Com botão',
@@ -937,7 +950,7 @@ function CarouselStateGallery({
       id: 'comb-8',
       title: '8. Sem imagem + Sem texto + Sem botão (Estrutural mínimo)',
       description:
-        'Estrutura mínima de transição para contêineres customizados com setas externas.',
+        'Estrutura mínima de transição para contêineres customizados com chevrons externos.',
       hasImage: 'Sem imagem',
       hasText: 'Sem texto',
       hasAction: 'Sem botão',
@@ -952,7 +965,7 @@ function CarouselStateGallery({
         </h3>
         <p className="text-xs sm:text-sm text-[#7A7A7A] mt-1 font-normal">
           Cobertura total das combinações: [Com/Sem imagem] × [Com/Sem texto] × [Com/Sem botão de
-          ação]. Nas opções sem imagem as setas ficam fora do conteúdo; na opção com imagem e sem
+          ação]. Nas opções sem imagem os chevrons ficam fora do conteúdo; na opção com imagem e sem
           texto a imagem inteira é clicável como link de ação (sem botão); nas combinações com botão
           são demonstrados os tipos Primary e Link.
         </p>
