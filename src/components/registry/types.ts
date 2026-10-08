@@ -2442,6 +2442,7 @@ export type CarouselState = 'Default' | 'Hover'
 export type CarouselImageOption = 'Com imagem' | 'Sem imagem'
 export type CarouselTextOption = 'Com texto' | 'Sem texto'
 export type CarouselActionOption = 'Com botão' | 'Sem botão'
+export type CarouselActionType = 'Primary' | 'Link'
 export type CarouselSize = 'Large' | 'Medium' | 'Small'
 
 export interface CarouselSlideData {
@@ -2459,6 +2460,7 @@ export interface CarouselConfig {
   hasImage: CarouselImageOption
   hasText: CarouselTextOption
   hasAction: CarouselActionOption
+  actionType?: CarouselActionType
   title: string
   text: string
   actionLabel: string
@@ -2527,15 +2529,26 @@ export const CAROUSEL_SIZE_METRICS: Record<CarouselSize, CarouselSizeMetrics> = 
  * - Foco acessível 1px em azul primário (#004185) e destaque pontual amarelo (#F2CB05) nos dots ativos
  */
 export function generateCarouselCss(config: CarouselConfig): string {
-  const { size, state, hasImage, hasText, hasAction } = config
+  const { size, state, hasImage, hasText, hasAction, actionType = 'Primary' } = config
   const metrics = CAROUSEL_SIZE_METRICS[size] || CAROUSEL_SIZE_METRICS.Medium
 
   const isHover = state === 'Hover'
   const navBg = isHover ? '#00346A' : '#004185'
   const navColor = '#FFFFFF'
   const btnBg = isHover ? '#00346A' : '#004185'
+  const isPhotoOnly = hasImage === 'Com imagem' && hasText === 'Sem texto'
+  const isNoImage = hasImage === 'Sem imagem'
 
-  const comment = `/* Component=Carousel, Size=${size}, State=${state}, Image=${hasImage}, Text=${hasText}, Action=${hasAction} */`
+  const actionDetails =
+    hasAction === 'Com botão'
+      ? isPhotoOnly
+        ? `Action=PhotoLink`
+        : `Action=Com botão, ButtonType=${actionType}`
+      : isPhotoOnly
+        ? `Action=PhotoLink`
+        : `Action=Sem botão`
+
+  const comment = `/* Component=Carousel, Size=${size}, State=${state}, Image=${hasImage}, Text=${hasText}, ${actionDetails} */`
 
   const containerLines = [
     '  position: relative;',
@@ -2545,11 +2558,11 @@ export function generateCarouselCss(config: CarouselConfig): string {
     '  background-color: #FFFFFF;',
     '  border: 1px solid #EBEBEB;',
     '  box-shadow: 0 4px 16px -2px rgba(6, 36, 70, 0.08);',
-    '  overflow: hidden;',
+    '  overflow: visible; /* Garante que as setas externas nunca fiquem cortadas */',
     "  font-family: 'Open Sans', sans-serif;",
   ]
 
-  const navBtnLines = [
+  const navBtnBaseLines = [
     '  position: absolute;',
     '  top: 50%;',
     '  transform: translateY(-50%);',
@@ -2569,15 +2582,19 @@ export function generateCarouselCss(config: CarouselConfig): string {
   ]
 
   if (isHover) {
-    navBtnLines.push('  outline: 1px solid #004185;')
-    navBtnLines.push('  outline-offset: 1px;')
+    navBtnBaseLines.push('  outline: 1px solid #004185;')
+    navBtnBaseLines.push('  outline-offset: 1px;')
   }
+
+  // Quando sem imagem, as setas ficam externas ao conteúdo para não sobrepor texto/CTA
+  const prevPosition = isNoImage ? `calc(-${metrics.navButtonSize}px - 10px)` : '12px'
+  const nextPosition = isNoImage ? `calc(-${metrics.navButtonSize}px - 10px)` : '12px'
 
   const sections: string[] = [
     comment,
     `.comven-carousel {\n${containerLines.join('\n')}\n}`,
-    `.comven-carousel__nav-prev {\n${navBtnLines.join('\n')}\n  left: 12px;\n}`,
-    `.comven-carousel__nav-next {\n${navBtnLines.join('\n')}\n  right: 12px;\n}`,
+    `.comven-carousel__nav-prev {\n${navBtnBaseLines.join('\n')}\n  left: ${prevPosition};\n}`,
+    `.comven-carousel__nav-next {\n${navBtnBaseLines.join('\n')}\n  right: ${nextPosition};\n}`,
   ]
 
   if (hasImage === 'Com imagem') {
@@ -2586,6 +2603,7 @@ export function generateCarouselCss(config: CarouselConfig): string {
   width: 100%;
   height: ${metrics.imageHeight}px;
   overflow: hidden;
+  border-radius: 16px 16px 0 0;
   background-color: #062446;
 }
 .comven-carousel__image {
@@ -2594,6 +2612,32 @@ export function generateCarouselCss(config: CarouselConfig): string {
   object-fit: cover;
   display: block;
 }`)
+
+    if (isPhotoOnly) {
+      sections.push(`.comven-carousel__photo-link {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background-color: rgba(6, 36, 70, 0.85);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background-color 0.15s ease;
+}
+.comven-carousel__photo-link:hover {
+  background-color: #004185;
+  text-decoration: underline;
+}`)
+    }
   } else {
     sections.push(`.comven-carousel__image-placeholder {
   display: none; /* Sem imagem selecionado */
@@ -2622,8 +2666,30 @@ export function generateCarouselCss(config: CarouselConfig): string {
 }`)
   }
 
-  if (hasAction === 'Com botão') {
-    sections.push(`.comven-carousel__action-button {
+  if (hasAction === 'Com botão' && !isPhotoOnly) {
+    if (actionType === 'Link') {
+      sections.push(`.comven-carousel__action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: transparent;
+  color: #004185;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  width: fit-content;
+  margin-top: 6px;
+}
+.comven-carousel__action-link:hover {
+  color: #00346A;
+  text-decoration: underline;
+}`)
+    } else {
+      sections.push(`.comven-carousel__action-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2642,6 +2708,7 @@ export function generateCarouselCss(config: CarouselConfig): string {
   width: fit-content;
   margin-top: 6px;
 }`)
+    }
   }
 
   sections.push(`.comven-carousel__dots {

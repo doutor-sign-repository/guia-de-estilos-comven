@@ -39,6 +39,7 @@ import {
   CarouselImageOption,
   CarouselTextOption,
   CarouselActionOption,
+  CarouselActionType,
   generateCarouselCss,
 } from './types'
 import { ButtonPlayground } from './ButtonPlayground'
@@ -608,6 +609,7 @@ export const CAROUSEL_DEFINITION: ComponentDefinition<CarouselConfig> = {
     hasImage: 'Com imagem',
     hasText: 'Com texto',
     hasAction: 'Com botão',
+    actionType: 'Primary',
     title: 'Frota Integrada COMVEN',
     text: 'Gestão inteligente de transporte e monitoramento em tempo real para toda a malha rodoviária.',
     actionLabel: 'Conhecer frota',
@@ -647,5 +649,6 @@ export type {
   CarouselImageOption,
   CarouselTextOption,
   CarouselActionOption,
+  CarouselActionType,
 }
 export { PlaygroundControlGroup } from './PlaygroundControlGroup'

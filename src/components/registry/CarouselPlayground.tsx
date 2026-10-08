@@ -6,6 +6,7 @@ import {
   CarouselImageOption,
   CarouselTextOption,
   CarouselActionOption,
+  CarouselActionType,
   CarouselSlideData,
   CAROUSEL_SIZE_METRICS,
   generateCarouselCss,
@@ -22,6 +23,7 @@ const CAROUSEL_STATES: CarouselState[] = ['Default', 'Hover']
 const CAROUSEL_IMAGE_OPTIONS: CarouselImageOption[] = ['Com imagem', 'Sem imagem']
 const CAROUSEL_TEXT_OPTIONS: CarouselTextOption[] = ['Com texto', 'Sem texto']
 const CAROUSEL_ACTION_OPTIONS: CarouselActionOption[] = ['Com botão', 'Sem botão']
+const CAROUSEL_ACTION_TYPES: CarouselActionType[] = ['Primary', 'Link']
 
 export const DEFAULT_CAROUSEL_SLIDES: CarouselSlideData[] = [
   {
@@ -62,6 +64,9 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
   const [hasAction, setHasAction] = useState<CarouselActionOption>(
     initialConfig?.hasAction || 'Com botão',
   )
+  const [actionType, setActionType] = useState<CarouselActionType>(
+    initialConfig?.actionType || 'Primary',
+  )
 
   const [activeSlideIndex, setActiveSlideIndex] = useState(0)
 
@@ -82,11 +87,12 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
       hasImage,
       hasText,
       hasAction,
+      actionType,
       title,
       text,
       actionLabel,
     }),
-    [size, state, hasImage, hasText, hasAction, title, text, actionLabel],
+    [size, state, hasImage, hasText, hasAction, actionType, title, text, actionLabel],
   )
 
   const cssCode = useMemo(() => generateCarouselCss(config), [config])
@@ -277,6 +283,32 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
               )
             })}
           </PlaygroundControlGroup>
+
+          {/* TIPO DE BOTÃO (NOVO CONTROLE) */}
+          <PlaygroundControlGroup label="TIPO DE BOTÃO">
+            {CAROUSEL_ACTION_TYPES.map((t) => {
+              const isSelected = actionType === t
+              const isSemBotao = hasAction === 'Sem botão'
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  disabled={isSemBotao}
+                  onClick={() => setActionType(t)}
+                  title={isSemBotao ? 'Não aplicável quando "Sem botão"' : undefined}
+                  className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
+                    isSemBotao
+                      ? 'bg-[#F0F2F5]/60 text-[#A0A0A0] cursor-not-allowed border border-dashed border-[#D0D5DD]'
+                      : isSelected
+                        ? 'bg-[#004185] text-white shadow-xs'
+                        : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                  }`}
+                >
+                  {t}
+                </button>
+              )
+            })}
+          </PlaygroundControlGroup>
         </div>
 
         {/* Campos de texto editáveis */}
@@ -399,9 +431,16 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
                 }
               }}
               onActionClick={(slide) => {
+                const isPhotoOnly = hasImage === 'Com imagem' && hasText === 'Sem texto'
                 toast({
-                  title: 'Ação acionada!',
-                  description: `Botão "${slide.actionLabel || actionLabel}" do slide "${slide.title || 'Slide'}" foi clicado.`,
+                  title: isPhotoOnly ? 'Link na foto acionado!' : 'Ação acionada!',
+                  description: `${
+                    isPhotoOnly
+                      ? 'O link sobreposto à foto'
+                      : actionType === 'Link'
+                        ? 'O botão estilo Link'
+                        : 'O botão Primário'
+                  } "${slide.actionLabel || actionLabel}" do slide "${slide.title || 'Slide'}" foi clicado.`,
                 })
               }}
             />
@@ -435,7 +474,12 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
       </div>
 
       {/* Matriz Completa sobre fundo #062446 sem barras de scroll */}
-      <CarouselStateGallery currentTitle={title} currentText={text} currentAction={actionLabel} />
+      <CarouselStateGallery
+        currentTitle={title}
+        currentText={text}
+        currentAction={actionLabel}
+        playgroundActionType={actionType}
+      />
     </div>
   )
 }
@@ -484,17 +528,28 @@ export function SingleCarouselPreview({
   const showImage = config.hasImage === 'Com imagem'
   const showText = config.hasText === 'Com texto'
   const showAction = config.hasAction === 'Com botão'
+  const actionType = config.actionType || 'Primary'
 
-  // Cores de botão
+  // Combinação especial "Somente foto": Com imagem + Sem texto
+  // Nessa combinação, o botão no corpo deixa de existir e o link fica sobreposto à foto
+  const isPhotoOnly = showImage && !showText
+
+  // Cores de botão e navegação
   const navBtnBg = isHoverState ? '#00346A' : '#004185'
   const actionBtnBg = isHoverState ? '#00346A' : '#004185'
+
+  // Quando "Sem imagem", as setas não podem sobrepor o texto.
+  // Colocamos o container do carrossel com overflow visível e posicionamos as setas externamente.
+  const isNoImage = !showImage
 
   // Se não tem texto nem imagem e nem botão, mostra um aviso visual harmonioso
   const isCompletelyEmpty = !showImage && !showText && !showAction
 
   return (
     <div
-      className={`relative w-full rounded-2xl overflow-hidden transition-all duration-300 shadow-md ${
+      className={`relative w-full rounded-2xl transition-all duration-300 shadow-md ${
+        isNoImage ? 'overflow-visible' : 'overflow-hidden'
+      } ${
         darkMode ? 'bg-[#082C56] border border-[#113C68]' : 'bg-white border border-[#E2E6EB]'
       } ${className}`}
       style={{
@@ -507,7 +562,7 @@ export function SingleCarouselPreview({
       {/* Imagem do Slide (quando "Com imagem") */}
       {showImage && (
         <div
-          className="relative w-full overflow-hidden bg-[#062446]"
+          className="relative w-full overflow-hidden rounded-t-2xl bg-[#062446]"
           style={{ height: `${metrics.imageHeight}px` }}
         >
           {currentSlide?.imageUrl ? (
@@ -531,8 +586,29 @@ export function SingleCarouselPreview({
             </div>
           )}
 
-          {/* Gradiente sutil se houver texto sobreposto quando não houver container de corpo separado */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+          {/* Somente foto: Link sobreposto diretamente na imagem */}
+          {isPhotoOnly && (
+            <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-[#062446]/85 via-[#062446]/40 to-transparent flex items-center justify-end z-10">
+              <button
+                type="button"
+                onClick={() => onActionClick?.(currentSlide)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#062446]/90 hover:bg-[#004185] text-white text-xs sm:text-[13px] font-bold border border-white/20 shadow-md transition-all backdrop-blur-xs cursor-pointer select-none focus:outline-none"
+                style={{
+                  fontFamily: "'Open Sans', sans-serif",
+                }}
+              >
+                <span>{currentSlide?.actionLabel || config.actionLabel || 'Ver detalhes'}</span>
+                <span className="material-symbols-rounded text-sm" style={{ fontSize: '16px' }}>
+                  open_in_new
+                </span>
+              </button>
+            </div>
+          )}
+
+          {/* Gradiente sutil base se não for somente foto */}
+          {!isPhotoOnly && (
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+          )}
         </div>
       )}
 
@@ -561,8 +637,17 @@ export function SingleCarouselPreview({
       )}
 
       {/* Corpo com Título, Texto e Botão de Ação */}
-      {(showText || showAction) && (
-        <div className="flex flex-col gap-3" style={{ padding: metrics.padding }}>
+      {/* Nota: quando isPhotoOnly, o CTA já foi renderizado como Link sobreposto na foto */}
+      {!isPhotoOnly && (showText || showAction) && (
+        <div
+          className="flex flex-col gap-3"
+          style={{
+            padding: metrics.padding,
+            /* Quando sem imagem, se as setas ficarem coladas ou externas, damos respiro extra */
+            paddingLeft: isNoImage ? '24px' : undefined,
+            paddingRight: isNoImage ? '24px' : undefined,
+          }}
+        >
           {showText && (
             <div className="space-y-1.5">
               <h3
@@ -592,27 +677,53 @@ export function SingleCarouselPreview({
 
           {showAction && (
             <div className={showText ? 'pt-1' : ''}>
-              <button
-                type="button"
-                onClick={() => onActionClick?.(currentSlide)}
-                className="inline-flex items-center justify-center font-semibold text-white rounded-md transition-colors select-none focus:outline-none"
-                style={{
-                  height: `${metrics.buttonHeight}px`,
-                  padding: '0 20px',
-                  backgroundColor: actionBtnBg,
-                  fontSize: '13px',
-                  outline: isHoverState ? '1px solid #004185' : 'none',
-                  outlineOffset: '1px',
-                }}
-              >
-                <span>{currentSlide?.actionLabel || config.actionLabel || 'Acessar'}</span>
-                <span
-                  className="material-symbols-rounded text-sm ml-1.5"
-                  style={{ fontSize: '16px' }}
+              {actionType === 'Link' ? (
+                /* Botão estilo Link do Guia COMVEN: texto azul sem fundo/borda */
+                <button
+                  type="button"
+                  onClick={() => onActionClick?.(currentSlide)}
+                  className={`inline-flex items-center gap-1.5 p-0 bg-transparent border-0 font-bold transition-all select-none cursor-pointer focus:outline-none ${
+                    darkMode
+                      ? 'text-[#8BB7E7] hover:text-white hover:underline'
+                      : 'text-[#004185] hover:text-[#00346A] hover:underline'
+                  }`}
+                  style={{
+                    fontSize: `${metrics.textSize}px`,
+                    fontFamily: "'Open Sans', sans-serif",
+                  }}
                 >
-                  arrow_forward
-                </span>
-              </button>
+                  <span>{currentSlide?.actionLabel || config.actionLabel || 'Acessar'}</span>
+                  <span
+                    className="material-symbols-rounded text-sm"
+                    style={{ fontSize: `${metrics.textSize + 2}px` }}
+                  >
+                    arrow_forward
+                  </span>
+                </button>
+              ) : (
+                /* Botão estilo Primary do Guia COMVEN: fundo azul sólido #004185 */
+                <button
+                  type="button"
+                  onClick={() => onActionClick?.(currentSlide)}
+                  className="inline-flex items-center justify-center font-semibold text-white rounded-md transition-colors select-none focus:outline-none cursor-pointer"
+                  style={{
+                    height: `${metrics.buttonHeight}px`,
+                    padding: '0 20px',
+                    backgroundColor: actionBtnBg,
+                    fontSize: '13px',
+                    outline: isHoverState ? '1px solid #004185' : 'none',
+                    outlineOffset: '1px',
+                  }}
+                >
+                  <span>{currentSlide?.actionLabel || config.actionLabel || 'Acessar'}</span>
+                  <span
+                    className="material-symbols-rounded text-sm ml-1.5"
+                    style={{ fontSize: '16px' }}
+                  >
+                    arrow_forward
+                  </span>
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -626,11 +737,14 @@ export function SingleCarouselPreview({
       )}
 
       {/* Botões de Navegação (‹ e ›) */}
+      {/* Quando "Sem imagem", as setas ficam externamente nas laterais do container para nunca sobrepor texto */}
       <button
         type="button"
         aria-label="Slide anterior"
         onClick={() => handleIndexChange(activeIdx - 1)}
-        className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full text-white shadow-lg transition-transform active:scale-95 focus:outline-none z-10"
+        className={`absolute top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full text-white shadow-lg transition-transform active:scale-95 focus:outline-none z-20 cursor-pointer ${
+          isNoImage ? '-left-4 sm:-left-5' : 'left-3'
+        }`}
         style={{
           width: `${metrics.navButtonSize}px`,
           height: `${metrics.navButtonSize}px`,
@@ -651,7 +765,9 @@ export function SingleCarouselPreview({
         type="button"
         aria-label="Próximo slide"
         onClick={() => handleIndexChange(activeIdx + 1)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full text-white shadow-lg transition-transform active:scale-95 focus:outline-none z-10"
+        className={`absolute top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full text-white shadow-lg transition-transform active:scale-95 focus:outline-none z-20 cursor-pointer ${
+          isNoImage ? '-right-4 sm:-right-5' : 'right-3'
+        }`}
         style={{
           width: `${metrics.navButtonSize}px`,
           height: `${metrics.navButtonSize}px`,
@@ -708,10 +824,12 @@ function CarouselStateGallery({
   currentTitle,
   currentText,
   currentAction,
+  playgroundActionType = 'Primary',
 }: {
   currentTitle: string
   currentText: string
   currentAction: string
+  playgroundActionType?: CarouselActionType
 }) {
   const combinations: Array<{
     id: string
@@ -720,11 +838,12 @@ function CarouselStateGallery({
     hasImage: CarouselImageOption
     hasText: CarouselTextOption
     hasAction: CarouselActionOption
+    note?: string
   }> = [
     {
       id: 'comb-1',
       title: '1. Com imagem + Com texto + Com botão (Completo)',
-      description: 'Apresentação padrão ideal para campanhas e banners de alta relevância.',
+      description: 'Apresentação padrão ideal para campanhas e banners de alta relevância com CTA.',
       hasImage: 'Com imagem',
       hasText: 'Com texto',
       hasAction: 'Com botão',
@@ -739,24 +858,29 @@ function CarouselStateGallery({
     },
     {
       id: 'comb-3',
-      title: '3. Com imagem + Sem texto + Com botão',
-      description: 'Slide visual com CTA direto (ex.: banners promocionais com arte fechada).',
+      title: '3. Com imagem + Sem texto + Com botão (Somente foto com link)',
+      description:
+        'Na opção somente foto o botão deixa de existir; o link de ação fica sobre a foto.',
       hasImage: 'Com imagem',
       hasText: 'Sem texto',
       hasAction: 'Com botão',
+      note: 'Link sobreposto à foto',
     },
     {
       id: 'comb-4',
-      title: '4. Com imagem + Sem texto + Sem botão (Visual puro)',
-      description: 'Galeria visual e fotográfica limpa com apenas navegação lateral e dots.',
+      title: '4. Com imagem + Sem texto + Sem botão (Somente foto com link na foto)',
+      description:
+        'Galeria fotográfica: na opção somente foto, não temos botão e o link fica sobreposto à foto.',
       hasImage: 'Com imagem',
       hasText: 'Sem texto',
       hasAction: 'Sem botão',
+      note: 'Link sobreposto à foto',
     },
     {
       id: 'comb-5',
       title: '5. Sem imagem + Com texto + Com botão',
-      description: 'Comunicação tipográfica com foco no argumento e ação direta.',
+      description:
+        'Comunicação tipográfica com ação direta — setas posicionadas externamente para não sobrepor o texto.',
       hasImage: 'Sem imagem',
       hasText: 'Com texto',
       hasAction: 'Com botão',
@@ -764,7 +888,8 @@ function CarouselStateGallery({
     {
       id: 'comb-6',
       title: '6. Sem imagem + Com texto + Sem botão (Tipográfico puro)',
-      description: 'Mensagens institucionais, comunicados e citações em destaque.',
+      description:
+        'Mensagens institucionais e comunicados — navegação externa garantindo respiro e leitura limpa.',
       hasImage: 'Sem imagem',
       hasText: 'Com texto',
       hasAction: 'Sem botão',
@@ -772,7 +897,8 @@ function CarouselStateGallery({
     {
       id: 'comb-7',
       title: '7. Sem imagem + Sem texto + Com botão',
-      description: 'Módulo ultra compacto para atalhos e acionamentos rápidos.',
+      description:
+        'Módulo ultra compacto para atalhos e acionamentos rápidos sem conflito de navegação.',
       hasImage: 'Sem imagem',
       hasText: 'Sem texto',
       hasAction: 'Com botão',
@@ -780,7 +906,8 @@ function CarouselStateGallery({
     {
       id: 'comb-8',
       title: '8. Sem imagem + Sem texto + Sem botão (Estrutural mínimo)',
-      description: 'Estrutura mínima de transição para contêineres customizados.',
+      description:
+        'Estrutura mínima de transição para contêineres customizados com setas externas.',
       hasImage: 'Sem imagem',
       hasText: 'Sem texto',
       hasAction: 'Sem botão',
@@ -795,18 +922,24 @@ function CarouselStateGallery({
         </h3>
         <p className="text-xs sm:text-sm text-[#7A7A7A] mt-1 font-normal">
           Cobertura total das combinações: [Com/Sem imagem] × [Com/Sem texto] × [Com/Sem botão de
-          ação]. Visualização sem barras de scroll horizontais ou verticais artificiais.
+          ação]. Nas opções sem imagem as setas ficam fora do conteúdo; na opção somente foto o link
+          fica sobreposto à foto; nas combinações com botão são demonstrados os tipos Primary e
+          Link.
         </p>
       </div>
 
       <div className="mt-6 space-y-6">
         {combinations.map((comb) => {
-          const configVariant: CarouselConfig = {
+          const isPhotoOnly = comb.hasImage === 'Com imagem' && comb.hasText === 'Sem texto'
+          const showButtonTypeSplit = comb.hasAction === 'Com botão' && !isPhotoOnly
+
+          const baseConfig: CarouselConfig = {
             size: 'Medium',
             state: 'Default',
             hasImage: comb.hasImage,
             hasText: comb.hasText,
             hasAction: comb.hasAction,
+            actionType: playgroundActionType,
             title: currentTitle || 'Destaque Operacional COMVEN',
             text:
               currentText ||
@@ -837,13 +970,57 @@ function CarouselStateGallery({
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#001D3D] text-[#8BB7E7] border border-[#113C68]">
                     {comb.hasAction}
                   </span>
+                  {comb.note && (
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#F2CB05]/20 text-[#F2CB05] border border-[#F2CB05]/40">
+                      {comb.note}
+                    </span>
+                  )}
                 </div>
               </div>
 
               {/* Prévia sobre o fundo azul escuro */}
-              <div className="pt-6 flex justify-center items-center">
-                <SingleCarouselPreview config={configVariant} darkMode={true} className="mx-auto" />
-              </div>
+              {showButtonTypeSplit ? (
+                /* Subdivisão demonstrando os dois tipos de botão: Primary e Link */
+                <div className="pt-6 space-y-6">
+                  {/* Tipo Primary */}
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-semibold text-[#F2CB05] tracking-wide uppercase">
+                        Tipo de botão: Primary (Botão azul sólido)
+                      </span>
+                      <div className="flex-1 h-px bg-[#113C68]/60" />
+                    </div>
+                    <div className="flex justify-center items-center py-2 px-6">
+                      <SingleCarouselPreview
+                        config={{ ...baseConfig, actionType: 'Primary' }}
+                        darkMode={true}
+                        className="mx-auto"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Tipo Link */}
+                  <div className="space-y-2 pt-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-semibold text-[#8BB7E7] tracking-wide uppercase">
+                        Tipo de botão: Link (Texto com ícone, sem fundo ou borda)
+                      </span>
+                      <div className="flex-1 h-px bg-[#113C68]/60" />
+                    </div>
+                    <div className="flex justify-center items-center py-2 px-6">
+                      <SingleCarouselPreview
+                        config={{ ...baseConfig, actionType: 'Link' }}
+                        darkMode={true}
+                        className="mx-auto"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="pt-6 flex justify-center items-center px-6">
+                  <SingleCarouselPreview config={baseConfig} darkMode={true} className="mx-auto" />
+                </div>
+              )}
             </div>
           )
         })}
