@@ -2568,9 +2568,14 @@ export function generateCarouselCss(config: CarouselConfig): string {
     "  font-family: 'Open Sans', sans-serif;",
   ]
 
+  // Regra de alinhamento vertical dos chevrons COMVEN:
+  // - Com imagem: chevrons sempre centralizados verticalmente em relação à área da imagem (top: imageHeight / 2)
+  // - Sem imagem (só textual): chevrons centralizados verticalmente em relação à área toda do componente (top: 50%)
+  const navTop = isNoImage ? '50%' : `${metrics.imageHeight / 2}px`
+
   const navBtnBaseLines = [
     '  position: absolute;',
-    '  top: 50%;',
+    `  top: ${navTop}; /* ${isNoImage ? 'Centralizado na área total do componente (modo textual)' : 'Centralizado verticalmente na área da imagem'} */`,
     '  transform: translateY(-50%);',
     `  width: ${metrics.navButtonSize}px;`,
     `  height: ${metrics.navButtonSize}px;`,

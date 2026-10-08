@@ -780,12 +780,13 @@ export function SingleCarouselPreview({
       )}
 
       {/* Botões de Navegação — Chevron simples e discreto estático (sem hover, sem círculo/badge ao redor) */}
-      {/* Posicionados nas laterais internas tanto com quanto sem imagem */}
+      {/* Regra COMVEN: Quando tem imagem, ancorados e centralizados verticalmente na área da imagem. */}
+      {/* Quando só textual (sem imagem), centralizados verticalmente na área toda do card. */}
       <button
         type="button"
         aria-label="Slide anterior"
         onClick={() => handleIndexChange(activeIdx - 1)}
-        className={`absolute top-1/2 -translate-y-1/2 left-2 sm:left-3 flex items-center justify-center bg-transparent border-0 p-0 focus:outline-none z-20 cursor-pointer ${
+        className={`absolute left-2 sm:left-3 flex items-center justify-center bg-transparent border-0 p-0 focus:outline-none z-20 cursor-pointer ${
           isNoImage
             ? darkMode
               ? 'text-[#8BB7E7]'
@@ -793,6 +794,8 @@ export function SingleCarouselPreview({
             : 'text-white/95 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]'
         }`}
         style={{
+          top: showImage ? `${metrics.imageHeight / 2}px` : '50%',
+          transform: 'translateY(-50%)',
           width: `${metrics.navButtonSize}px`,
           height: `${metrics.navButtonSize}px`,
         }}
@@ -812,7 +815,7 @@ export function SingleCarouselPreview({
         type="button"
         aria-label="Próximo slide"
         onClick={() => handleIndexChange(activeIdx + 1)}
-        className={`absolute top-1/2 -translate-y-1/2 right-2 sm:right-3 flex items-center justify-center bg-transparent border-0 p-0 focus:outline-none z-20 cursor-pointer ${
+        className={`absolute right-2 sm:right-3 flex items-center justify-center bg-transparent border-0 p-0 focus:outline-none z-20 cursor-pointer ${
           isNoImage
             ? darkMode
               ? 'text-[#8BB7E7]'
@@ -820,6 +823,8 @@ export function SingleCarouselPreview({
             : 'text-white/95 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]'
         }`}
         style={{
+          top: showImage ? `${metrics.imageHeight / 2}px` : '50%',
+          transform: 'translateY(-50%)',
           width: `${metrics.navButtonSize}px`,
           height: `${metrics.navButtonSize}px`,
         }}
