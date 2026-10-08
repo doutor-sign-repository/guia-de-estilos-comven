@@ -46,9 +46,17 @@ export const DEFAULT_CAROUSEL_SLIDES: CarouselSlideData[] = [
     id: 'slide-3',
     title: 'Tecnologia em Logística',
     text: 'Roteirização dinâmica e redução de prazos com telemetria e análise preditiva de rotas.',
-    imageUrl: 'https://img.usecurling.com/p/800/400?q=logistics%20dashboard&color=darkblue',
-    imageAlt: 'Tecnologia de telemetria logística',
+    imageUrl: 'https://img.usecurling.com/p/800/400?q=logistics&color=blue',
+    imageAlt: 'Tecnologia de telemetria e rotas logísticas',
     actionLabel: 'Acessar painel',
+  },
+  {
+    id: 'slide-4',
+    title: 'Eficiência e Sustentabilidade',
+    text: 'Otimização de consumo e redução de emissões com frotas de alta performance e governança.',
+    imageUrl: 'https://img.usecurling.com/p/800/400?q=highway&color=blue',
+    imageAlt: 'Malha rodoviária e sustentabilidade COMVEN',
+    actionLabel: 'Ver relatório',
   },
 ]
 
@@ -61,6 +69,22 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
     initialConfig?.hasImage || 'Com imagem',
   )
   const [hasText, setHasText] = useState<CarouselTextOption>(initialConfig?.hasText || 'Com texto')
+
+  const handleSetImage = (opt: CarouselImageOption) => {
+    if (opt === 'Sem imagem' && hasText === 'Sem texto') {
+      // Regra: não existe carousel sem imagem E sem texto. Reabilita o texto automaticamente.
+      setHasText('Com texto')
+    }
+    setHasImage(opt)
+  }
+
+  const handleSetText = (opt: CarouselTextOption) => {
+    if (opt === 'Sem texto' && hasImage === 'Sem imagem') {
+      // Regra: não existe carousel sem imagem E sem texto. Reabilita a imagem automaticamente.
+      setHasImage('Com imagem')
+    }
+    setHasText(opt)
+  }
   const [hasAction, setHasAction] = useState<CarouselActionOption>(
     initialConfig?.hasAction || 'Com botão',
   )
@@ -229,7 +253,7 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
                 <button
                   key={opt}
                   type="button"
-                  onClick={() => setHasImage(opt)}
+                  onClick={() => handleSetImage(opt)}
                   className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
                     isSelected
                       ? 'bg-[#004185] text-white shadow-xs'
@@ -250,7 +274,7 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
                 <button
                   key={opt}
                   type="button"
-                  onClick={() => setHasText(opt)}
+                  onClick={() => handleSetText(opt)}
                   className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
                     isSelected
                       ? 'bg-[#004185] text-white shadow-xs'
@@ -433,14 +457,12 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
               onActionClick={(slide) => {
                 const isPhotoOnly = hasImage === 'Com imagem' && hasText === 'Sem texto'
                 toast({
-                  title: isPhotoOnly ? 'Link na foto acionado!' : 'Ação acionada!',
-                  description: `${
-                    isPhotoOnly
-                      ? 'O link sobreposto à foto'
-                      : actionType === 'Link'
-                        ? 'O botão estilo Link'
-                        : 'O botão Primário'
-                  } "${slide.actionLabel || actionLabel}" do slide "${slide.title || 'Slide'}" foi clicado.`,
+                  title: isPhotoOnly ? 'Link na imagem acionado!' : 'Ação acionada!',
+                  description: isPhotoOnly
+                    ? `A imagem inteira do slide "${slide.title || 'Slide'}" foi clicada como link de ação.`
+                    : `${
+                        actionType === 'Link' ? 'O botão estilo Link' : 'O botão Primário'
+                      } "${slide.actionLabel || actionLabel}" do slide "${slide.title || 'Slide'}" foi clicado.`,
                 })
               }}
             />
@@ -562,14 +584,36 @@ export function SingleCarouselPreview({
       {/* Imagem do Slide (quando "Com imagem") */}
       {showImage && (
         <div
-          className="relative w-full overflow-hidden rounded-t-2xl bg-[#062446]"
+          className={`relative w-full overflow-hidden bg-[#062446] ${
+            isPhotoOnly ? 'rounded-2xl cursor-pointer' : 'rounded-t-2xl'
+          }`}
           style={{ height: `${metrics.imageHeight}px` }}
+          onClick={isPhotoOnly ? () => onActionClick?.(currentSlide) : undefined}
+          role={isPhotoOnly ? 'button' : undefined}
+          tabIndex={isPhotoOnly ? 0 : undefined}
+          onKeyDown={
+            isPhotoOnly
+              ? (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    onActionClick?.(currentSlide)
+                  }
+                }
+              : undefined
+          }
+          aria-label={
+            isPhotoOnly
+              ? `Acessar conteúdo: ${currentSlide?.title || 'Slide ' + (activeIdx + 1)}`
+              : undefined
+          }
         >
           {currentSlide?.imageUrl ? (
             <img
               src={currentSlide.imageUrl}
               alt={currentSlide.imageAlt || currentSlide.title || 'Slide imagem'}
-              className="w-full h-full object-cover transition-opacity duration-300 select-none"
+              className={`w-full h-full object-cover transition-transform duration-300 select-none ${
+                isPhotoOnly ? 'hover:scale-[1.02]' : ''
+              }`}
               loading="lazy"
             />
           ) : (
@@ -586,28 +630,14 @@ export function SingleCarouselPreview({
             </div>
           )}
 
-          {/* Somente foto: Link sobreposto diretamente na imagem */}
-          {isPhotoOnly && (
-            <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-[#062446]/85 via-[#062446]/40 to-transparent flex items-center justify-end z-10">
-              <button
-                type="button"
-                onClick={() => onActionClick?.(currentSlide)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#062446]/90 hover:bg-[#004185] text-white text-xs sm:text-[13px] font-bold border border-white/20 shadow-md transition-all backdrop-blur-xs cursor-pointer select-none focus:outline-none"
-                style={{
-                  fontFamily: "'Open Sans', sans-serif",
-                }}
-              >
-                <span>{currentSlide?.actionLabel || config.actionLabel || 'Ver detalhes'}</span>
-                <span className="material-symbols-rounded text-sm" style={{ fontSize: '16px' }}>
-                  open_in_new
-                </span>
-              </button>
-            </div>
-          )}
-
           {/* Gradiente sutil base se não for somente foto */}
           {!isPhotoOnly && (
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+          )}
+
+          {/* Overlay sutil em hover quando a imagem toda for link */}
+          {isPhotoOnly && (
+            <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors pointer-events-none" />
           )}
         </div>
       )}
@@ -637,19 +667,19 @@ export function SingleCarouselPreview({
       )}
 
       {/* Corpo com Título, Texto e Botão de Ação */}
-      {/* Nota: quando isPhotoOnly, o CTA já foi renderizado como Link sobreposto na foto */}
+      {/* Nota: quando isPhotoOnly (Com imagem + Sem texto), a imagem inteira é o link de ação sem bloco inferior */}
       {!isPhotoOnly && (showText || showAction) && (
         <div
-          className="flex flex-col gap-3"
+          className="flex flex-col gap-4"
           style={{
             padding: metrics.padding,
             /* Quando sem imagem, se as setas ficarem coladas ou externas, damos respiro extra */
-            paddingLeft: isNoImage ? '24px' : undefined,
-            paddingRight: isNoImage ? '24px' : undefined,
+            paddingLeft: isNoImage ? '32px' : undefined,
+            paddingRight: isNoImage ? '32px' : undefined,
           }}
         >
           {showText && (
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <h3
                 className={`font-bold tracking-tight m-0 ${
                   darkMode ? 'text-white' : 'text-[#141414]'
@@ -858,23 +888,23 @@ function CarouselStateGallery({
     },
     {
       id: 'comb-3',
-      title: '3. Com imagem + Sem texto + Com botão (Somente foto com link)',
+      title: '3. Com imagem + Sem texto + Com botão (Imagem inteira como link)',
       description:
-        'Na opção somente foto o botão deixa de existir; o link de ação fica sobre a foto.',
+        'Na opção somente foto (com imagem e sem texto), o botão é dispensado e a imagem inteira torna-se a área clicável do link de ação.',
       hasImage: 'Com imagem',
       hasText: 'Sem texto',
       hasAction: 'Com botão',
-      note: 'Link sobreposto à foto',
+      note: 'Link na imagem toda',
     },
     {
       id: 'comb-4',
-      title: '4. Com imagem + Sem texto + Sem botão (Somente foto com link na foto)',
+      title: '4. Com imagem + Sem texto + Sem botão (Galeria fotográfica com link na imagem)',
       description:
-        'Galeria fotográfica: na opção somente foto, não temos botão e o link fica sobreposto à foto.',
+        'Galeria fotográfica: sem bloco de texto ou botão; a imagem inteira funciona como link de ação com cursor pointer.',
       hasImage: 'Com imagem',
       hasText: 'Sem texto',
       hasAction: 'Sem botão',
-      note: 'Link sobreposto à foto',
+      note: 'Link na imagem toda',
     },
     {
       id: 'comb-5',
@@ -922,9 +952,9 @@ function CarouselStateGallery({
         </h3>
         <p className="text-xs sm:text-sm text-[#7A7A7A] mt-1 font-normal">
           Cobertura total das combinações: [Com/Sem imagem] × [Com/Sem texto] × [Com/Sem botão de
-          ação]. Nas opções sem imagem as setas ficam fora do conteúdo; na opção somente foto o link
-          fica sobreposto à foto; nas combinações com botão são demonstrados os tipos Primary e
-          Link.
+          ação]. Nas opções sem imagem as setas ficam fora do conteúdo; na opção com imagem e sem
+          texto a imagem inteira é clicável como link de ação (sem botão); nas combinações com botão
+          são demonstrados os tipos Primary e Link.
         </p>
       </div>
 

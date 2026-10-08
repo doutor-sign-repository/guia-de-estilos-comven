@@ -2491,7 +2491,7 @@ export const CAROUSEL_SIZE_METRICS: Record<CarouselSize, CarouselSizeMetrics> = 
     navButtonSize: 40,
     navIconSize: 22,
     dotSize: 10,
-    padding: '24px 28px',
+    padding: '28px 32px 30px',
     buttonHeight: 40,
   },
   Medium: {
@@ -2504,7 +2504,7 @@ export const CAROUSEL_SIZE_METRICS: Record<CarouselSize, CarouselSizeMetrics> = 
     navButtonSize: 36,
     navIconSize: 20,
     dotSize: 8,
-    padding: '20px 24px',
+    padding: '24px 28px 26px',
     buttonHeight: 36,
   },
   Small: {
@@ -2517,7 +2517,7 @@ export const CAROUSEL_SIZE_METRICS: Record<CarouselSize, CarouselSizeMetrics> = 
     navButtonSize: 32,
     navIconSize: 18,
     dotSize: 7,
-    padding: '16px 18px',
+    padding: '20px 24px 22px',
     buttonHeight: 32,
   },
 }
@@ -2542,10 +2542,10 @@ export function generateCarouselCss(config: CarouselConfig): string {
   const actionDetails =
     hasAction === 'Com botão'
       ? isPhotoOnly
-        ? `Action=PhotoLink`
+        ? `Action=ImageLink (imagem inteira clicável)`
         : `Action=Com botão, ButtonType=${actionType}`
       : isPhotoOnly
-        ? `Action=PhotoLink`
+        ? `Action=ImageLink (imagem inteira clicável)`
         : `Action=Sem botão`
 
   const comment = `/* Component=Carousel, Size=${size}, State=${state}, Image=${hasImage}, Text=${hasText}, ${actionDetails} */`
@@ -2614,28 +2614,17 @@ export function generateCarouselCss(config: CarouselConfig): string {
 }`)
 
     if (isPhotoOnly) {
-      sections.push(`.comven-carousel__photo-link {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  z-index: 10;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  border-radius: 999px;
-  background-color: rgba(6, 36, 70, 0.85);
-  color: #FFFFFF;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
+      sections.push(`.comven-carousel__image-link {
+  display: block;
+  width: 100%;
+  height: 100%;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: background-color 0.15s ease;
+  text-decoration: none;
+  outline: none;
 }
-.comven-carousel__photo-link:hover {
-  background-color: #004185;
-  text-decoration: underline;
+.comven-carousel__image-link:focus-visible {
+  outline: 1px solid #004185;
+  outline-offset: -2px;
 }`)
     }
   } else {
@@ -2649,7 +2638,7 @@ export function generateCarouselCss(config: CarouselConfig): string {
   padding: ${metrics.padding};
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 }
 .comven-carousel__title {
   font-size: ${metrics.titleSize}px;
