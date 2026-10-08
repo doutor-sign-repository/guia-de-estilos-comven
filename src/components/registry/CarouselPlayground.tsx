@@ -567,6 +567,16 @@ export function SingleCarouselPreview({
   // Se não tem texto nem imagem e nem botão, mostra um aviso visual harmonioso
   const isCompletelyEmpty = !showImage && !showText && !showAction
 
+  const sidePadding = isNoImage
+    ? 36
+    : config.size === 'Large'
+      ? 32
+      : config.size === 'Medium'
+        ? 28
+        : 24
+  const topPadding = config.size === 'Large' ? 28 : config.size === 'Medium' ? 24 : 20
+  const bottomPadding = config.size === 'Large' ? 32 : config.size === 'Medium' ? 28 : 24
+
   return (
     <div
       className={`relative w-full rounded-2xl transition-all duration-300 shadow-md ${
@@ -672,11 +682,11 @@ export function SingleCarouselPreview({
         <div
           className="flex flex-col gap-4 w-full box-border"
           style={{
-            padding: metrics.padding,
+            paddingTop: `${topPadding}px`,
+            paddingBottom: `${bottomPadding}px`,
+            paddingLeft: `${sidePadding}px`,
+            paddingRight: `${sidePadding}px`,
             boxSizing: 'border-box',
-            /* Quando sem imagem, se os chevrons ficarem colados ou externos, garantimos respiro lateral confortável */
-            paddingLeft: isNoImage ? '36px' : undefined,
-            paddingRight: isNoImage ? '36px' : undefined,
           }}
         >
           {showText && (

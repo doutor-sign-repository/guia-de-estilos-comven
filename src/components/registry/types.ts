@@ -2639,8 +2639,16 @@ export function generateCarouselCss(config: CarouselConfig): string {
   }
 
   if (hasText === 'Com texto') {
+    const sidePadding = isNoImage ? 36 : size === 'Large' ? 32 : size === 'Medium' ? 28 : 24
+    const topPadding = size === 'Large' ? 28 : size === 'Medium' ? 24 : 20
+    const bottomPadding = size === 'Large' ? 32 : size === 'Medium' ? 28 : 24
+
     sections.push(`.comven-carousel__content {
-  padding: ${metrics.padding};
+  padding-top: ${topPadding}px;
+  padding-bottom: ${bottomPadding}px;
+  padding-left: ${sidePadding}px;
+  padding-right: ${sidePadding}px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 16px;
