@@ -320,6 +320,41 @@ function getButtonPreviewStyle(type: ButtonType, state: ButtonState): React.CSSP
   if (type === 'Secondary') {
     if (state === 'Disabled') {
       return {
+        backgroundColor: '#FFFFFF',
+        color: '#8BB7E7',
+        border: '2px solid #8BB7E7',
+        cursor: 'not-allowed',
+      }
+    }
+    if (state === 'Hover') {
+      return {
+        backgroundColor: '#FFFFFF',
+        color: '#00346A',
+        border: '2px solid #00346A',
+        cursor: 'pointer',
+      }
+    }
+    if (state === 'Active/Focus') {
+      return {
+        backgroundColor: '#FFFFFF',
+        color: '#002750',
+        border: '2px solid #002750',
+        boxShadow: '0 0 0 1px #002750',
+        cursor: 'pointer',
+      }
+    }
+    return {
+      backgroundColor: '#FFFFFF',
+      color: '#004185',
+      border: '2px solid #004185',
+      cursor: 'pointer',
+    }
+  }
+
+  if (type === 'Tertiary') {
+    // Tertiary = mesmo estilo visual do Secondary (borda azul COMVEN #004185, texto azul), sem outline/foco e SEM fundo (transparente por completo)
+    if (state === 'Disabled') {
+      return {
         backgroundColor: 'transparent',
         color: '#8BB7E7',
         border: '2px solid #8BB7E7',
@@ -328,7 +363,7 @@ function getButtonPreviewStyle(type: ButtonType, state: ButtonState): React.CSSP
     }
     if (state === 'Hover') {
       return {
-        backgroundColor: '#EBF3FC',
+        backgroundColor: 'rgba(0, 65, 133, 0.08)',
         color: '#00346A',
         border: '2px solid #00346A',
         cursor: 'pointer',
@@ -336,10 +371,9 @@ function getButtonPreviewStyle(type: ButtonType, state: ButtonState): React.CSSP
     }
     if (state === 'Active/Focus') {
       return {
-        backgroundColor: '#D2E4F7',
+        backgroundColor: 'rgba(0, 65, 133, 0.14)',
         color: '#002750',
         border: '2px solid #002750',
-        boxShadow: '0 0 0 1px #002750',
         cursor: 'pointer',
       }
     }
@@ -347,36 +381,6 @@ function getButtonPreviewStyle(type: ButtonType, state: ButtonState): React.CSSP
       backgroundColor: 'transparent',
       color: '#004185',
       border: '2px solid #004185',
-      cursor: 'pointer',
-    }
-  }
-
-  if (type === 'Tertiary') {
-    if (state === 'Disabled') {
-      return {
-        backgroundColor: '#F3F4F6',
-        color: '#9CA3AF',
-        cursor: 'not-allowed',
-      }
-    }
-    if (state === 'Hover') {
-      return {
-        backgroundColor: '#CDF6DB',
-        color: '#004185',
-        cursor: 'pointer',
-      }
-    }
-    if (state === 'Active/Focus') {
-      return {
-        backgroundColor: '#9BECB8',
-        color: '#002750',
-        boxShadow: '0 0 0 1px #004185',
-        cursor: 'pointer',
-      }
-    }
-    return {
-      backgroundColor: '#E6FAED',
-      color: '#004185',
       cursor: 'pointer',
     }
   }
@@ -473,6 +477,43 @@ function getDarkButtonMatrixStyle(type: ButtonType, state: ButtonState): React.C
   }
 
   if (type === 'Secondary') {
+    // Secondary em interfaces escuras (matriz #062446): background branco sólido (#FFFFFF) com borda e texto azul COMVEN
+    if (state === 'Disabled') {
+      return {
+        backgroundColor: '#FFFFFF',
+        color: '#8BB7E7',
+        border: '2px solid #8BB7E7',
+        cursor: 'not-allowed',
+        opacity: 0.65,
+      }
+    }
+    if (state === 'Hover') {
+      return {
+        backgroundColor: '#FFFFFF',
+        color: '#00346A',
+        border: '2px solid #00346A',
+        cursor: 'pointer',
+      }
+    }
+    if (state === 'Active/Focus') {
+      return {
+        backgroundColor: '#FFFFFF',
+        color: '#002750',
+        border: '2px solid #002750',
+        boxShadow: '0 0 0 1px #8BB7E7',
+        cursor: 'pointer',
+      }
+    }
+    return {
+      backgroundColor: '#FFFFFF',
+      color: '#004185',
+      border: '2px solid #004185',
+      cursor: 'pointer',
+    }
+  }
+
+  if (type === 'Tertiary') {
+    // Tertiary: transparente por completo (sem verde), mesmo visual do Secondary (borda e texto azul), mas sem anéis de foco/outline
     if (state === 'Disabled') {
       return {
         backgroundColor: 'transparent',
@@ -484,18 +525,18 @@ function getDarkButtonMatrixStyle(type: ButtonType, state: ButtonState): React.C
     }
     if (state === 'Hover') {
       return {
-        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        backgroundColor: 'rgba(255, 255, 255, 0.08)',
         color: '#FFFFFF',
         border: '2px solid #FFFFFF',
         cursor: 'pointer',
       }
     }
     if (state === 'Active/Focus') {
+      // Sem anel de foco/outline extra no Tertiary
       return {
-        backgroundColor: 'rgba(255, 255, 255, 0.18)',
+        backgroundColor: 'rgba(255, 255, 255, 0.15)',
         color: '#FFFFFF',
         border: '2px solid #FFFFFF',
-        boxShadow: '0 0 0 1px #8BB7E7',
         cursor: 'pointer',
       }
     }
@@ -503,36 +544,6 @@ function getDarkButtonMatrixStyle(type: ButtonType, state: ButtonState): React.C
       backgroundColor: 'transparent',
       color: '#8BB7E7',
       border: '2px solid #8BB7E7',
-      cursor: 'pointer',
-    }
-  }
-
-  if (type === 'Tertiary') {
-    if (state === 'Disabled') {
-      return {
-        backgroundColor: 'rgba(230, 250, 237, 0.25)',
-        color: '#94A3B8',
-        cursor: 'not-allowed',
-      }
-    }
-    if (state === 'Hover') {
-      return {
-        backgroundColor: '#CDF6DB',
-        color: '#002750',
-        cursor: 'pointer',
-      }
-    }
-    if (state === 'Active/Focus') {
-      return {
-        backgroundColor: '#9BECB8',
-        color: '#002750',
-        boxShadow: '0 0 0 1px #047D2E',
-        cursor: 'pointer',
-      }
-    }
-    return {
-      backgroundColor: '#E6FAED',
-      color: '#004185',
       cursor: 'pointer',
     }
   }
@@ -624,14 +635,15 @@ const TYPE_BLOCKS: TypeBlockInfo[] = [
   },
   {
     type: 'Secondary',
-    badge: 'Secondary (Transparente com borda 2px)',
-    description: 'Ações secundárias; borda 2px azul COMVEN #004185, hover com fundo translúcido.',
+    badge: 'Secondary (Fundo branco #FFFFFF com borda 2px azul #004185)',
+    description:
+      'Ações secundárias; background branco sólido para interfaces escuras, borda 2px azul COMVEN #004185 e texto azul.',
   },
   {
     type: 'Tertiary',
-    badge: 'Tertiary (Fundo verde-suave #E6FAED)',
+    badge: 'Tertiary (Transparente com borda 2px, sem outline)',
     description:
-      'Ações alternativas; fundo verde-suave #E6FAED com texto azul #004185, hover verde-claro #CDF6DB.',
+      'Ações alternativas; mesmo estilo visual do Secondary porém sem fundo (100% transparente) e sem anéis de foco.',
   },
   {
     type: 'Link',

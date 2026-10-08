@@ -107,44 +107,45 @@ export function generateButtonCss(config: ButtonConfig): string {
       labelColor = '#FFFFFF'
     }
   } else if (type === 'Secondary') {
+    lines.push('  background-color: #FFFFFF;')
     if (state === 'Disabled') {
-      lines.push('  background-color: transparent;')
       lines.push('  border: 2px solid #8BB7E7;')
       lines.push('  cursor: not-allowed;')
       labelColor = '#8BB7E7'
     } else if (state === 'Hover') {
-      lines.push('  background-color: rgba(255, 255, 255, 0.08);')
-      lines.push('  border: 2px solid #3B82F6;')
+      lines.push('  border: 2px solid #00346A;')
       lines.push('  cursor: pointer;')
-      labelColor = '#FFFFFF'
+      labelColor = '#00346A'
     } else if (state === 'Active/Focus') {
-      lines.push('  background-color: rgba(255, 255, 255, 0.15);')
-      lines.push('  border: 2px solid #FFFFFF;')
-      lines.push('  box-shadow: 0 0 0 1px rgba(139, 183, 231, 0.6);')
+      lines.push('  border: 2px solid #002750;')
+      lines.push('  box-shadow: 0 0 0 1px #002750;')
       lines.push('  cursor: pointer;')
-      labelColor = '#FFFFFF'
+      labelColor = '#002750'
     } else {
-      lines.push('  background-color: transparent;')
       lines.push('  border: 2px solid #004185;')
       lines.push('  cursor: pointer;')
       labelColor = '#004185'
     }
   } else if (type === 'Tertiary') {
+    // Tertiary = mesmo estilo visual do Secondary (borda azul COMVEN #004185, texto azul), sem outline/foco e SEM fundo (transparente por completo)
+    lines.push('  background-color: transparent;')
     if (state === 'Disabled') {
-      lines.push('  background-color: rgba(230, 250, 237, 0.35);')
+      lines.push('  border: 2px solid #8BB7E7;')
       lines.push('  cursor: not-allowed;')
-      labelColor = '#94A3B8'
+      labelColor = '#8BB7E7'
     } else if (state === 'Hover') {
-      lines.push('  background-color: #CDF6DB;')
+      lines.push('  background-color: rgba(0, 65, 133, 0.08);')
+      lines.push('  border: 2px solid #00346A;')
       lines.push('  cursor: pointer;')
-      labelColor = '#004185'
+      labelColor = '#00346A'
     } else if (state === 'Active/Focus') {
-      lines.push('  background-color: #9BECB8;')
-      lines.push('  box-shadow: 0 0 0 1px rgba(0, 65, 133, 0.4);')
+      // Sem outline/anéis de foco adicionais conforme especificado
+      lines.push('  background-color: rgba(0, 65, 133, 0.14);')
+      lines.push('  border: 2px solid #002750;')
       lines.push('  cursor: pointer;')
       labelColor = '#002750'
     } else {
-      lines.push('  background-color: #E6FAED;')
+      lines.push('  border: 2px solid #004185;')
       lines.push('  cursor: pointer;')
       labelColor = '#004185'
     }
