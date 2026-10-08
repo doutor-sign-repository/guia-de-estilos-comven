@@ -352,12 +352,14 @@ function getButtonPreviewStyle(type: ButtonType, state: ButtonState): React.CSSP
   }
 
   if (type === 'Tertiary') {
-    // Tertiary = mesmo estilo visual do Secondary (borda azul COMVEN #004185, texto azul), sem outline/foco e SEM fundo (transparente por completo)
+    // Tertiary: sem fundo e sem outline/borda em nenhum estado; mesma área do Secondary
     if (state === 'Disabled') {
       return {
         backgroundColor: 'transparent',
         color: '#8BB7E7',
-        border: '2px solid #8BB7E7',
+        border: 'none',
+        outline: 'none',
+        boxShadow: 'none',
         cursor: 'not-allowed',
       }
     }
@@ -365,7 +367,9 @@ function getButtonPreviewStyle(type: ButtonType, state: ButtonState): React.CSSP
       return {
         backgroundColor: 'rgba(0, 65, 133, 0.08)',
         color: '#00346A',
-        border: '2px solid #00346A',
+        border: 'none',
+        outline: 'none',
+        boxShadow: 'none',
         cursor: 'pointer',
       }
     }
@@ -373,14 +377,18 @@ function getButtonPreviewStyle(type: ButtonType, state: ButtonState): React.CSSP
       return {
         backgroundColor: 'rgba(0, 65, 133, 0.14)',
         color: '#002750',
-        border: '2px solid #002750',
+        border: 'none',
+        outline: 'none',
+        boxShadow: 'none',
         cursor: 'pointer',
       }
     }
     return {
       backgroundColor: 'transparent',
       color: '#004185',
-      border: '2px solid #004185',
+      border: 'none',
+      outline: 'none',
+      boxShadow: 'none',
       cursor: 'pointer',
     }
   }
@@ -513,37 +521,45 @@ function getDarkButtonMatrixStyle(type: ButtonType, state: ButtonState): React.C
   }
 
   if (type === 'Tertiary') {
-    // Tertiary: transparente por completo (sem verde), mesmo visual do Secondary (borda e texto azul), mas sem anéis de foco/outline
+    // Tertiary sobre fundo escuro (#062446): transparente, SEM borda e SEM anel/outline, texto azul claro/branco para alto contraste
     if (state === 'Disabled') {
       return {
         backgroundColor: 'transparent',
         color: '#8BB7E7',
-        border: '2px solid #8BB7E7',
+        border: 'none',
+        outline: 'none',
+        boxShadow: 'none',
         cursor: 'not-allowed',
-        opacity: 0.6,
+        opacity: 0.5,
       }
     }
     if (state === 'Hover') {
       return {
         backgroundColor: 'rgba(255, 255, 255, 0.08)',
         color: '#FFFFFF',
-        border: '2px solid #FFFFFF',
+        border: 'none',
+        outline: 'none',
+        boxShadow: 'none',
         cursor: 'pointer',
       }
     }
     if (state === 'Active/Focus') {
-      // Sem anel de foco/outline extra no Tertiary
+      // Sem anel de foco nem outline
       return {
         backgroundColor: 'rgba(255, 255, 255, 0.15)',
         color: '#FFFFFF',
-        border: '2px solid #FFFFFF',
+        border: 'none',
+        outline: 'none',
+        boxShadow: 'none',
         cursor: 'pointer',
       }
     }
     return {
       backgroundColor: 'transparent',
       color: '#8BB7E7',
-      border: '2px solid #8BB7E7',
+      border: 'none',
+      outline: 'none',
+      boxShadow: 'none',
       cursor: 'pointer',
     }
   }
@@ -641,9 +657,9 @@ const TYPE_BLOCKS: TypeBlockInfo[] = [
   },
   {
     type: 'Tertiary',
-    badge: 'Tertiary (Transparente com borda 2px, sem outline)',
+    badge: 'Tertiary (Transparente sem borda e sem outline)',
     description:
-      'Ações alternativas; mesmo estilo visual do Secondary porém sem fundo (100% transparente) e sem anéis de foco.',
+      'Ações alternativas; reserva a mesma área do Secondary (mesmo padding e altura), 100% transparente, sem fundo, sem borda e sem outline em qualquer estado.',
   },
   {
     type: 'Link',

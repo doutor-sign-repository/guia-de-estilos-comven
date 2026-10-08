@@ -127,25 +127,23 @@ export function generateButtonCss(config: ButtonConfig): string {
       labelColor = '#004185'
     }
   } else if (type === 'Tertiary') {
-    // Tertiary = mesmo estilo visual do Secondary (borda azul COMVEN #004185, texto azul), sem outline/foco e SEM fundo (transparente por completo)
+    // Tertiary: sem fundo e sem outline/borda em nenhum estado; mesma área (padding e altura) do Secondary
     lines.push('  background-color: transparent;')
+    lines.push('  border: none;')
+    lines.push('  outline: none;')
     if (state === 'Disabled') {
-      lines.push('  border: 2px solid #8BB7E7;')
       lines.push('  cursor: not-allowed;')
       labelColor = '#8BB7E7'
     } else if (state === 'Hover') {
       lines.push('  background-color: rgba(0, 65, 133, 0.08);')
-      lines.push('  border: 2px solid #00346A;')
       lines.push('  cursor: pointer;')
       labelColor = '#00346A'
     } else if (state === 'Active/Focus') {
-      // Sem outline/anéis de foco adicionais conforme especificado
+      // Active/Focus: sem anel de foco nem outline
       lines.push('  background-color: rgba(0, 65, 133, 0.14);')
-      lines.push('  border: 2px solid #002750;')
       lines.push('  cursor: pointer;')
       labelColor = '#002750'
     } else {
-      lines.push('  border: 2px solid #004185;')
       lines.push('  cursor: pointer;')
       labelColor = '#004185'
     }
