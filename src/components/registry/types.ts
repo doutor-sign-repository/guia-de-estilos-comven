@@ -2564,7 +2564,7 @@ export function generateCarouselCss(config: CarouselConfig): string {
     '  background-color: #FFFFFF;',
     '  border: 1px solid #EBEBEB;',
     '  box-shadow: 0 4px 16px -2px rgba(6, 36, 70, 0.08);',
-    '  overflow: visible; /* Garante que as setas externas nunca fiquem cortadas */',
+    '  overflow: hidden;',
     "  font-family: 'Open Sans', sans-serif;",
   ]
 
@@ -2582,18 +2582,12 @@ export function generateCarouselCss(config: CarouselConfig): string {
     '  align-items: center;',
     '  justify-content: center;',
     '  cursor: pointer;',
-    '  transition: color 0.15s ease, transform 0.15s ease, opacity 0.15s ease;',
     '  z-index: 10;',
   ]
 
-  if (isHover) {
-    navBtnBaseLines.push('  outline: 1px solid #004185;')
-    navBtnBaseLines.push('  outline-offset: 2px;')
-  }
-
-  // Quando sem imagem, os chevrons ficam externos ao conteúdo para não sobrepor texto/CTA
-  const prevPosition = isNoImage ? `calc(-${metrics.navButtonSize}px - 6px)` : '8px'
-  const nextPosition = isNoImage ? `calc(-${metrics.navButtonSize}px - 6px)` : '8px'
+  // Chevrons posicionados nas laterais internas do carousel (tanto com quanto sem imagem)
+  const prevPosition = '8px'
+  const nextPosition = '8px'
 
   const sections: string[] = [
     comment,
@@ -2639,7 +2633,18 @@ export function generateCarouselCss(config: CarouselConfig): string {
   }
 
   if (hasText === 'Com texto') {
-    const sidePadding = isNoImage ? 36 : size === 'Large' ? 32 : size === 'Medium' ? 28 : 24
+    // Quando sem imagem, navegação fica interna ao card; padding lateral ampliado garante respiro em relação aos chevrons
+    const sidePadding = isNoImage
+      ? size === 'Large'
+        ? 64
+        : size === 'Medium'
+          ? 56
+          : 48
+      : size === 'Large'
+        ? 32
+        : size === 'Medium'
+          ? 28
+          : 24
     const topPadding = size === 'Large' ? 28 : size === 'Medium' ? 24 : 20
     const bottomPadding = size === 'Large' ? 32 : size === 'Medium' ? 28 : 24
 

@@ -560,15 +560,19 @@ export function SingleCarouselPreview({
   // Cores de botão
   const actionBtnBg = isHoverState ? '#00346A' : '#004185'
 
-  // Quando "Sem imagem", os chevrons não podem sobrepor o texto.
-  // Colocamos o container do carrossel com overflow visível e posicionamos os chevrons externamente.
+  // Quando "Sem imagem", a navegação permanece dentro da área do carousel (ancorada nas laterais internas).
+  // Para evitar colisão com o texto, o padding lateral é ampliado e calculado em 4 longhands explícitas.
   const isNoImage = !showImage
 
   // Se não tem texto nem imagem e nem botão, mostra um aviso visual harmonioso
   const isCompletelyEmpty = !showImage && !showText && !showAction
 
   const sidePadding = isNoImage
-    ? 36
+    ? config.size === 'Large'
+      ? 64
+      : config.size === 'Medium'
+        ? 56
+        : 48
     : config.size === 'Large'
       ? 32
       : config.size === 'Medium'
@@ -579,9 +583,7 @@ export function SingleCarouselPreview({
 
   return (
     <div
-      className={`relative w-full rounded-2xl transition-all duration-300 shadow-md ${
-        isNoImage ? 'overflow-visible' : 'overflow-hidden'
-      } ${
+      className={`relative w-full rounded-2xl transition-all duration-300 shadow-md overflow-hidden ${
         darkMode ? 'bg-[#082C56] border border-[#113C68]' : 'bg-white border border-[#E2E6EB]'
       } ${className}`}
       style={{
@@ -777,28 +779,26 @@ export function SingleCarouselPreview({
         </div>
       )}
 
-      {/* Botões de Navegação — Chevron simples e discreto (sem círculo/badge ao redor) */}
-      {/* Quando "Sem imagem", os chevrons ficam externamente nas laterais para nunca sobrepor texto */}
+      {/* Botões de Navegação — Chevron simples e discreto estático (sem hover, sem círculo/badge ao redor) */}
+      {/* Posicionados nas laterais internas tanto com quanto sem imagem */}
       <button
         type="button"
         aria-label="Slide anterior"
         onClick={() => handleIndexChange(activeIdx - 1)}
-        className={`absolute top-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent border-0 p-0 transition-all duration-150 active:scale-90 focus:outline-none z-20 cursor-pointer group ${
+        className={`absolute top-1/2 -translate-y-1/2 left-2 sm:left-3 flex items-center justify-center bg-transparent border-0 p-0 focus:outline-none z-20 cursor-pointer ${
           isNoImage
-            ? '-left-6 sm:-left-8 text-[#004185] hover:text-[#00346A]'
-            : darkMode
-              ? 'left-2 sm:left-3 text-white/90 hover:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]'
-              : 'left-2 sm:left-3 text-white/95 hover:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]'
+            ? darkMode
+              ? 'text-[#8BB7E7]'
+              : 'text-[#004185]'
+            : 'text-white/95 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]'
         }`}
         style={{
           width: `${metrics.navButtonSize}px`,
           height: `${metrics.navButtonSize}px`,
-          outline: isHoverState ? '1px solid #004185' : 'none',
-          outlineOffset: '2px',
         }}
       >
         <span
-          className="material-symbols-rounded select-none transition-transform group-hover:-translate-x-0.5 leading-none"
+          className="material-symbols-rounded select-none leading-none"
           style={{
             fontSize: `${metrics.navIconSize}px`,
             lineHeight: 1,
@@ -812,22 +812,20 @@ export function SingleCarouselPreview({
         type="button"
         aria-label="Próximo slide"
         onClick={() => handleIndexChange(activeIdx + 1)}
-        className={`absolute top-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent border-0 p-0 transition-all duration-150 active:scale-90 focus:outline-none z-20 cursor-pointer group ${
+        className={`absolute top-1/2 -translate-y-1/2 right-2 sm:right-3 flex items-center justify-center bg-transparent border-0 p-0 focus:outline-none z-20 cursor-pointer ${
           isNoImage
-            ? '-right-6 sm:-right-8 text-[#004185] hover:text-[#00346A]'
-            : darkMode
-              ? 'right-2 sm:right-3 text-white/90 hover:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]'
-              : 'right-2 sm:right-3 text-white/95 hover:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]'
+            ? darkMode
+              ? 'text-[#8BB7E7]'
+              : 'text-[#004185]'
+            : 'text-white/95 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]'
         }`}
         style={{
           width: `${metrics.navButtonSize}px`,
           height: `${metrics.navButtonSize}px`,
-          outline: isHoverState ? '1px solid #004185' : 'none',
-          outlineOffset: '2px',
         }}
       >
         <span
-          className="material-symbols-rounded select-none transition-transform group-hover:translate-x-0.5 leading-none"
+          className="material-symbols-rounded select-none leading-none"
           style={{
             fontSize: `${metrics.navIconSize}px`,
             lineHeight: 1,
@@ -933,7 +931,7 @@ function CarouselStateGallery({
       id: 'comb-5',
       title: '5. Sem imagem + Com texto + Com botão',
       description:
-        'Comunicação tipográfica com ação direta — chevrons posicionados externamente para não sobrepor o texto.',
+        'Comunicação tipográfica com ação direta — chevrons posicionados na área interna do card com padding lateral ampliado.',
       hasImage: 'Sem imagem',
       hasText: 'Com texto',
       hasAction: 'Com botão',
@@ -942,7 +940,7 @@ function CarouselStateGallery({
       id: 'comb-6',
       title: '6. Sem imagem + Com texto + Sem botão (Tipográfico puro)',
       description:
-        'Mensagens institucionais e comunicados — navegação externa garantindo respiro e leitura limpa.',
+        'Mensagens institucionais e comunicados — navegação interna com padding lateral ampliado para leitura limpa e sem colisão.',
       hasImage: 'Sem imagem',
       hasText: 'Com texto',
       hasAction: 'Sem botão',
@@ -951,7 +949,7 @@ function CarouselStateGallery({
       id: 'comb-7',
       title: '7. Sem imagem + Sem texto + Com botão',
       description:
-        'Módulo ultra compacto para atalhos e acionamentos rápidos sem conflito de navegação.',
+        'Módulo ultra compacto para atalhos e acionamentos rápidos com navegação interna.',
       hasImage: 'Sem imagem',
       hasText: 'Sem texto',
       hasAction: 'Com botão',
@@ -960,7 +958,7 @@ function CarouselStateGallery({
       id: 'comb-8',
       title: '8. Sem imagem + Sem texto + Sem botão (Estrutural mínimo)',
       description:
-        'Estrutura mínima de transição para contêineres customizados com chevrons externos.',
+        'Estrutura mínima de transição para contêineres customizados com chevrons internos.',
       hasImage: 'Sem imagem',
       hasText: 'Sem texto',
       hasAction: 'Sem botão',
@@ -975,9 +973,10 @@ function CarouselStateGallery({
         </h3>
         <p className="text-xs sm:text-sm text-[#7A7A7A] mt-1 font-normal">
           Cobertura total das combinações: [Com/Sem imagem] × [Com/Sem texto] × [Com/Sem botão de
-          ação]. Nas opções sem imagem os chevrons ficam fora do conteúdo; na opção com imagem e sem
-          texto a imagem inteira é clicável como link de ação (sem botão); nas combinações com botão
-          são demonstrados os tipos Primary e Link.
+          ação]. Nas opções sem imagem os chevrons permanecem dentro da área do carrossel (com
+          padding lateral ampliado); na opção com imagem e sem texto a imagem inteira é clicável
+          como link de ação (sem botão); nas combinações com botão são demonstrados os tipos Primary
+          e Link.
         </p>
       </div>
 
