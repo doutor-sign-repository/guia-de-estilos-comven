@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react'
 import {
   CarouselConfig,
   CarouselSize,
-  CarouselState,
   CarouselImageOption,
   CarouselTextOption,
   CarouselActionOption,
@@ -19,7 +18,6 @@ export interface CarouselPlaygroundProps {
 }
 
 const CAROUSEL_SIZES: CarouselSize[] = ['Large', 'Medium', 'Small']
-const CAROUSEL_STATES: CarouselState[] = ['Default', 'Hover']
 const CAROUSEL_IMAGE_OPTIONS: CarouselImageOption[] = ['Com imagem', 'Sem imagem']
 const CAROUSEL_TEXT_OPTIONS: CarouselTextOption[] = ['Com texto', 'Sem texto']
 const CAROUSEL_ACTION_OPTIONS: CarouselActionOption[] = ['Com botão', 'Sem botão']
@@ -64,7 +62,6 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
   const { toast } = useToast()
 
   const [size, setSize] = useState<CarouselSize>(initialConfig?.size || 'Large')
-  const [state, setState] = useState<CarouselState>(initialConfig?.state || 'Default')
   const [hasImage, setHasImage] = useState<CarouselImageOption>(
     initialConfig?.hasImage || 'Com imagem',
   )
@@ -107,7 +104,6 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
   const config: CarouselConfig = useMemo(
     () => ({
       size,
-      state,
       hasImage,
       hasText,
       hasAction,
@@ -116,7 +112,7 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
       text,
       actionLabel,
     }),
-    [size, state, hasImage, hasText, hasAction, actionType, title, text, actionLabel],
+    [size, hasImage, hasText, hasAction, actionType, title, text, actionLabel],
   )
 
   const cssCode = useMemo(() => generateCarouselCss(config), [config])
@@ -220,27 +216,6 @@ export const CarouselPlayground: React.FC<CarouselPlaygroundProps> = ({ initialC
                   }`}
                 >
                   {sz}
-                </button>
-              )
-            })}
-          </PlaygroundControlGroup>
-
-          {/* ESTADO DOS BOTÕES */}
-          <PlaygroundControlGroup label="ESTADO DOS BOTÕES">
-            {CAROUSEL_STATES.map((st) => {
-              const isSelected = state === st
-              return (
-                <button
-                  key={st}
-                  type="button"
-                  onClick={() => setState(st)}
-                  className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
-                    isSelected
-                      ? 'bg-[#004185] text-white shadow-xs'
-                      : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
-                  }`}
-                >
-                  {st}
                 </button>
               )
             })}
@@ -528,7 +503,6 @@ export function SingleCarouselPreview({
   darkMode?: boolean
 }) {
   const [internalIndex, setInternalIndex] = useState(0)
-  const [localHover, setLocalHover] = useState(false)
 
   const activeIdx = externalIndex !== undefined ? externalIndex : internalIndex
   const totalSlides = slides.length
@@ -547,7 +521,6 @@ export function SingleCarouselPreview({
   const currentSlide = slides[activeIdx] || slides[0]
   const metrics = CAROUSEL_SIZE_METRICS[config.size] || CAROUSEL_SIZE_METRICS.Medium
 
-  const isHoverState = config.state === 'Hover' || localHover
   const showImage = config.hasImage === 'Com imagem'
   const showText = config.hasText === 'Com texto'
   const showAction = config.hasAction === 'Com botão'
@@ -558,7 +531,7 @@ export function SingleCarouselPreview({
   const isPhotoOnly = showImage && !showText
 
   // Cores de botão
-  const actionBtnBg = isHoverState ? '#00346A' : '#004185'
+  const actionBtnBg = '#004185'
 
   // Quando "Sem imagem", a navegação permanece dentro da área do carousel (ancorada nas laterais internas).
   // Para evitar colisão com o texto, o padding lateral é ampliado e calculado em 4 longhands explícitas.
@@ -590,8 +563,6 @@ export function SingleCarouselPreview({
         maxWidth: `${metrics.maxWidth}px`,
         fontFamily: "'Open Sans', sans-serif",
       }}
-      onMouseEnter={() => setLocalHover(true)}
-      onMouseLeave={() => setLocalHover(false)}
     >
       {/* Imagem do Slide (quando "Com imagem") */}
       {showImage && (
@@ -754,8 +725,6 @@ export function SingleCarouselPreview({
                     padding: '0 20px',
                     backgroundColor: actionBtnBg,
                     fontSize: '13px',
-                    outline: isHoverState ? '1px solid #004185' : 'none',
-                    outlineOffset: '1px',
                   }}
                 >
                   <span>{currentSlide?.actionLabel || config.actionLabel || 'Acessar'}</span>
@@ -992,7 +961,6 @@ function CarouselStateGallery({
 
           const baseConfig: CarouselConfig = {
             size: 'Medium',
-            state: 'Default',
             hasImage: comb.hasImage,
             hasText: comb.hasText,
             hasAction: comb.hasAction,

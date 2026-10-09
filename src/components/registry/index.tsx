@@ -598,14 +598,13 @@ export const CAROUSEL_DEFINITION: ComponentDefinition<CarouselConfig> = {
   name: 'Carousel',
   category: 'COMPONENTES',
   subtitle:
-    '3 tamanhos × 2 estados × 8 combinações — slides navegáveis com imagem, estrutura de texto e botão de ação',
+    '3 tamanhos × 8 combinações — slides navegáveis com imagem, estrutura de texto e botão de ação',
   description:
     'Componente de carrossel de conteúdo navegável por chevrons simples e discretos e indicadores (dots), com ou sem imagem, estrutura de texto com título + descrição, e botão de ação primário.',
   figmaUrl:
     'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
   defaultConfig: {
     size: 'Large',
-    state: 'Default',
     hasImage: 'Com imagem',
     hasText: 'Com texto',
     hasAction: 'Com botão',

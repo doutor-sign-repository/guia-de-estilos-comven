@@ -2456,7 +2456,7 @@ export interface CarouselSlideData {
 
 export interface CarouselConfig {
   size: CarouselSize
-  state: CarouselState
+  state?: CarouselState
   hasImage: CarouselImageOption
   hasText: CarouselTextOption
   hasAction: CarouselActionOption
@@ -2529,21 +2529,14 @@ export const CAROUSEL_SIZE_METRICS: Record<CarouselSize, CarouselSizeMetrics> = 
  * - Foco acessível 1px em azul primário (#004185) e destaque pontual amarelo (#F2CB05) nos dots ativos
  */
 export function generateCarouselCss(config: CarouselConfig): string {
-  const { size, state, hasImage, hasText, hasAction, actionType = 'Primary' } = config
+  const { size, hasImage, hasText, hasAction, actionType = 'Primary' } = config
   const metrics = CAROUSEL_SIZE_METRICS[size] || CAROUSEL_SIZE_METRICS.Medium
 
-  const isHover = state === 'Hover'
   const isPhotoOnly = hasImage === 'Com imagem' && hasText === 'Sem texto'
   const isNoImage = hasImage === 'Sem imagem'
-  const btnBg = isHover ? '#00346A' : '#004185'
-  // Chevron simples e discreto (sem círculo/badge)
-  const navColor = isNoImage
-    ? isHover
-      ? '#00346A'
-      : '#004185'
-    : isHover
-      ? '#FFFFFF'
-      : 'rgba(255, 255, 255, 0.95)'
+  const btnBg = '#004185'
+  // Chevron simples e discreto estático (sem círculo/badge)
+  const navColor = isNoImage ? '#004185' : 'rgba(255, 255, 255, 0.95)'
 
   const actionDetails =
     hasAction === 'Com botão'
@@ -2554,7 +2547,7 @@ export function generateCarouselCss(config: CarouselConfig): string {
         ? `Action=ImageLink (imagem inteira clicável)`
         : `Action=Sem botão`
 
-  const comment = `/* Component=Carousel, Size=${size}, State=${state}, Image=${hasImage}, Text=${hasText}, ${actionDetails} */`
+  const comment = `/* Component=Carousel, Size=${size}, Image=${hasImage}, Text=${hasText}, ${actionDetails} */`
 
   const containerLines = [
     '  position: relative;',
