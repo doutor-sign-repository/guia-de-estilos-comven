@@ -18,62 +18,107 @@ import type { LogoPackageFile } from '@/data/logoPackages'
  */
 export const OFFICIAL_LOGO_FILES: Record<string, string | null> = {
   // 1. Fundo Claro · Colorida (Principal) — Com Tagline
-  'comven-logo-claro-colorida-impressao.png': null,
-  'comven-logo-claro-colorida-web.png': null,
-  'comven-logo-claro-colorida-web@2x.png': null,
-  'comven-logo-claro-colorida.svg': null,
+  'comven-logo-claro-colorida-impressao.png': '/logos/comven-logo-claro-colorida-impressao.png',
+  'comven-logo-claro-colorida-web.png': '/logos/comven-logo-claro-colorida-web.png',
+  'comven-logo-claro-colorida-web@2x.png': '/logos/comven-logo-claro-colorida-web@2x.png',
+  'comven-logo-claro-colorida.svg': '/logos/comven-logo-claro-colorida.svg',
 
   // 2. Fundo Escuro · Colorida — Com Tagline
-  'comven-logo-escuro-colorida-impressao.png': null,
-  'comven-logo-escuro-colorida-web.png': null,
-  'comven-logo-escuro-colorida-web@2x.png': null,
-  'comven-logo-escuro-colorida.svg': null,
+  'comven-logo-escuro-colorida-impressao.png': '/logos/comven-logo-escuro-colorida-impressao.png',
+  'comven-logo-escuro-colorida-web.png': '/logos/comven-logo-escuro-colorida-web.png',
+  'comven-logo-escuro-colorida-web@2x.png': '/logos/comven-logo-escuro-colorida-web@2x.png',
+  'comven-logo-escuro-colorida.svg': '/logos/comven-logo-escuro-colorida.svg',
 
-  // 3. Fundo Claro · 1 Cor (Azul) — Com Tagline
-  'comven-logo-claro-1cor-impressao.png': null,
-  'comven-logo-claro-1cor-web.png': null,
-  'comven-logo-claro-1cor-web@2x.png': null,
-  'comven-logo-claro-1cor.svg': null,
+  // 3. Fundo Claro · 1 Cor Azul — Com Tagline
+  'comven-logo-claro-1cor-azul-impressao.png': '/logos/comven-logo-claro-1cor-azul-impressao.png',
+  'comven-logo-claro-1cor-azul-web.png': '/logos/comven-logo-claro-1cor-azul-web.png',
+  'comven-logo-claro-1cor-azul-web@2x.png': '/logos/comven-logo-claro-1cor-azul-web@2x.png',
+  'comven-logo-claro-1cor-azul.svg': '/logos/comven-logo-claro-1cor-azul.svg',
+  // Legados do pacote 3
+  'comven-logo-claro-1cor-impressao.png': '/logos/comven-logo-claro-1cor-azul-impressao.png',
+  'comven-logo-claro-1cor-web.png': '/logos/comven-logo-claro-1cor-azul-web.png',
+  'comven-logo-claro-1cor-web@2x.png': '/logos/comven-logo-claro-1cor-azul-web@2x.png',
+  'comven-logo-claro-1cor.svg': '/logos/comven-logo-claro-1cor-azul.svg',
 
-  // 4. Fundo Escuro · 1 Cor (Branco) — Com Tagline
-  'comven-logo-escuro-1cor-impressao.png': null,
-  'comven-logo-escuro-1cor-web.png': null,
-  'comven-logo-escuro-1cor-web@2x.png': null,
-  'comven-logo-escuro-1cor.svg': null,
+  // 4. Fundo Escuro · 1 Cor Branco — Com Tagline
+  'comven-logo-escuro-1cor-branco-impressao.png':
+    '/logos/comven-logo-escuro-1cor-branco-impressao.png',
+  'comven-logo-escuro-1cor-branco-web.png': '/logos/comven-logo-escuro-1cor-branco-web.png',
+  'comven-logo-escuro-1cor-branco-web@2x.png': '/logos/comven-logo-escuro-1cor-branco-web@2x.png',
+  'comven-logo-escuro-1cor-branco.svg': '/logos/comven-logo-escuro-1cor-branco.svg',
+  // Legados do pacote 4
+  'comven-logo-escuro-1cor-impressao.png': '/logos/comven-logo-escuro-1cor-branco-impressao.png',
+  'comven-logo-escuro-1cor-web.png': '/logos/comven-logo-escuro-1cor-branco-web.png',
+  'comven-logo-escuro-1cor-web@2x.png': '/logos/comven-logo-escuro-1cor-branco-web@2x.png',
+  'comven-logo-escuro-1cor.svg': '/logos/comven-logo-escuro-1cor-branco.svg',
 
   // 5. Somente Marca — Fundo Claro (Colorida)
-  'comven-logo-somente-marca-claro-impressao.png': null,
-  'comven-logo-somente-marca-claro-web.png': null,
-  'comven-logo-somente-marca-claro-web@2x.png': null,
-  'comven-logo-somente-marca-claro.svg': null,
+  'comven-wordmark-claro-colorida-impressao.png':
+    '/logos/comven-wordmark-claro-colorida-impressao.png',
+  'comven-wordmark-claro-colorida-web.png': '/logos/comven-wordmark-claro-colorida-web.png',
+  'comven-wordmark-claro-colorida-web@2x.png': '/logos/comven-wordmark-claro-colorida-web@2x.png',
+  'comven-wordmark-claro-colorida.svg': '/logos/comven-wordmark-claro-colorida.svg',
+  // Legados do pacote 5
+  'comven-logo-somente-marca-claro-impressao.png':
+    '/logos/comven-wordmark-claro-colorida-impressao.png',
+  'comven-logo-somente-marca-claro-web.png': '/logos/comven-wordmark-claro-colorida-web.png',
+  'comven-logo-somente-marca-claro-web@2x.png': '/logos/comven-wordmark-claro-colorida-web@2x.png',
+  'comven-logo-somente-marca-claro.svg': '/logos/comven-wordmark-claro-colorida.svg',
 
   // 6. Somente Marca — Fundo Escuro (Colorida)
-  'comven-logo-somente-marca-escuro-impressao.png': null,
-  'comven-logo-somente-marca-escuro-web.png': null,
-  'comven-logo-somente-marca-escuro-web@2x.png': null,
-  'comven-logo-somente-marca-escuro.svg': null,
+  'comven-wordmark-escuro-colorida-impressao.png':
+    '/logos/comven-wordmark-escuro-colorida-impressao.png',
+  'comven-wordmark-escuro-colorida-web.png': '/logos/comven-wordmark-escuro-colorida-web.png',
+  'comven-wordmark-escuro-colorida-web@2x.png': '/logos/comven-wordmark-escuro-colorida-web@2x.png',
+  'comven-wordmark-escuro-colorida.svg': '/logos/comven-wordmark-escuro-colorida.svg',
+  // Legados do pacote 6
+  'comven-logo-somente-marca-escuro-impressao.png':
+    '/logos/comven-wordmark-escuro-colorida-impressao.png',
+  'comven-logo-somente-marca-escuro-web.png': '/logos/comven-wordmark-escuro-colorida-web.png',
+  'comven-logo-somente-marca-escuro-web@2x.png':
+    '/logos/comven-wordmark-escuro-colorida-web@2x.png',
+  'comven-logo-somente-marca-escuro.svg': '/logos/comven-wordmark-escuro-colorida.svg',
 
-  // 7. Somente Marca — Fundo Claro (1 Cor Azul)
-  'comven-logo-somente-marca-claro-1cor-impressao.png': null,
-  'comven-logo-somente-marca-claro-1cor-web.png': null,
-  'comven-logo-somente-marca-claro-1cor-web@2x.png': null,
-  'comven-logo-somente-marca-claro-1cor.svg': null,
+  // 7. Somente Marca — Fundo Escuro (1 Cor Branco)
+  'comven-wordmark-escuro-1cor-branco-impressao.png':
+    '/logos/comven-wordmark-escuro-1cor-branco-impressao.png',
+  'comven-wordmark-escuro-1cor-branco-web.png': '/logos/comven-wordmark-escuro-1cor-branco-web.png',
+  'comven-wordmark-escuro-1cor-branco-web@2x.png':
+    '/logos/comven-wordmark-escuro-1cor-branco-web@2x.png',
+  'comven-wordmark-escuro-1cor-branco.svg': '/logos/comven-wordmark-escuro-1cor-branco.svg',
+  // Legados do pacote 7
+  'comven-logo-somente-marca-escuro-1cor-impressao.png':
+    '/logos/comven-wordmark-escuro-1cor-branco-impressao.png',
+  'comven-logo-somente-marca-escuro-1cor-web.png':
+    '/logos/comven-wordmark-escuro-1cor-branco-web.png',
+  'comven-logo-somente-marca-escuro-1cor-web@2x.png':
+    '/logos/comven-wordmark-escuro-1cor-branco-web@2x.png',
+  'comven-logo-somente-marca-escuro-1cor.svg': '/logos/comven-wordmark-escuro-1cor-branco.svg',
 
-  // 8. Somente Marca — Fundo Escuro (1 Cor Branco)
-  'comven-logo-somente-marca-escuro-1cor-impressao.png': null,
-  'comven-logo-somente-marca-escuro-1cor-web.png': null,
-  'comven-logo-somente-marca-escuro-1cor-web@2x.png': null,
-  'comven-logo-somente-marca-escuro-1cor.svg': null,
+  // 8. Somente Marca — Fundo Claro (1 Cor Azul)
+  'comven-wordmark-claro-1cor-azul-impressao.png':
+    '/logos/comven-wordmark-claro-1cor-azul-impressao.png',
+  'comven-wordmark-claro-1cor-azul-web.png': '/logos/comven-wordmark-claro-1cor-azul-web.png',
+  'comven-wordmark-claro-1cor-azul-web@2x.png': '/logos/comven-wordmark-claro-1cor-azul-web@2x.png',
+  'comven-wordmark-claro-1cor-azul.svg': '/logos/comven-wordmark-claro-1cor-azul.svg',
+  // Legados do pacote 8
+  'comven-logo-somente-marca-claro-1cor-impressao.png':
+    '/logos/comven-wordmark-claro-1cor-azul-impressao.png',
+  'comven-logo-somente-marca-claro-1cor-web.png': '/logos/comven-wordmark-claro-1cor-azul-web.png',
+  'comven-logo-somente-marca-claro-1cor-web@2x.png':
+    '/logos/comven-wordmark-claro-1cor-azul-web@2x.png',
+  'comven-logo-somente-marca-claro-1cor.svg': '/logos/comven-wordmark-claro-1cor-azul.svg',
 
   // Legados / retrocompatibilidade
-  'comven-logo-principal.png': null,
-  'comven-logo-fundo-escuro.png': null,
-  'comven-logo-1cor-azul.png': null,
-  'comven-logo-1cor-branco.png': null,
-  'comven-logo-somente-marca.png': null,
-  'comven-logo-somente-marca-dark.png': null,
-  'comven-logo-somente-marca-1cor-azul.png': null,
-  'comven-logo-somente-marca-1cor-branco.png': null,
+  'comven-logo-principal.png': '/logos/comven-logo-claro-colorida-impressao.png',
+  'comven-logo-fundo-escuro.png': '/logos/comven-logo-escuro-colorida-impressao.png',
+  'comven-logo-1cor-azul.png': '/logos/comven-logo-claro-1cor-azul-impressao.png',
+  'comven-logo-1cor-branco.png': '/logos/comven-logo-escuro-1cor-branco-impressao.png',
+  'comven-logo-somente-marca.png': '/logos/comven-wordmark-claro-colorida-impressao.png',
+  'comven-logo-somente-marca-dark.png': '/logos/comven-wordmark-escuro-colorida-impressao.png',
+  'comven-logo-somente-marca-1cor-azul.png': '/logos/comven-wordmark-claro-1cor-azul-impressao.png',
+  'comven-logo-somente-marca-1cor-branco.png':
+    '/logos/comven-wordmark-escuro-1cor-branco-impressao.png',
 }
 
 export interface DownloadLogoOptions {
