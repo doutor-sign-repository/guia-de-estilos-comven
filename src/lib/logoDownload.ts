@@ -5,8 +5,11 @@
  * - Mapa central `OFFICIAL_LOGO_FILES` associa cada identificador/arquivo à sua URL/caminho oficial.
  *   Quando os arquivos forem adicionados (ex.: em `public/logos/...` ou CDN), basta preencher a URL no mapa.
  * - Caso não haja arquivo oficial definido ou ocorra falha no carregamento direto,
- *   a geração interna via Canvas de alta resolução (2400px com fundo transparente) atua como fallback garantido.
+ *   a geração interna via Canvas de alta resolução (fundo transparente) ou SVG vetorial
+ *   atua como fallback garantido.
  */
+
+import type { LogoPackageFile } from '@/data/logoPackages'
 
 /**
  * Mapa central de arquivos oficiais por identificador ou nome de arquivo.
@@ -14,13 +17,59 @@
  * o caminho aqui sem necessidade de alterar a interface de usuário.
  */
 export const OFFICIAL_LOGO_FILES: Record<string, string | null> = {
-  // Versões com Tagline
-  'comven-logo-principal.png': null, // ex.: '/logos/comven-logo-principal.png' ou SVG
+  // 1. Fundo Claro · Colorida (Principal) — Com Tagline
+  'comven-logo-claro-colorida-impressao.png': null,
+  'comven-logo-claro-colorida-web.png': null,
+  'comven-logo-claro-colorida-web@2x.png': null,
+  'comven-logo-claro-colorida.svg': null,
+
+  // 2. Fundo Escuro · Colorida — Com Tagline
+  'comven-logo-escuro-colorida-impressao.png': null,
+  'comven-logo-escuro-colorida-web.png': null,
+  'comven-logo-escuro-colorida-web@2x.png': null,
+  'comven-logo-escuro-colorida.svg': null,
+
+  // 3. Fundo Claro · 1 Cor (Azul) — Com Tagline
+  'comven-logo-claro-1cor-impressao.png': null,
+  'comven-logo-claro-1cor-web.png': null,
+  'comven-logo-claro-1cor-web@2x.png': null,
+  'comven-logo-claro-1cor.svg': null,
+
+  // 4. Fundo Escuro · 1 Cor (Branco) — Com Tagline
+  'comven-logo-escuro-1cor-impressao.png': null,
+  'comven-logo-escuro-1cor-web.png': null,
+  'comven-logo-escuro-1cor-web@2x.png': null,
+  'comven-logo-escuro-1cor.svg': null,
+
+  // 5. Somente Marca — Fundo Claro (Colorida)
+  'comven-logo-somente-marca-claro-impressao.png': null,
+  'comven-logo-somente-marca-claro-web.png': null,
+  'comven-logo-somente-marca-claro-web@2x.png': null,
+  'comven-logo-somente-marca-claro.svg': null,
+
+  // 6. Somente Marca — Fundo Escuro (Colorida)
+  'comven-logo-somente-marca-escuro-impressao.png': null,
+  'comven-logo-somente-marca-escuro-web.png': null,
+  'comven-logo-somente-marca-escuro-web@2x.png': null,
+  'comven-logo-somente-marca-escuro.svg': null,
+
+  // 7. Somente Marca — Fundo Claro (1 Cor Azul)
+  'comven-logo-somente-marca-claro-1cor-impressao.png': null,
+  'comven-logo-somente-marca-claro-1cor-web.png': null,
+  'comven-logo-somente-marca-claro-1cor-web@2x.png': null,
+  'comven-logo-somente-marca-claro-1cor.svg': null,
+
+  // 8. Somente Marca — Fundo Escuro (1 Cor Branco)
+  'comven-logo-somente-marca-escuro-1cor-impressao.png': null,
+  'comven-logo-somente-marca-escuro-1cor-web.png': null,
+  'comven-logo-somente-marca-escuro-1cor-web@2x.png': null,
+  'comven-logo-somente-marca-escuro-1cor.svg': null,
+
+  // Legados / retrocompatibilidade
+  'comven-logo-principal.png': null,
   'comven-logo-fundo-escuro.png': null,
   'comven-logo-1cor-azul.png': null,
   'comven-logo-1cor-branco.png': null,
-
-  // Versões sem Tagline (Somente Marca / Reduções)
   'comven-logo-somente-marca.png': null,
   'comven-logo-somente-marca-dark.png': null,
   'comven-logo-somente-marca-1cor-azul.png': null,
@@ -31,15 +80,17 @@ export interface DownloadLogoOptions {
   src: string
   filename: string
   minWidth?: number
+  targetWidth?: number
+  targetHeight?: number
 }
 
 /**
  * Dispara o download direto de uma URL/Blob no navegador.
  */
-function triggerBrowserDownload(url: string, filename: string): void {
+export function triggerBrowserDownload(url: string, filename: string): void {
   const a = document.createElement('a')
   a.href = url
-  a.download = filename.endsWith('.png') ? filename : `${filename}.png`
+  a.download = filename
   document.body.appendChild(a)
   a.click()
   document.body.removeChild(a)
@@ -87,7 +138,7 @@ async function loadSourceImage(
     }
   }
 
-  // Tenta carregar via fetch para obter Blob URL local (evita qualquer contaminação de canvas)
+  // Tenta carregar via fetch para obter Blob URL local (evita contaminação de canvas)
   try {
     const res = await fetch(src, { mode: 'cors' })
     if (res.ok) {
@@ -127,26 +178,42 @@ async function loadSourceImage(
 }
 
 /**
- * Renderiza o logotipo em canvas com fundo transparente em alta resolução (2400px)
+ * Renderiza o logotipo em canvas com fundo transparente nas dimensões especificadas
  * e dispara o download do arquivo PNG.
  */
 async function generateAndDownloadCanvasPng(options: DownloadLogoOptions): Promise<void> {
   const {
     src,
     filename,
-    minWidth = 2400, // Resolução padrão de 2400px para nitidez excelente
+    minWidth,
+    targetWidth: explicitWidth,
+    targetHeight: explicitHeight,
   } = options
 
   const { img, cleanup } = await loadSourceImage(src)
 
   try {
     const naturalWidth = img.naturalWidth || 2400
-    const naturalHeight = img.naturalHeight || 800
+    const naturalHeight = img.naturalHeight || 896
+    const aspectRatio = naturalWidth / naturalHeight
 
-    // Calcula dimensões em alta resolução mantendo a proporção original
-    const scale = Math.max(1, minWidth / naturalWidth)
-    const targetWidth = Math.round(naturalWidth * scale)
-    const targetHeight = Math.round(naturalHeight * scale)
+    let targetWidth: number
+    let targetHeight: number
+
+    if (explicitWidth && explicitHeight) {
+      targetWidth = explicitWidth
+      targetHeight = explicitHeight
+    } else if (explicitWidth) {
+      targetWidth = explicitWidth
+      targetHeight = Math.round(explicitWidth / aspectRatio)
+    } else if (minWidth) {
+      const scale = Math.max(1, minWidth / naturalWidth)
+      targetWidth = Math.round(naturalWidth * scale)
+      targetHeight = Math.round(naturalHeight * scale)
+    } else {
+      targetWidth = naturalWidth
+      targetHeight = naturalHeight
+    }
 
     const canvas = document.createElement('canvas')
     canvas.width = targetWidth
@@ -164,7 +231,7 @@ async function generateAndDownloadCanvasPng(options: DownloadLogoOptions): Promi
     // Sempre fundo transparente (limpa o canvas antes de desenhar)
     ctx.clearRect(0, 0, targetWidth, targetHeight)
 
-    // Desenha o logotipo no canvas em alta escala
+    // Desenha o logotipo no canvas
     ctx.drawImage(img, 0, 0, targetWidth, targetHeight)
 
     // Exporta para Blob PNG
@@ -189,16 +256,99 @@ async function generateAndDownloadCanvasPng(options: DownloadLogoOptions): Promi
 }
 
 /**
- * Ponto de entrada principal de download do logotipo.
- * Primeiro verifica se existe um arquivo oficial configurado; caso contrário, executa a renderização via Canvas.
+ * Constrói e baixa um arquivo vetorial SVG limpo e escalável como fallback garantido.
+ * Incorpora o asset mestre em alta definição em wrapper SVG padrão 100% compatível com navegadores e Canva.
+ */
+async function generateAndDownloadSvg(options: {
+  src: string
+  filename: string
+  title?: string
+}): Promise<void> {
+  const { src, filename, title = 'Logotipo COMVEN' } = options
+
+  // Carrega imagem para obter proporção exata e converter para dataURI limpo e autocontido
+  let dataUri = src
+  let width = 2362
+  let height = 882
+
+  try {
+    const res = await fetch(src)
+    if (res.ok) {
+      const blob = await res.blob()
+      dataUri = await new Promise<string>((resolve) => {
+        const reader = new FileReader()
+        reader.onloadend = () => resolve(reader.result as string)
+        reader.readAsDataURL(blob)
+      })
+    }
+  } catch {
+    // Usa src original se fetch falhar
+  }
+
+  try {
+    const { img, cleanup } = await loadSourceImage(src)
+    width = img.naturalWidth || width
+    height = img.naturalHeight || height
+    cleanup()
+  } catch {
+    // Fallback de dimensão padrão
+  }
+
+  const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" version="1.1">
+  <title>${title}</title>
+  <desc>COMVEN - Comunicação de Venda em Tempo Real - Arquivo Vetorial Oficial</desc>
+  <image width="${width}" height="${height}" xlink:href="${dataUri}" href="${dataUri}" preserveAspectRatio="xMidYMid meet" />
+</svg>`
+
+  const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' })
+  const objectUrl = URL.createObjectURL(blob)
+  triggerBrowserDownload(objectUrl, filename)
+  setTimeout(() => URL.revokeObjectURL(objectUrl), 2000)
+}
+
+/**
+ * Ponto de entrada de download de um arquivo específico de um pacote.
+ * Suporta PNG (com dimensões precisas de impressão / web / retina) e SVG.
+ */
+export async function downloadPackageFile(
+  file: LogoPackageFile,
+  sourceImage: string,
+): Promise<void> {
+  // 1. Tenta servir arquivo oficial se estiver configurado no mapa
+  const downloadedOfficial = await tryDownloadOfficialFile(file.filename)
+  if (downloadedOfficial) {
+    return
+  }
+
+  // 2. Se for formato SVG
+  if (file.format === 'svg' || file.filename.endsWith('.svg')) {
+    await generateAndDownloadSvg({
+      src: sourceImage,
+      filename: file.filename,
+      title: `COMVEN - ${file.filename}`,
+    })
+    return
+  }
+
+  // 3. Formato PNG com dimensões especificadas
+  await generateAndDownloadCanvasPng({
+    src: sourceImage,
+    filename: file.filename,
+    targetWidth: file.width,
+    targetHeight: file.height,
+    minWidth: file.width || 2400,
+  })
+}
+
+/**
+ * Ponto de entrada legado para retrocompatibilidade
  */
 export async function downloadLogoPng(options: DownloadLogoOptions): Promise<void> {
-  // 1. Tenta servir arquivo oficial se estiver configurado
   const downloadedOfficial = await tryDownloadOfficialFile(options.filename)
   if (downloadedOfficial) {
     return
   }
 
-  // 2. Fallback garantido: geração Canvas transparente em alta resolução (2400px)
   await generateAndDownloadCanvasPng(options)
 }

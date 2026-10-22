@@ -110,10 +110,10 @@ export default function Index() {
                   <div className="pt-0.5">
                     <LogoDownloadButton
                       src={LOGO_ASSETS.lightColoridaComTagline}
-                      filename="comven-logo-principal.png"
+                      filename="comven-logo-claro-colorida.svg"
                       label="Baixar logo"
                       theme="light"
-                      onClick={() => handleOpenDownloadModal('comven-logo-principal.png')}
+                      onClick={() => handleOpenDownloadModal('light-colorida-com-tagline')}
                     />
                   </div>
                 </div>
@@ -140,10 +140,10 @@ export default function Index() {
                   <div className="pt-0.5">
                     <LogoDownloadButton
                       src={LOGO_ASSETS.darkColoridaComTagline}
-                      filename="comven-logo-fundo-escuro.png"
+                      filename="comven-logo-escuro-colorida.svg"
                       label="Baixar logo"
                       theme="dark"
-                      onClick={() => handleOpenDownloadModal('comven-logo-fundo-escuro.png')}
+                      onClick={() => handleOpenDownloadModal('dark-colorida-com-tagline')}
                     />
                   </div>
                 </div>
@@ -171,10 +171,10 @@ export default function Index() {
                   <div className="pt-0.5">
                     <LogoDownloadButton
                       src={LOGO_ASSETS.light1CorComTagline}
-                      filename="comven-logo-1cor-azul.png"
+                      filename="comven-logo-claro-1cor.svg"
                       label="Baixar logo"
                       theme="light"
-                      onClick={() => handleOpenDownloadModal('comven-logo-1cor-azul.png')}
+                      onClick={() => handleOpenDownloadModal('light-1cor-com-tagline')}
                     />
                   </div>
                 </div>
@@ -199,10 +199,10 @@ export default function Index() {
                   <div className="pt-0.5">
                     <LogoDownloadButton
                       src={LOGO_ASSETS.dark1CorComTagline}
-                      filename="comven-logo-1cor-branco.png"
+                      filename="comven-logo-escuro-1cor.svg"
                       label="Baixar logo"
                       theme="dark"
-                      onClick={() => handleOpenDownloadModal('comven-logo-1cor-branco.png')}
+                      onClick={() => handleOpenDownloadModal('dark-1cor-com-tagline')}
                     />
                   </div>
                 </div>
@@ -244,11 +244,11 @@ export default function Index() {
                   <div className="pt-0.5">
                     <LogoDownloadButton
                       src={LOGO_ASSETS.lightColoridaSemTagline}
-                      filename="comven-logo-somente-marca.png"
+                      filename="comven-logo-somente-marca-claro.svg"
                       label="Baixar logo"
                       theme="light"
                       compact={true}
-                      onClick={() => handleOpenDownloadModal('comven-logo-somente-marca.png')}
+                      onClick={() => handleOpenDownloadModal('light-colorida-sem-tagline')}
                     />
                   </div>
                 </div>
@@ -272,11 +272,11 @@ export default function Index() {
                   <div className="pt-0.5">
                     <LogoDownloadButton
                       src={LOGO_ASSETS.darkColoridaSemTagline}
-                      filename="comven-logo-somente-marca-dark.png"
+                      filename="comven-logo-somente-marca-escuro.svg"
                       label="Baixar logo"
                       theme="dark"
                       compact={true}
-                      onClick={() => handleOpenDownloadModal('comven-logo-somente-marca-dark.png')}
+                      onClick={() => handleOpenDownloadModal('dark-colorida-sem-tagline')}
                     />
                   </div>
                 </div>
@@ -300,13 +300,11 @@ export default function Index() {
                   <div className="pt-0.5">
                     <LogoDownloadButton
                       src={LOGO_ASSETS.light1CorSemTagline}
-                      filename="comven-logo-somente-marca-1cor-azul.png"
+                      filename="comven-logo-somente-marca-claro-1cor.svg"
                       label="Baixar logo"
                       theme="light"
                       compact={true}
-                      onClick={() =>
-                        handleOpenDownloadModal('comven-logo-somente-marca-1cor-azul.png')
-                      }
+                      onClick={() => handleOpenDownloadModal('light-1cor-sem-tagline')}
                     />
                   </div>
                 </div>
@@ -330,13 +328,11 @@ export default function Index() {
                   <div className="pt-0.5">
                     <LogoDownloadButton
                       src={LOGO_ASSETS.dark1CorSemTagline}
-                      filename="comven-logo-somente-marca-1cor-branco.png"
+                      filename="comven-logo-somente-marca-escuro-1cor.svg"
                       label="Baixar logo"
                       theme="dark"
                       compact={true}
-                      onClick={() =>
-                        handleOpenDownloadModal('comven-logo-somente-marca-1cor-branco.png')
-                      }
+                      onClick={() => handleOpenDownloadModal('dark-1cor-sem-tagline')}
                     />
                   </div>
                 </div>

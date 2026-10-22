@@ -1,135 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { ComvenOfficialLogo } from '@/components/ComvenLogo'
-import { LOGO_ASSETS } from '@/data/logos'
-import { downloadLogoPng } from '@/lib/logoDownload'
+import React, { useState, useEffect, useMemo } from 'react'
+import { getLogoPackage, LogoPackageDefinition, LogoPackageFile } from '@/data/logoPackages'
+import { downloadPackageFile } from '@/lib/logoDownload'
 import { useToast } from '@/hooks/use-toast'
-
-export interface LogoDownloadOption {
-  id: string
-  filename: string
-  name: string
-  subtitle: string
-  badgeText: string
-  src: string
-  formatText: string // "PNG · fundo transparente" (sem menção a resolução)
-  previewVariant: 'light-colorida' | 'dark-colorida' | 'light-1cor' | 'dark-1cor'
-  previewShowTagline: boolean
-  previewBg: '#F1F3F6' | '#0B2A52'
-}
-
-export const LOGO_DOWNLOAD_OPTIONS: LogoDownloadOption[] = [
-  // 1. Principal: Light Mode Colorida com Tagline
-  {
-    id: 'light-colorida-com-tagline',
-    filename: 'comven-logo-principal.png',
-    name: 'Versão Principal (Fundo Claro)',
-    subtitle: 'Colorida com Tagline · Azul #004185, verde #06D04D e check amarelo',
-    badgeText: 'Principal',
-    src: LOGO_ASSETS.lightColoridaComTagline,
-    formatText: 'PNG · Fundo transparente',
-    previewVariant: 'light-colorida',
-    previewShowTagline: true,
-    previewBg: '#F1F3F6',
-  },
-  // 2. Fundo Escuro: Dark Mode Colorida com Tagline
-  {
-    id: 'dark-colorida-com-tagline',
-    filename: 'comven-logo-fundo-escuro.png',
-    name: 'Fundo Escuro — Colorida com Tagline',
-    subtitle: 'Wordmark colorido com check amarelo sobre fundo escuro',
-    badgeText: 'Fundo Escuro',
-    src: LOGO_ASSETS.darkColoridaComTagline,
-    formatText: 'PNG · Fundo transparente',
-    previewVariant: 'dark-colorida',
-    previewShowTagline: true,
-    previewBg: '#0B2A52',
-  },
-  // 3. 1 Cor Azul: Light Mode 1 Cor com Tagline
-  {
-    id: 'light-1cor-com-tagline',
-    filename: 'comven-logo-1cor-azul.png',
-    name: 'Fundo Claro — 1 Cor (Azul)',
-    subtitle: 'Monocromática com Tagline em azul institucional #004185',
-    badgeText: '1 Cor Azul',
-    src: LOGO_ASSETS.light1CorComTagline,
-    formatText: 'PNG · Fundo transparente',
-    previewVariant: 'light-1cor',
-    previewShowTagline: true,
-    previewBg: '#F1F3F6',
-  },
-  // 4. 1 Cor Branca: Dark Mode 1 Cor com Tagline
-  {
-    id: 'dark-1cor-com-tagline',
-    filename: 'comven-logo-1cor-branco.png',
-    name: 'Fundo Escuro — 1 Cor (Branco)',
-    subtitle: 'Monocromática com Tagline em branco #FFFFFF em alto contraste',
-    badgeText: '1 Cor Branco',
-    src: LOGO_ASSETS.dark1CorComTagline,
-    formatText: 'PNG · Fundo transparente',
-    previewVariant: 'dark-1cor',
-    previewShowTagline: true,
-    previewBg: '#0B2A52',
-  },
-  // 5. Somente marca: Light Mode Colorida sem Tagline
-  {
-    id: 'light-colorida-sem-tagline',
-    filename: 'comven-logo-somente-marca.png',
-    name: 'Somente Marca — Fundo Claro (Colorida)',
-    subtitle: 'Wordmark compacto colorido sem tagline para reduções e UI',
-    badgeText: 'Sem Tagline',
-    src: LOGO_ASSETS.lightColoridaSemTagline,
-    formatText: 'PNG · Fundo transparente',
-    previewVariant: 'light-colorida',
-    previewShowTagline: false,
-    previewBg: '#F1F3F6',
-  },
-  // 6. Somente marca: Dark Mode Colorida sem Tagline
-  {
-    id: 'dark-colorida-sem-tagline',
-    filename: 'comven-logo-somente-marca-dark.png',
-    name: 'Somente Marca — Fundo Escuro (Colorida)',
-    subtitle: 'Wordmark colorido compacto sem tagline para superfícies escuras',
-    badgeText: 'Sem Tagline',
-    src: LOGO_ASSETS.darkColoridaSemTagline,
-    formatText: 'PNG · Fundo transparente',
-    previewVariant: 'dark-colorida',
-    previewShowTagline: false,
-    previewBg: '#0B2A52',
-  },
-  // 7. Somente marca: Light Mode 1 Cor sem Tagline
-  {
-    id: 'light-1cor-sem-tagline',
-    filename: 'comven-logo-somente-marca-1cor-azul.png',
-    name: 'Somente Marca — Fundo Claro (1 Cor Azul)',
-    subtitle: 'Wordmark monocromático em azul #004185 para cabeçalhos claros',
-    badgeText: 'Sem Tagline',
-    src: LOGO_ASSETS.light1CorSemTagline,
-    formatText: 'PNG · Fundo transparente',
-    previewVariant: 'light-1cor',
-    previewShowTagline: false,
-    previewBg: '#F1F3F6',
-  },
-  // 8. Somente marca: Dark Mode 1 Cor sem Tagline
-  {
-    id: 'dark-1cor-sem-tagline',
-    filename: 'comven-logo-somente-marca-1cor-branco.png',
-    name: 'Somente Marca — Fundo Escuro (1 Cor Branco)',
-    subtitle: 'Wordmark monocromático em branco #FFFFFF para superfícies escuras',
-    badgeText: 'Sem Tagline',
-    src: LOGO_ASSETS.dark1CorSemTagline,
-    formatText: 'PNG · Fundo transparente',
-    previewVariant: 'dark-1cor',
-    previewShowTagline: false,
-    previewBg: '#0B2A52',
-  },
-]
 
 export interface LogoDownloadModalProps {
   isOpen: boolean
   onClose: () => void
   /**
-   * Identificador ou nome de arquivo da opção de onde o modal foi aberto,
-   * para dar destaque visual sutil à linha correspondente.
+   * Identificador ou nome de arquivo da versão de onde o modal foi aberto.
+   * O modal exibe EXCLUSIVAMENTE o pacote de arquivos da versão selecionada.
    */
   activeOptionKey?: string | null
 }
@@ -140,12 +19,17 @@ export const LogoDownloadModal: React.FC<LogoDownloadModalProps> = ({
   activeOptionKey,
 }) => {
   const { toast } = useToast()
-  const [downloadingId, setDownloadingId] = useState<string | null>(null)
+  const [downloadingFileId, setDownloadingFileId] = useState<string | null>(null)
   const [isDownloadingAll, setIsDownloadingAll] = useState(false)
   const [downloadAllProgress, setDownloadAllProgress] = useState<{
     current: number
     total: number
   } | null>(null)
+
+  // Obtém o pacote correspondente à versão clicada
+  const activePackage: LogoPackageDefinition = useMemo(() => {
+    return getLogoPackage(activeOptionKey)
+  }, [activeOptionKey])
 
   // Bloqueia scroll do body e escuta tecla ESC
   useEffect(() => {
@@ -170,65 +54,56 @@ export const LogoDownloadModal: React.FC<LogoDownloadModalProps> = ({
 
   if (!isOpen) return null
 
-  // Baixa uma única opção
-  const handleDownloadSingle = async (option: LogoDownloadOption) => {
-    if (downloadingId || isDownloadingAll) return
+  // Baixa um arquivo individual do pacote
+  const handleDownloadSingle = async (file: LogoPackageFile) => {
+    if (downloadingFileId || isDownloadingAll) return
 
-    setDownloadingId(option.id)
+    setDownloadingFileId(file.id)
     toast({
       title: 'Download iniciado',
-      description: `Baixando ${option.filename}...`,
+      description: `Baixando ${file.filename}...`,
     })
 
     try {
-      await downloadLogoPng({
-        src: option.src,
-        filename: option.filename,
-        minWidth: 2400,
-      })
+      await downloadPackageFile(file, activePackage.sourceImage)
     } catch {
       toast({
         title: 'Erro no download',
-        description: `Não foi possível baixar o arquivo ${option.filename}. Tente novamente.`,
+        description: `Não foi possível baixar o arquivo ${file.filename}. Tente novamente.`,
         variant: 'destructive',
       })
     } finally {
-      setDownloadingId(null)
+      setDownloadingFileId(null)
     }
   }
 
-  // Baixa todas as opções em sequência com pequeno intervalo entre downloads
-  // para respeitar restrições dos navegadores contra downloads em lote
+  // Baixa todos os arquivos DESTE pacote em sequência com intervalo de 600ms
   const handleDownloadAll = async () => {
-    if (isDownloadingAll || downloadingId) return
+    if (isDownloadingAll || downloadingFileId) return
 
+    const files = activePackage.files
+    const total = files.length
     setIsDownloadingAll(true)
-    const total = LOGO_DOWNLOAD_OPTIONS.length
     setDownloadAllProgress({ current: 0, total })
 
     toast({
       title: 'Download iniciado',
-      description: `Baixando todas as ${total} aplicações do logotipo...`,
+      description: `Baixando os ${total} arquivos do pacote ${activePackage.versionName}...`,
     })
 
     let successCount = 0
 
     for (let i = 0; i < total; i++) {
-      const option = LOGO_DOWNLOAD_OPTIONS[i]
+      const file = files[i]
       setDownloadAllProgress({ current: i + 1, total })
 
       try {
-        await downloadLogoPng({
-          src: option.src,
-          filename: option.filename,
-          minWidth: 2400,
-        })
+        await downloadPackageFile(file, activePackage.sourceImage)
         successCount++
       } catch {
-        // Continua os downloads restantes mesmo que um falhe
+        // Continua os downloads restantes
       }
 
-      // Intervalo de 600ms entre downloads para evitar bloqueio pelo browser
       if (i < total - 1) {
         await new Promise((resolve) => setTimeout(resolve, 600))
       }
@@ -239,13 +114,13 @@ export const LogoDownloadModal: React.FC<LogoDownloadModalProps> = ({
 
     if (successCount === total) {
       toast({
-        title: 'Downloads concluídos',
-        description: `Todas as ${total} versões foram baixadas com sucesso.`,
+        title: 'Pacote baixado',
+        description: `Todos os ${total} arquivos do pacote foram baixados com sucesso.`,
       })
     } else {
       toast({
         title: 'Download finalizado',
-        description: `${successCount} de ${total} arquivos baixados.`,
+        description: `${successCount} de ${total} arquivos do pacote foram baixados.`,
       })
     }
   }
@@ -260,30 +135,26 @@ export const LogoDownloadModal: React.FC<LogoDownloadModalProps> = ({
         if (!isDownloadingAll) onClose()
       }}
     >
-      {/* Container do Modal seguindo o padrão de estilo COMVEN */}
+      {/* Container do Modal */}
       <div
         className="w-full max-w-2xl bg-white border border-[#EBEBEB] rounded-2xl shadow-2xl flex flex-col overflow-hidden text-left animate-in zoom-in-95 duration-200 max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header com título + botão fechar (×) */}
-        <div className="flex items-center justify-between border-b border-[#F0F2F5] bg-white px-5 sm:px-6 py-4 shrink-0">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <span
-              className="material-symbols-rounded shrink-0 select-none text-[#004185] text-xl sm:text-2xl"
-              aria-hidden="true"
+        {/* Header com título e fechamento */}
+        <div className="flex items-start justify-between border-b border-[#F0F2F5] bg-white px-5 sm:px-6 py-4 shrink-0">
+          <div className="min-w-0 pr-3">
+            <h3
+              id="comven-logo-download-modal-title"
+              className="font-bold text-[#141414] text-base sm:text-lg tracking-tight m-0"
             >
-              download
-            </span>
-            <div>
-              <h3
-                id="comven-logo-download-modal-title"
-                className="font-bold text-[#141414] text-base sm:text-lg tracking-tight m-0"
-              >
-                Baixar logos
-              </h3>
-              <p className="text-xs text-[#666666] m-0 mt-0.5">
-                Escolha uma aplicação específica ou baixe todas as 8 versões oficiais.
-              </p>
+              {activePackage.brandTitle}
+            </h3>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1 text-xs">
+              <span className="font-semibold text-[#004185]">
+                Versão: {activePackage.versionName}
+              </span>
+              <span className="text-[#848484] hidden sm:inline">•</span>
+              <span className="text-[#666666]">{activePackage.usageRecommendation}</span>
             </div>
           </div>
 
@@ -292,101 +163,110 @@ export const LogoDownloadModal: React.FC<LogoDownloadModalProps> = ({
             onClick={onClose}
             disabled={isDownloadingAll}
             aria-label="Fechar modal"
-            className="w-8 h-8 rounded-lg text-[#666666] hover:text-[#141414] hover:bg-[#F0F2F5] transition-colors flex items-center justify-center shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-8 h-8 rounded-lg text-[#666666] hover:text-[#141414] hover:bg-[#F0F2F5] transition-colors flex items-center justify-center shrink-0 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
             <span className="material-symbols-rounded select-none text-lg">close</span>
           </button>
         </div>
 
-        {/* Corpo com a lista de aplicações */}
-        <div className="overflow-y-auto p-4 sm:p-6 space-y-3 divide-y divide-[#F0F2F5]/80 flex-1">
-          {LOGO_DOWNLOAD_OPTIONS.map((option, index) => {
-            // Verifica se esta opção é a que originou a abertura do modal
-            const isHighlighted =
-              activeOptionKey &&
-              (activeOptionKey === option.id ||
-                activeOptionKey === option.filename ||
-                activeOptionKey.includes(option.id))
-
-            const isThisDownloading = downloadingId === option.id
-            const isOtherBusy = isDownloadingAll || (downloadingId !== null && !isThisDownloading)
-
-            return (
-              <div
-                key={option.id}
-                className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 sm:p-3.5 rounded-xl transition-all ${
-                  index > 0 ? 'pt-3.5' : ''
-                } ${
-                  isHighlighted
-                    ? 'bg-[#EBF3FC] border border-[#004185]/20 shadow-2xs'
-                    : 'bg-white hover:bg-[#FAFBFD] border border-transparent'
-                }`}
+        {/* Corpo: Arquivos deste pacote + Aviso de compatibilidade SVG */}
+        <div className="overflow-y-auto p-5 sm:p-6 space-y-5 flex-1">
+          {/* Seção: ARQUIVOS DESTE PACOTE */}
+          <section aria-labelledby="heading-arquivos-pacote">
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#F0F2F5]">
+              <h4
+                id="heading-arquivos-pacote"
+                className="text-[11px] font-bold uppercase tracking-wider text-[#666666] m-0"
               >
-                {/* Lado Esquerdo: Miniatura + Textos */}
-                <div className="flex items-center gap-3.5 min-w-0 flex-1">
-                  {/* Miniatura renderizada com a mesma fidelidade dos cards */}
+                Arquivos deste pacote
+              </h4>
+              <span className="text-[11px] text-[#848484] font-medium">
+                {activePackage.files.length} arquivos disponíveis
+              </span>
+            </div>
+
+            <div className="divide-y divide-[#F0F2F5]">
+              {activePackage.files.map((file) => {
+                const isThisDownloading = downloadingFileId === file.id
+                const isBusy =
+                  isDownloadingAll || (downloadingFileId !== null && !isThisDownloading)
+                const isSvg = file.format === 'svg'
+
+                return (
                   <div
-                    className="w-24 sm:w-28 h-14 sm:h-16 rounded-lg flex items-center justify-center p-2 shrink-0 border border-black/5 shadow-2xs"
-                    style={{ backgroundColor: option.previewBg }}
+                    key={file.id}
+                    className="py-3.5 first:pt-2 last:pb-2 flex flex-col sm:flex-row sm:items-start justify-between gap-3 group hover:bg-[#FAFBFD] -mx-2 px-2.5 rounded-xl transition-colors"
                   >
-                    <ComvenOfficialLogo
-                      variant={option.previewVariant}
-                      showTagline={option.previewShowTagline}
-                      width={option.previewShowTagline ? 84 : 70}
-                      alt={option.name}
-                    />
-                  </div>
-
-                  {/* Informações da aplicação */}
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      <span className="font-bold text-xs sm:text-sm text-[#141414] truncate">
-                        {option.name}
-                      </span>
-                      {isHighlighted && (
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#004185] text-white">
-                          Selecionado
+                    {/* Informações textuais do arquivo */}
+                    <div className="min-w-0 flex-1">
+                      {/* Nome do arquivo em fonte monoespaçada com badge de formato */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-mono text-xs sm:text-[13px] font-bold text-[#141414] break-all select-all">
+                          {file.filename}
                         </span>
-                      )}
+                        {file.badgeText && (
+                          <span
+                            className={`text-[10px] font-semibold px-2 py-0.5 rounded-md shrink-0 ${
+                              isSvg
+                                ? 'bg-[#7C3AED]/10 text-[#6D28D9]'
+                                : 'bg-[#004185]/8 text-[#004185]'
+                            }`}
+                          >
+                            {file.badgeText}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Especificação técnica / dimensões */}
+                      <p className="text-xs text-[#4A5568] m-0 mt-1 font-medium leading-relaxed">
+                        {file.dimensionsText}.{' '}
+                        <span className="text-[#666666] font-normal">{file.descriptionText}</span>
+                      </p>
                     </div>
-                    <div className="text-[11px] text-[#666666] truncate mt-0.5">
-                      {option.subtitle}
-                    </div>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#004185] bg-[#004185]/8 px-2 py-0.5 rounded-md">
-                        <span className="material-symbols-rounded text-xs" aria-hidden="true">
-                          check_circle
+
+                    {/* Ação de download individual */}
+                    <div className="flex items-center justify-end shrink-0 sm:pt-0.5">
+                      <button
+                        type="button"
+                        onClick={() => handleDownloadSingle(file)}
+                        disabled={isBusy}
+                        title={`Baixar ${file.filename}`}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-[#004185] hover:text-[#00346A] hover:bg-[#004185]/10 active:bg-[#004185]/15 border border-[#004185]/20 bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-2xs cursor-pointer select-none"
+                      >
+                        <span className="material-symbols-rounded text-base" aria-hidden="true">
+                          {isThisDownloading ? 'hourglass_top' : 'download'}
                         </span>
-                        {option.formatText}
-                      </span>
-                      <span className="text-[10px] font-mono text-[#848484] hidden md:inline">
-                        {option.filename}
-                      </span>
+                        <span>{isThisDownloading ? 'Baixando...' : 'Baixar'}</span>
+                      </button>
                     </div>
                   </div>
-                </div>
+                )
+              })}
+            </div>
+          </section>
 
-                {/* Lado Direito: Ação de download individual */}
-                <div className="flex items-center justify-end shrink-0 sm:pl-2">
-                  <button
-                    type="button"
-                    onClick={() => handleDownloadSingle(option)}
-                    disabled={isThisDownloading || isOtherBusy}
-                    title={`Baixar ${option.filename}`}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-[#004185] hover:text-[#00346A] hover:bg-[#004185]/10 active:bg-[#004185]/15 border border-[#004185]/20 bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-2xs cursor-pointer select-none"
-                  >
-                    <span className="material-symbols-rounded text-base" aria-hidden="true">
-                      {isThisDownloading ? 'hourglass_top' : 'download'}
-                    </span>
-                    <span>{isThisDownloading ? 'Baixando...' : 'Baixar'}</span>
-                  </button>
-                </div>
+          {/* Seção: COMPATIBILIDADE DO SVG */}
+          {activePackage.svgCompatibilityNotice && (
+            <div className="p-4 rounded-xl bg-[#FAFBFD] border border-[#E5E9F0] text-left space-y-1.5">
+              <div className="flex items-center gap-2">
+                <span
+                  className="material-symbols-rounded text-[#004185] text-base shrink-0 select-none"
+                  aria-hidden="true"
+                >
+                  info
+                </span>
+                <h5 className="text-[11px] font-bold uppercase tracking-wider text-[#141414] m-0">
+                  {activePackage.svgCompatibilityNotice.title}
+                </h5>
               </div>
-            )
-          })}
+              <p className="text-xs text-[#666666] leading-relaxed m-0 pl-6">
+                {activePackage.svgCompatibilityNotice.body}
+              </p>
+            </div>
+          )}
         </div>
 
-        {/* Footer com ações: "Baixar todos" (Primary) + "Cancelar" / Fechar */}
+        {/* Footer com ações: "Baixar todos" (Primary) + "Cancelar" */}
         <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 px-5 sm:px-6 py-3.5 bg-[#FAFCFE] border-t border-[#F0F2F5] shrink-0">
           <div className="text-xs text-[#666666] flex items-center gap-1.5">
             {isDownloadingAll && downloadAllProgress ? (
@@ -398,7 +278,7 @@ export const LogoDownloadModal: React.FC<LogoDownloadModalProps> = ({
               </span>
             ) : (
               <span className="text-[#848484]">
-                Total de 8 aplicações oficiais COMVEN disponíveis
+                Pacote com {activePackage.files.length} arquivos prontos para uso
               </span>
             )}
           </div>
@@ -416,7 +296,7 @@ export const LogoDownloadModal: React.FC<LogoDownloadModalProps> = ({
             <button
               type="button"
               onClick={handleDownloadAll}
-              disabled={isDownloadingAll || downloadingId !== null}
+              disabled={isDownloadingAll || downloadingFileId !== null}
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold text-white bg-[#004185] hover:bg-[#00346A] active:bg-[#002750] transition-colors shadow-2xs select-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span className="material-symbols-rounded text-base" aria-hidden="true">
