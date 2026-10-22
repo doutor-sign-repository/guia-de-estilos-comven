@@ -1,12 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ComvenLogoLockup, ComvenOfficialLogo } from '@/components/ComvenLogo'
 import { LogoDownloadButton } from '@/components/LogoDownloadButton'
+import { LogoDownloadModal } from '@/components/LogoDownloadModal'
 import { BRAND_COLORS, COLOR_FAMILIES } from '@/data/colors'
 import { LOGO_ASSETS } from '@/data/logos'
 import { useToast } from '@/hooks/use-toast'
 
 export default function Index() {
   const { toast } = useToast()
+  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false)
+  const [activeDownloadOption, setActiveDownloadOption] = useState<string | null>(null)
+
+  const handleOpenDownloadModal = (optionKey: string) => {
+    setActiveDownloadOption(optionKey)
+    setIsDownloadModalOpen(true)
+  }
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
@@ -105,6 +113,7 @@ export default function Index() {
                       filename="comven-logo-principal.png"
                       label="Baixar logo"
                       theme="light"
+                      onClick={() => handleOpenDownloadModal('comven-logo-principal.png')}
                     />
                   </div>
                 </div>
@@ -134,6 +143,7 @@ export default function Index() {
                       filename="comven-logo-fundo-escuro.png"
                       label="Baixar logo"
                       theme="dark"
+                      onClick={() => handleOpenDownloadModal('comven-logo-fundo-escuro.png')}
                     />
                   </div>
                 </div>
@@ -164,6 +174,7 @@ export default function Index() {
                       filename="comven-logo-1cor-azul.png"
                       label="Baixar logo"
                       theme="light"
+                      onClick={() => handleOpenDownloadModal('comven-logo-1cor-azul.png')}
                     />
                   </div>
                 </div>
@@ -191,6 +202,7 @@ export default function Index() {
                       filename="comven-logo-1cor-branco.png"
                       label="Baixar logo"
                       theme="dark"
+                      onClick={() => handleOpenDownloadModal('comven-logo-1cor-branco.png')}
                     />
                   </div>
                 </div>
@@ -236,6 +248,7 @@ export default function Index() {
                       label="Baixar logo"
                       theme="light"
                       compact={true}
+                      onClick={() => handleOpenDownloadModal('comven-logo-somente-marca.png')}
                     />
                   </div>
                 </div>
@@ -263,6 +276,7 @@ export default function Index() {
                       label="Baixar logo"
                       theme="dark"
                       compact={true}
+                      onClick={() => handleOpenDownloadModal('comven-logo-somente-marca-dark.png')}
                     />
                   </div>
                 </div>
@@ -290,6 +304,9 @@ export default function Index() {
                       label="Baixar logo"
                       theme="light"
                       compact={true}
+                      onClick={() =>
+                        handleOpenDownloadModal('comven-logo-somente-marca-1cor-azul.png')
+                      }
                     />
                   </div>
                 </div>
@@ -317,6 +334,9 @@ export default function Index() {
                       label="Baixar logo"
                       theme="dark"
                       compact={true}
+                      onClick={() =>
+                        handleOpenDownloadModal('comven-logo-somente-marca-1cor-branco.png')
+                      }
                     />
                   </div>
                 </div>
@@ -1042,6 +1062,13 @@ export default function Index() {
           </div>
         </section>
       </div>
+
+      {/* Modal oficial de download de logotipos COMVEN */}
+      <LogoDownloadModal
+        isOpen={isDownloadModalOpen}
+        onClose={() => setIsDownloadModalOpen(false)}
+        activeOptionKey={activeDownloadOption}
+      />
     </div>
   )
 }

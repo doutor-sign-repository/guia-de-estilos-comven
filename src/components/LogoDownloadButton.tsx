@@ -3,12 +3,18 @@ import { downloadLogoPng } from '@/lib/logoDownload'
 import { useToast } from '@/hooks/use-toast'
 
 export interface LogoDownloadButtonProps {
-  src: string
-  filename: string
+  src?: string
+  filename?: string
   label?: string
   theme?: 'light' | 'dark'
   compact?: boolean
   className?: string
+  /**
+   * Callback para abrir o modal de download COMVEN.
+   * Quando fornecido, o clique no botão delega a abertura do modal
+   * permitindo ao usuário baixar qualquer variação ou todas.
+   */
+  onClick?: () => void
 }
 
 export const LogoDownloadButton: React.FC<LogoDownloadButtonProps> = ({
@@ -18,12 +24,19 @@ export const LogoDownloadButton: React.FC<LogoDownloadButtonProps> = ({
   theme = 'light',
   compact = false,
   className = '',
+  onClick,
 }) => {
   const { toast } = useToast()
   const [isDownloading, setIsDownloading] = useState(false)
 
-  const handleDownload = async () => {
-    if (isDownloading) return
+  const handleAction = async () => {
+    // Se foi passado handler customizado (ex.: abrir o modal), executa-o
+    if (onClick) {
+      onClick()
+      return
+    }
+
+    if (isDownloading || !src || !filename) return
 
     setIsDownloading(true)
     toast({
@@ -66,7 +79,7 @@ export const LogoDownloadButton: React.FC<LogoDownloadButtonProps> = ({
   return (
     <button
       type="button"
-      onClick={handleDownload}
+      onClick={handleAction}
       disabled={isDownloading}
       className={`${linkStyle} ${className}`}
       title="Baixar logo"
