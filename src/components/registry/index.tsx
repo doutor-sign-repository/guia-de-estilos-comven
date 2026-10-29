@@ -41,6 +41,14 @@ import {
   CarouselActionOption,
   CarouselActionType,
   generateCarouselCss,
+  TabsConfig,
+  TabsSize,
+  TabsState,
+  TabsIconOption,
+  TabsBadgeOption,
+  TabsWidth,
+  TabItemData,
+  generateTabsCss,
 } from './types'
 import { ButtonPlayground } from './ButtonPlayground'
 import { InputPlayground } from './InputPlayground'
@@ -57,6 +65,7 @@ import { AccordionPlayground } from './AccordionPlayground'
 import { ModalPlayground } from './ModalPlayground'
 import { BreadcrumbPlayground } from './BreadcrumbPlayground'
 import { CarouselPlayground } from './CarouselPlayground'
+import { TabsPlayground } from './TabsPlayground'
 
 export interface ComponentRegistryItem {
   id: string
@@ -199,6 +208,14 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
       '3 tamanhos × 2 estados × 8 combinações — slides navegáveis com imagem, estrutura de texto e botão de ação',
     category: 'COMPONENTES',
     component: CarouselPlayground,
+  },
+  tabs: {
+    id: 'tabs',
+    name: 'Tabs',
+    subtitle:
+      '3 tamanhos × 4 estados × com/sem ícone e badge — sistema de abas com underline marcante e linha contínua',
+    category: 'COMPONENTES',
+    component: TabsPlayground,
   },
 }
 export const BUTTON_DEFINITION: ComponentDefinition<ButtonConfig> = {
@@ -619,6 +636,48 @@ export const CAROUSEL_DEFINITION: ComponentDefinition<CarouselConfig> = {
   },
 }
 
+export const TABS_DEFINITION: ComponentDefinition<TabsConfig> = {
+  id: 'tabs',
+  name: 'Tabs',
+  category: 'COMPONENTES',
+  subtitle:
+    '3 tamanhos × 4 estados × com/sem ícone e badge — sistema de abas com underline marcante e linha contínua',
+  description:
+    'Sistema de navegação horizontal por abas (Tabs) para alternância contextual de visualizações sem recarregar a tela. Aba ativa em destaque no tom azul oficial COMVEN (#004185), peso bold e indicador em underline espesso, com linha divisória fina contínua sob toda a extensão do componente.',
+  figmaUrl:
+    'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2',
+  defaultConfig: {
+    size: 'Large',
+    state: 'Default',
+    icon: 'Sem ícone',
+    badge: 'Sem badge',
+    width: 'Fit',
+    activeTabId: 'tab-1',
+    items: [
+      {
+        id: 'tab-1',
+        label: 'Consulta Veicular (Placa)',
+        icon: 'directions_car',
+        badge: '12',
+        content:
+          'Módulo de consulta rápida por placa: dados cadastrais, histórico de infrações, restrições financeiras e situação de licenciamento em âmbito nacional.',
+      },
+      {
+        id: 'tab-2',
+        label: 'Consulta Veicular Premium',
+        icon: 'verified',
+        badge: 'Novo',
+        content:
+          'Relatório completo com análise de sinistros, leilões, passagem por seguradoras, histórico de proprietários e laudo cautelar consolidado.',
+      },
+    ],
+  },
+  generateCss: generateTabsCss,
+  renderPreview: (config) => {
+    return React.createElement(TabsPlayground, { initialConfig: config })
+  },
+}
+
 export {
   ButtonPlayground,
   InputPlayground,
@@ -635,6 +694,7 @@ export {
   ModalPlayground,
   BreadcrumbPlayground,
   CarouselPlayground,
+  TabsPlayground,
 }
 export type {
   ModalVariant,
@@ -649,5 +709,12 @@ export type {
   CarouselTextOption,
   CarouselActionOption,
   CarouselActionType,
+  TabsConfig,
+  TabsSize,
+  TabsState,
+  TabsIconOption,
+  TabsBadgeOption,
+  TabsWidth,
+  TabItemData,
 }
 export { PlaygroundControlGroup } from './PlaygroundControlGroup'

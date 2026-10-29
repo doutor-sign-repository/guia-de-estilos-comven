@@ -238,6 +238,7 @@ export default function Layout() {
                   { id: 'modal', label: 'Modal' },
                   { id: 'breadcrumb', label: 'Breadcrumb' },
                   { id: 'carousel', label: 'Carousel' },
+                  { id: 'tabs', label: 'Tabs' },
                 ].map((comp) => {
                   const isActive =
                     isComponentesPage &&

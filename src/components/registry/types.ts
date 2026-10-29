@@ -2740,3 +2740,217 @@ export function generateCarouselCss(config: CarouselConfig): string {
 
   return sections.join('\n\n')
 }
+
+// ==========================================
+// 16. TABS (SISTEMA DE ABAS) COMPONENT TYPES
+// ==========================================
+
+export type TabsSize = 'Large' | 'Medium' | 'Small'
+export type TabsState = 'Default' | 'Hover' | 'Active' | 'Disabled'
+export type TabsIconOption = 'Com ícone' | 'Sem ícone'
+export type TabsBadgeOption = 'Com badge' | 'Sem badge'
+export type TabsWidth = 'Fit' | 'Full'
+
+export interface TabItemData {
+  id: string
+  label: string
+  icon?: string
+  badge?: string | number
+  disabled?: boolean
+  content?: string
+}
+
+export interface TabsConfig {
+  size: TabsSize
+  state?: TabsState
+  icon: TabsIconOption
+  badge: TabsBadgeOption
+  width: TabsWidth
+  activeTabId: string
+  items: TabItemData[]
+}
+
+export interface TabsSizeMetrics {
+  fontSize: number
+  lineHeight: number
+  activeFontWeight: number
+  inactiveFontWeight: number
+  paddingY: number
+  paddingX: number
+  gap: number
+  iconSize: number
+  indicatorHeight: number
+  badgeFontSize: number
+  badgePadding: string
+}
+
+export const TABS_SIZE_METRICS: Record<TabsSize, TabsSizeMetrics> = {
+  Large: {
+    fontSize: 16,
+    lineHeight: 24,
+    activeFontWeight: 700,
+    inactiveFontWeight: 500,
+    paddingY: 14,
+    paddingX: 20,
+    gap: 8,
+    iconSize: 20,
+    indicatorHeight: 3,
+    badgeFontSize: 11,
+    badgePadding: '2px 7px',
+  },
+  Medium: {
+    fontSize: 14,
+    lineHeight: 20,
+    activeFontWeight: 700,
+    inactiveFontWeight: 500,
+    paddingY: 12,
+    paddingX: 16,
+    gap: 8,
+    iconSize: 18,
+    indicatorHeight: 3,
+    badgeFontSize: 10,
+    badgePadding: '1.5px 6px',
+  },
+  Small: {
+    fontSize: 13,
+    lineHeight: 18,
+    activeFontWeight: 700,
+    inactiveFontWeight: 500,
+    paddingY: 9,
+    paddingX: 12,
+    gap: 6,
+    iconSize: 16,
+    indicatorHeight: 2.5,
+    badgeFontSize: 10,
+    badgePadding: '1px 5px',
+  },
+}
+
+/**
+ * CSS Generator for Tabs component matching COMVEN Design System specifications:
+ * - Aba ativa: bold, azul primário (#004185), underline de espessura marcante alinhado à base
+ * - Aba inativa: peso normal/médio, cinza (#5A6472)
+ * - Hover inativo: azul COMVEN mais claro (#194575 / #F0F4FA)
+ * - Linha divisória fina contínua (#DCE3EC) na base ocupando toda a largura do container
+ * - Hierarquia de classes BEM: .comven-tabs__*
+ */
+export function generateTabsCss(config: TabsConfig): string {
+  const { size, icon, badge, width, state = 'Default' } = config
+  const metrics = TABS_SIZE_METRICS[size] || TABS_SIZE_METRICS.Medium
+
+  const isFull = width === 'Full'
+  const comment = `/* Tabs — Size=${size}, State=${state}, Icon=${icon}, Badge=${badge}, Width=${width} */`
+
+  const listLines = [
+    '  display: flex;',
+    '  align-items: flex-end;',
+    '  gap: 0;',
+    '  width: 100%;',
+    '  position: relative;',
+    '  border-bottom: 1px solid #DCE3EC; /* Linha divisória fina ocupando toda a largura */',
+    '  margin: 0;',
+    '  padding: 0;',
+    '  list-style: none;',
+    "  font-family: 'Open Sans', sans-serif;",
+    '  box-sizing: border-box;',
+  ]
+
+  const itemLines = [
+    '  position: relative;',
+    '  display: inline-flex;',
+    '  align-items: center;',
+    '  justify-content: center;',
+    `  gap: ${metrics.gap}px;`,
+    `  padding: ${metrics.paddingY}px ${metrics.paddingX}px;`,
+    `  font-size: ${metrics.fontSize}px;`,
+    `  line-height: ${metrics.lineHeight}px;`,
+    `  font-weight: ${metrics.inactiveFontWeight};`,
+    '  color: #5A6472; /* Aba inativa: cinza médio */',
+    '  background: transparent;',
+    '  border: none;',
+    '  cursor: pointer;',
+    '  text-decoration: none;',
+    '  white-space: nowrap;',
+    '  outline: none;',
+    '  transition: color 0.15s ease, background-color 0.15s ease;',
+    isFull ? '  flex: 1 1 0%;\n  text-align: center;' : '  flex: 0 0 auto;',
+  ]
+
+  const hoverLines = ['  color: #004185;', '  background-color: rgba(0, 65, 133, 0.04);']
+
+  const activeLines = [
+    '  color: #004185; /* Azul primário COMVEN */',
+    `  font-weight: ${metrics.activeFontWeight}; /* Peso bold */`,
+    '  cursor: default;',
+  ]
+
+  const indicatorLines = [
+    '  content: "";',
+    '  position: absolute;',
+    '  bottom: -1px; /* Alinhada perfeitamente sobre a linha divisória da base */',
+    '  left: 0;',
+    '  right: 0;',
+    `  height: ${metrics.indicatorHeight}px; /* Barra de underline grosso */`,
+    '  background-color: #004185; /* Azul primário COMVEN */',
+    '  border-radius: 2px 2px 0 0;',
+  ]
+
+  const disabledLines = [
+    '  color: #9CA3AF;',
+    '  cursor: not-allowed;',
+    '  pointer-events: none;',
+    '  opacity: 0.6;',
+  ]
+
+  const sections: string[] = [
+    comment,
+    `.comven-tabs {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n}`,
+    `.comven-tabs__list {\n${listLines.join('\n')}\n}`,
+    `.comven-tabs__trigger {\n${itemLines.join('\n')}\n}`,
+    `.comven-tabs__trigger:hover:not(:disabled):not(.comven-tabs__trigger--active) {\n${hoverLines.join('\n')}\n}`,
+    `.comven-tabs__trigger--active {\n${activeLines.join('\n')}\n}`,
+    `.comven-tabs__trigger--active::after {\n${indicatorLines.join('\n')}\n}`,
+    `.comven-tabs__trigger:disabled,\n.comven-tabs__trigger--disabled {\n${disabledLines.join('\n')}\n}`,
+  ]
+
+  if (icon === 'Com ícone') {
+    sections.push(`.comven-tabs__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: ${metrics.iconSize}px;
+  width: ${metrics.iconSize}px;
+  height: ${metrics.iconSize}px;
+  line-height: 1;
+  flex-shrink: 0;
+}`)
+  }
+
+  if (badge === 'Com badge') {
+    sections.push(`.comven-tabs__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: ${metrics.badgePadding};
+  font-size: ${metrics.badgeFontSize}px;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: 999px;
+  background-color: #EBF3FC;
+  color: #004185;
+}
+.comven-tabs__trigger--active .comven-tabs__badge {
+  background-color: #004185;
+  color: #FFFFFF;
+}`)
+  }
+
+  sections.push(`.comven-tabs__panel {
+  padding: 24px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #141414;
+}`)
+
+  return sections.join('\n\n')
+}

@@ -15,6 +15,7 @@ import { AccordionPlayground } from '@/components/registry/AccordionPlayground'
 import { ModalPlayground } from '@/components/registry/ModalPlayground'
 import { BreadcrumbPlayground } from '@/components/registry/BreadcrumbPlayground'
 import { CarouselPlayground } from '@/components/registry/CarouselPlayground'
+import { TabsPlayground } from '@/components/registry/TabsPlayground'
 
 export default function Componentes() {
   const { componentId } = useParams<{ componentId?: string }>()
@@ -35,7 +36,8 @@ export default function Componentes() {
     | 'accordion'
     | 'modal'
     | 'breadcrumb'
-    | 'carousel' = 'button'
+    | 'carousel'
+    | 'tabs' = 'button'
 
   if (componentId === 'input') current = 'input'
   else if (componentId === 'select') current = 'select'
@@ -51,6 +53,8 @@ export default function Componentes() {
   else if (componentId === 'modal') current = 'modal'
   else if (componentId === 'breadcrumb') current = 'breadcrumb'
   else if (componentId === 'carousel' || componentId === 'carrossel') current = 'carousel'
+  else if (componentId === 'tabs' || componentId === 'tab' || componentId === 'abas')
+    current = 'tabs'
 
   const titleMap = {
     button: 'Button',
@@ -68,6 +72,7 @@ export default function Componentes() {
     modal: 'Modal (Janela Sobreposta)',
     breadcrumb: 'Breadcrumb (Trilha de Navegação)',
     carousel: 'Carousel (Carrossel de Conteúdo)',
+    tabs: 'Tabs (Sistema de Abas)',
   }
 
   return (
@@ -168,6 +173,11 @@ export default function Componentes() {
         {current === 'carousel' && (
           <section id="carousel" className="w-full">
             <CarouselPlayground />
+          </section>
+        )}
+        {current === 'tabs' && (
+          <section id="tabs" className="w-full">
+            <TabsPlayground />
           </section>
         )}
       </div>
