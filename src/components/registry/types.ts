@@ -1451,6 +1451,7 @@ export function generateToastCss(config: ToastConfig): string {
 export type RadioState = 'Default' | 'Hover' | 'Focado' | 'Disabled'
 export type RadioSize = 'Large' | 'Medium' | 'Small'
 export type RadioOrientation = 'Horizontal' | 'Vertical'
+export type RadioDescriptionOption = 'Com texto de apoio' | 'Sem texto de apoio'
 
 export interface RadioOption {
   id: string
@@ -1462,6 +1463,7 @@ export interface RadioButtonConfig {
   state: RadioState
   size: RadioSize
   orientation: RadioOrientation
+  descriptionOption?: RadioDescriptionOption
   groupTitle?: string
   options: RadioOption[]
   selectedId?: string
@@ -1508,11 +1510,19 @@ export const RADIO_SIZE_METRICS: Record<RadioSize, RadioSizeMetrics> = {
 }
 
 export function generateRadioButtonCss(config: RadioButtonConfig): string {
-  const { state, size, orientation, selectedId, options } = config
+  const {
+    state,
+    size,
+    orientation,
+    descriptionOption = 'Com texto de apoio',
+    selectedId,
+    options,
+  } = config
   const metrics = RADIO_SIZE_METRICS[size] || RADIO_SIZE_METRICS.Medium
   const isSelected = selectedId === (options[0]?.id || 'opt-1')
+  const hasDescription = descriptionOption === 'Com texto de apoio'
 
-  const comment = `/* Radio Button — State=${state}, Size=${size}, Orientation=${orientation}, Checked=${isSelected ? 'true' : 'false'} */`
+  const comment = `/* Radio Button — State=${state}, Size=${size}, Orientation=${orientation}, TextoDeApoio=${hasDescription ? 'Sim' : 'Não'}, Checked=${isSelected ? 'true' : 'false'} */`
 
   // Base circle styles
   let borderColor = '#D5DCE5'
@@ -1521,22 +1531,26 @@ export function generateRadioButtonCss(config: RadioButtonConfig): string {
   let outlineRule = 'none'
   let cursor = 'pointer'
   let labelColor = '#141414'
+  let descColor = '#666666'
 
   if (state === 'Hover') {
     borderColor = '#004185'
     bgColor = isSelected ? '#FFFFFF' : '#F5F7FA'
     labelColor = '#004185'
+    descColor = '#666666'
   } else if (state === 'Focado') {
     borderColor = '#004185'
     // Outline COMVEN: estritamente 1px em azul #004185
     outlineRule = '1px solid #004185'
     labelColor = '#004185'
+    descColor = '#666666'
   } else if (state === 'Disabled') {
     borderColor = '#E5E7EB'
     bgColor = '#F5F7FA'
     dotColor = '#9CA3AF'
     cursor = 'not-allowed'
     labelColor = '#9CA3AF'
+    descColor = '#B0B7C3'
     outlineRule = 'none'
   }
 
@@ -1593,7 +1607,16 @@ export function generateRadioButtonCss(config: RadioButtonConfig): string {
     `  color: ${labelColor};`,
   ]
 
-  return `${comment}
+  const descLines = [
+    "  font-family: 'Open Sans', sans-serif;",
+    '  font-weight: 400;',
+    `  font-size: ${metrics.descFontSize}px;`,
+    '  line-height: 1.4;',
+    `  color: ${descColor};`,
+    '  margin-top: 2px;',
+  ]
+
+  const baseCss = `${comment}
 .comven-radio-group {
 ${groupLines.join('\n')}
 }
@@ -1613,6 +1636,16 @@ ${dotLines.join('\n')}
 .comven-radio-label {
 ${labelLines.join('\n')}
 }`
+
+  if (hasDescription) {
+    return `${baseCss}
+
+.comven-radio-description {
+${descLines.join('\n')}
+}`
+  }
+
+  return baseCss
 }
 
 // -----------------------------------------------------------------------------

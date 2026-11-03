@@ -4,6 +4,7 @@ import {
   RadioState,
   RadioSize,
   RadioOrientation,
+  RadioDescriptionOption,
   RadioOption,
   generateRadioButtonCss,
   RADIO_SIZE_METRICS,
@@ -18,6 +19,10 @@ export interface RadioButtonPlaygroundProps {
 const RADIO_STATES: RadioState[] = ['Default', 'Hover', 'Focado', 'Disabled']
 const RADIO_SIZES: RadioSize[] = ['Large', 'Medium', 'Small']
 const RADIO_ORIENTATIONS: RadioOrientation[] = ['Horizontal', 'Vertical']
+const RADIO_DESCRIPTION_OPTIONS: RadioDescriptionOption[] = [
+  'Com texto de apoio',
+  'Sem texto de apoio',
+]
 
 const DEFAULT_OPTIONS: RadioOption[] = [
   {
@@ -41,6 +46,9 @@ export const RadioButtonPlayground: React.FC<RadioButtonPlaygroundProps> = ({ in
   const [orientation, setOrientation] = useState<RadioOrientation>(
     initialConfig?.orientation || 'Vertical',
   )
+  const [descriptionOption, setDescriptionOption] = useState<RadioDescriptionOption>(
+    initialConfig?.descriptionOption || 'Com texto de apoio',
+  )
   const [groupTitle, setGroupTitle] = useState<string>(
     initialConfig?.groupTitle ?? 'Selecione o plano desejado',
   )
@@ -63,6 +71,7 @@ export const RadioButtonPlayground: React.FC<RadioButtonPlaygroundProps> = ({ in
     state,
     size,
     orientation,
+    descriptionOption,
     groupTitle,
     options,
     selectedId,
@@ -84,13 +93,23 @@ export const RadioButtonPlayground: React.FC<RadioButtonPlaygroundProps> = ({ in
     setOptions((prev) => prev.map((opt, i) => (i === index ? { ...opt, label: newLabel } : opt)))
   }
 
+  const handleOptionDescriptionChange = (index: number, newDescription: string) => {
+    setOptions((prev) =>
+      prev.map((opt, i) => (i === index ? { ...opt, description: newDescription } : opt)),
+    )
+  }
+
   const addOption = () => {
     if (options.length >= 5) return
     const newId = `opt-${Date.now()}`
     const newIndex = options.length + 1
     setOptions((prev) => [
       ...prev,
-      { id: newId, label: `Opção ${newIndex} — Nova opção`, description: '' },
+      {
+        id: newId,
+        label: `Opção ${newIndex} — Nova opção`,
+        description: 'Descrição de apoio para a nova opção',
+      },
     ])
   }
 
@@ -198,9 +217,30 @@ export const RadioButtonPlayground: React.FC<RadioButtonPlaygroundProps> = ({ in
               )
             })}
           </PlaygroundControlGroup>
+
+          {/* TEXTO DE APOIO (SEGUNDA LINHA) */}
+          <PlaygroundControlGroup label="TEXTO DE APOIO">
+            {RADIO_DESCRIPTION_OPTIONS.map((opt) => {
+              const isSelected = descriptionOption === opt
+              return (
+                <button
+                  key={opt}
+                  type="button"
+                  onClick={() => setDescriptionOption(opt)}
+                  className={`h-8 px-3.5 rounded-md text-xs font-semibold transition-all select-none shrink-0 ${
+                    isSelected
+                      ? 'bg-[#004185] text-white shadow-xs'
+                      : 'bg-[#F0F2F5] text-[#222222] hover:bg-[#E4E7EC]'
+                  }`}
+                >
+                  {opt}
+                </button>
+              )
+            })}
+          </PlaygroundControlGroup>
         </div>
 
-        {/* Text Edit Fields: TÍTULO DO GRUPO e RÓTULOS DAS OPÇÕES */}
+        {/* Text Edit Fields: TÍTULO DO GRUPO, RÓTULOS DAS OPÇÕES e SEGUNDA LINHA (TEXTO DE APOIO) */}
         <div className="mt-6 pt-5 border-t border-[#F0F2F5] space-y-4">
           <div className="max-w-xl">
             <label
@@ -221,9 +261,14 @@ export const RadioButtonPlayground: React.FC<RadioButtonPlaygroundProps> = ({ in
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-2 max-w-2xl">
+            <div className="flex items-center justify-between mb-2 max-w-4xl">
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#7A7A7A] select-none">
-                RÓTULOS DAS OPÇÕES ({options.length}/5)
+                OPÇÕES DO GRUPO ({options.length}/5)
+                {descriptionOption === 'Com texto de apoio' && (
+                  <span className="ml-1 text-[11px] font-normal text-[#004185] lowercase">
+                    (com segunda linha editável)
+                  </span>
+                )}
               </span>
               {options.length < 5 && (
                 <button
@@ -241,27 +286,64 @@ export const RadioButtonPlayground: React.FC<RadioButtonPlaygroundProps> = ({ in
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-w-4xl">
               {options.map((opt, idx) => (
-                <div key={opt.id} className="flex items-center gap-2">
-                  <span className="text-[11px] font-bold text-[#7A7A7A] shrink-0">Opção</span>
-                  <input
-                    type="text"
-                    value={opt.label}
-                    onChange={(e) => handleOptionLabelChange(idx, e.target.value)}
-                    placeholder="Rótulo da opção"
-                    maxLength={40}
-                    className="flex-1 h-8 px-2.5 rounded-md border border-[#D5DCE5] bg-white text-xs font-medium text-[#141414] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors"
-                  />
-                  {options.length > 2 && (
-                    <button
-                      type="button"
-                      onClick={() => removeOption(idx)}
-                      title="Remover opção"
-                      className="w-7 h-7 inline-flex items-center justify-center rounded-md text-[#888888] hover:text-[#CC0000] hover:bg-[#FFE5E5] transition-colors"
+                <div
+                  key={opt.id}
+                  className="p-3 rounded-xl border border-[#E2E6EB] bg-[#FAFCFE] flex flex-col gap-2 transition-all"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[11px] font-bold text-[#004185]">Opção {idx + 1}</span>
+                    {options.length > 2 && (
+                      <button
+                        type="button"
+                        onClick={() => removeOption(idx)}
+                        title="Remover opção"
+                        className="w-6 h-6 inline-flex items-center justify-center rounded text-[#888888] hover:text-[#CC0000] hover:bg-[#FFE5E5] transition-colors"
+                      >
+                        <span className="material-symbols-rounded" style={{ fontSize: '15px' }}>
+                          close
+                        </span>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Rótulo Principal */}
+                  <div className="space-y-1">
+                    <label
+                      htmlFor={`radio-opt-label-${opt.id}`}
+                      className="text-[10px] font-bold uppercase tracking-wider text-[#7A7A7A] block"
                     >
-                      <span className="material-symbols-rounded" style={{ fontSize: '16px' }}>
-                        close
-                      </span>
-                    </button>
+                      Rótulo principal
+                    </label>
+                    <input
+                      id={`radio-opt-label-${opt.id}`}
+                      type="text"
+                      value={opt.label}
+                      onChange={(e) => handleOptionLabelChange(idx, e.target.value)}
+                      placeholder="Rótulo da opção"
+                      maxLength={40}
+                      className="w-full h-8 px-2.5 rounded-md border border-[#D5DCE5] bg-white text-xs font-medium text-[#141414] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors"
+                    />
+                  </div>
+
+                  {/* Segunda Linha / Texto de apoio editável */}
+                  {descriptionOption === 'Com texto de apoio' && (
+                    <div className="space-y-1 pt-1 border-t border-[#EEF2F6]">
+                      <label
+                        htmlFor={`radio-opt-desc-${opt.id}`}
+                        className="text-[10px] font-bold uppercase tracking-wider text-[#004185] block"
+                      >
+                        Texto de apoio (2ª linha)
+                      </label>
+                      <input
+                        id={`radio-opt-desc-${opt.id}`}
+                        type="text"
+                        value={opt.description ?? ''}
+                        onChange={(e) => handleOptionDescriptionChange(idx, e.target.value)}
+                        placeholder="Texto de apoio da opção"
+                        maxLength={60}
+                        className="w-full h-8 px-2.5 rounded-md border border-[#BBD7F7] bg-white text-xs font-normal text-[#4A4A4A] outline-none focus:border-[#004185] focus:ring-1 focus:ring-[#004185] transition-colors placeholder:text-[#9CA3AF]"
+                      />
+                    </div>
                   )}
                 </div>
               ))}
@@ -354,6 +436,7 @@ export function SingleRadioGroupPreview({
 
   const isHorizontal = orientation === 'Horizontal'
   const isDisabled = state === 'Disabled'
+  const showDescription = config.descriptionOption !== 'Sem texto de apoio'
 
   return (
     <div className={`w-full ${className}`} role="radiogroup" aria-label={groupTitle || 'Opções'}>
@@ -383,6 +466,7 @@ export function SingleRadioGroupPreview({
               isChecked={isChecked}
               state={state}
               size={size}
+              showDescription={showDescription}
               onSelect={() => onSelect?.(opt.id)}
             />
           )
@@ -398,12 +482,14 @@ export function SingleRadioButtonItem({
   isChecked,
   state,
   size,
+  showDescription = true,
   onSelect,
 }: {
   option: RadioOption
   isChecked: boolean
   state: RadioState
   size: RadioSize
+  showDescription?: boolean
   onSelect?: () => void
 }) {
   const metrics = RADIO_SIZE_METRICS[size] || RADIO_SIZE_METRICS.Medium
@@ -498,7 +584,7 @@ export function SingleRadioButtonItem({
         >
           {option.label}
         </span>
-        {option.description && (
+        {showDescription && option.description && (
           <span
             className="font-normal mt-0.5 leading-snug"
             style={{
@@ -546,18 +632,30 @@ function RadioStateGallery({ options }: { options: RadioOption[] }) {
         'Opacidade reduzida (50%), cursor não-permitido e cor atenuada para opções inoperantes.',
     },
   ]
-  const displayOptions = options.slice(0, 3)
+  const displayOption1 = options[0] || {
+    id: 'opt-1',
+    label: 'COMVEN Standard',
+    description: 'Plano padrão com suporte regular',
+  }
+  const displayOption2 = options[1] || {
+    id: 'opt-2',
+    label: 'Plano Empresarial',
+    description: 'Acesso multiusuário e relatórios',
+  }
+
+  const desc1 = displayOption1.description || 'Texto de apoio descritivo da opção'
+  const desc2 = displayOption2.description || 'Informações complementares em segunda linha'
 
   return (
     <div className="mt-10 pt-8 border-t border-[#F0F2F5]">
       <div>
         <h3 className="text-base sm:text-lg font-bold text-[#141414]">
-          Matriz completa de variações — (4 estados × 3 tamanhos × Selecionado &amp; Não
-          Selecionado)
+          Matriz completa de variações — (4 estados × 3 tamanhos × Com &amp; Sem segunda linha)
         </h3>
         <p className="text-xs sm:text-sm text-[#7A7A7A] mt-1 font-normal">
           Visualização sobre o fundo azul-marinho oficial COMVEN (#062446), cobrindo Large, Medium e
-          Small sem barras de scroll verticais ou horizontais fixas.
+          Small nas variações com texto de apoio (segunda linha) e apenas rótulo principal, sem
+          barras de rolagem.
         </p>
       </div>
 
@@ -600,99 +698,242 @@ function RadioStateGallery({ options }: { options: RadioOption[] }) {
                       </span>
                     </div>
 
-                    <div className="space-y-4 py-1">
-                      {/* Opção 1: Selecionada */}
-                      <div className="flex items-start gap-2.5">
-                        <span
-                          className="relative flex items-center justify-center shrink-0 rounded-full transition-all"
-                          style={{
-                            width: `${metrics.outerSize}px`,
-                            height: `${metrics.outerSize}px`,
-                            border: `${metrics.borderWidth}px solid ${
-                              isDisabled
-                                ? '#526980'
-                                : isHoverState || isFocusState
-                                  ? '#F2CB05'
-                                  : '#3B82F6'
-                            }`,
-                            backgroundColor: isDisabled ? '#1E3A5F' : '#0B2D55',
-                            outline: isFocusState && !isDisabled ? '1px solid #F2CB05' : 'none',
-                            outlineOffset: '2px',
-                            marginTop: '2px',
-                          }}
-                        >
-                          <span
-                            className="rounded-full"
-                            style={{
-                              width: `${metrics.innerDotSize}px`,
-                              height: `${metrics.innerDotSize}px`,
-                              backgroundColor: isDisabled
-                                ? '#6B8299'
-                                : isHoverState || isFocusState
-                                  ? '#F2CB05'
-                                  : '#60A5FA',
-                            }}
-                          />
+                    <div className="space-y-5 py-1">
+                      {/* Bloco A: COM SEGUNDA LINHA (TEXTO DE APOIO) */}
+                      <div className="space-y-3 pb-3 border-b border-[#113C68]/40">
+                        <span className="text-[10px] font-bold tracking-wider uppercase text-[#F2CB05]/90 block">
+                          Com segunda linha (Texto de apoio)
                         </span>
-                        <div className="flex flex-col">
+
+                        {/* 1. Selecionado com segunda linha */}
+                        <div className="flex items-start gap-2.5">
                           <span
-                            className="font-semibold leading-tight"
+                            className="relative flex items-center justify-center shrink-0 rounded-full transition-all"
                             style={{
-                              fontSize: `${metrics.fontSize}px`,
-                              color: isDisabled ? '#6B8299' : isHoverState ? '#F2CB05' : '#FFFFFF',
+                              width: `${metrics.outerSize}px`,
+                              height: `${metrics.outerSize}px`,
+                              border: `${metrics.borderWidth}px solid ${
+                                isDisabled
+                                  ? '#526980'
+                                  : isHoverState || isFocusState
+                                    ? '#F2CB05'
+                                    : '#3B82F6'
+                              }`,
+                              backgroundColor: isDisabled ? '#1E3A5F' : '#0B2D55',
+                              outline: isFocusState && !isDisabled ? '1px solid #F2CB05' : 'none',
+                              outlineOffset: '2px',
+                              marginTop: '2px',
                             }}
                           >
-                            {displayOptions[0]?.label || 'Opção selecionada'}
+                            <span
+                              className="rounded-full"
+                              style={{
+                                width: `${metrics.innerDotSize}px`,
+                                height: `${metrics.innerDotSize}px`,
+                                backgroundColor: isDisabled
+                                  ? '#6B8299'
+                                  : isHoverState || isFocusState
+                                    ? '#F2CB05'
+                                    : '#60A5FA',
+                              }}
+                            />
                           </span>
+                          <div className="flex flex-col">
+                            <span
+                              className="font-semibold leading-tight"
+                              style={{
+                                fontSize: `${metrics.fontSize}px`,
+                                color: isDisabled
+                                  ? '#6B8299'
+                                  : isHoverState
+                                    ? '#F2CB05'
+                                    : '#FFFFFF',
+                              }}
+                            >
+                              {displayOption1.label}
+                            </span>
+                            <span
+                              className="font-normal mt-0.5 leading-snug"
+                              style={{
+                                fontSize: `${metrics.descFontSize}px`,
+                                color: isDisabled ? '#526980' : '#8BB7E7',
+                              }}
+                            >
+                              {desc1}
+                            </span>
+                            <span
+                              className="text-[10px] font-mono mt-0.5"
+                              style={{ color: isDisabled ? '#41556B' : '#5E7A9C' }}
+                            >
+                              Marcado · {b.state}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* 2. Desmarcado com segunda linha */}
+                        <div className="flex items-start gap-2.5">
                           <span
-                            className="text-[11px] font-mono"
-                            style={{ color: isDisabled ? '#526980' : '#8BB7E7' }}
+                            className="relative flex items-center justify-center shrink-0 rounded-full transition-all"
+                            style={{
+                              width: `${metrics.outerSize}px`,
+                              height: `${metrics.outerSize}px`,
+                              border: `${metrics.borderWidth}px solid ${
+                                isDisabled ? '#41556B' : isHoverState ? '#8BB7E7' : '#4B6A8A'
+                              }`,
+                              backgroundColor: isDisabled ? '#152E4D' : 'transparent',
+                              outline: isFocusState && !isDisabled ? '1px solid #8BB7E7' : 'none',
+                              outlineOffset: '2px',
+                              marginTop: '2px',
+                            }}
                           >
-                            Marcado · {b.state}
+                            <span
+                              className="rounded-full scale-0"
+                              style={{
+                                width: `${metrics.innerDotSize}px`,
+                                height: `${metrics.innerDotSize}px`,
+                              }}
+                            />
                           </span>
+                          <div className="flex flex-col">
+                            <span
+                              className="font-semibold leading-tight"
+                              style={{
+                                fontSize: `${metrics.fontSize}px`,
+                                color: isDisabled
+                                  ? '#6B8299'
+                                  : isHoverState
+                                    ? '#D2E4F7'
+                                    : '#D2E4F7',
+                              }}
+                            >
+                              {displayOption2.label}
+                            </span>
+                            <span
+                              className="font-normal mt-0.5 leading-snug"
+                              style={{
+                                fontSize: `${metrics.descFontSize}px`,
+                                color: isDisabled ? '#41556B' : '#7E9AB8',
+                              }}
+                            >
+                              {desc2}
+                            </span>
+                            <span
+                              className="text-[10px] font-mono mt-0.5"
+                              style={{ color: isDisabled ? '#41556B' : '#5E7A9C' }}
+                            >
+                              Desmarcado · {b.state}
+                            </span>
+                          </div>
                         </div>
                       </div>
 
-                      {/* Opção 2: Desmarcada */}
-                      <div className="flex items-start gap-2.5">
-                        <span
-                          className="relative flex items-center justify-center shrink-0 rounded-full transition-all"
-                          style={{
-                            width: `${metrics.outerSize}px`,
-                            height: `${metrics.outerSize}px`,
-                            border: `${metrics.borderWidth}px solid ${
-                              isDisabled ? '#41556B' : isHoverState ? '#8BB7E7' : '#4B6A8A'
-                            }`,
-                            backgroundColor: isDisabled ? '#152E4D' : 'transparent',
-                            outline: isFocusState && !isDisabled ? '1px solid #8BB7E7' : 'none',
-                            outlineOffset: '2px',
-                            marginTop: '2px',
-                          }}
-                        >
-                          <span
-                            className="rounded-full scale-0"
-                            style={{
-                              width: `${metrics.innerDotSize}px`,
-                              height: `${metrics.innerDotSize}px`,
-                            }}
-                          />
+                      {/* Bloco B: SEM SEGUNDA LINHA (APENAS RÓTULO) */}
+                      <div className="space-y-3 pt-1">
+                        <span className="text-[10px] font-bold tracking-wider uppercase text-[#8BB7E7] block">
+                          Sem segunda linha (Apenas rótulo)
                         </span>
-                        <div className="flex flex-col">
+
+                        {/* 3. Selecionado sem segunda linha */}
+                        <div className="flex items-start gap-2.5">
                           <span
-                            className="font-semibold leading-tight"
+                            className="relative flex items-center justify-center shrink-0 rounded-full transition-all"
                             style={{
-                              fontSize: `${metrics.fontSize}px`,
-                              color: isDisabled ? '#6B8299' : isHoverState ? '#D2E4F7' : '#D2E4F7',
+                              width: `${metrics.outerSize}px`,
+                              height: `${metrics.outerSize}px`,
+                              border: `${metrics.borderWidth}px solid ${
+                                isDisabled
+                                  ? '#526980'
+                                  : isHoverState || isFocusState
+                                    ? '#F2CB05'
+                                    : '#3B82F6'
+                              }`,
+                              backgroundColor: isDisabled ? '#1E3A5F' : '#0B2D55',
+                              outline: isFocusState && !isDisabled ? '1px solid #F2CB05' : 'none',
+                              outlineOffset: '2px',
+                              marginTop: '2px',
                             }}
                           >
-                            {displayOptions[1]?.label || 'Opção não selecionada'}
+                            <span
+                              className="rounded-full"
+                              style={{
+                                width: `${metrics.innerDotSize}px`,
+                                height: `${metrics.innerDotSize}px`,
+                                backgroundColor: isDisabled
+                                  ? '#6B8299'
+                                  : isHoverState || isFocusState
+                                    ? '#F2CB05'
+                                    : '#60A5FA',
+                              }}
+                            />
                           </span>
+                          <div className="flex flex-col">
+                            <span
+                              className="font-semibold leading-tight"
+                              style={{
+                                fontSize: `${metrics.fontSize}px`,
+                                color: isDisabled
+                                  ? '#6B8299'
+                                  : isHoverState
+                                    ? '#F2CB05'
+                                    : '#FFFFFF',
+                              }}
+                            >
+                              {displayOption1.label}
+                            </span>
+                            <span
+                              className="text-[10px] font-mono mt-0.5"
+                              style={{ color: isDisabled ? '#41556B' : '#5E7A9C' }}
+                            >
+                              Marcado · {b.state}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* 4. Desmarcado sem segunda linha */}
+                        <div className="flex items-start gap-2.5">
                           <span
-                            className="text-[11px] font-mono"
-                            style={{ color: isDisabled ? '#526980' : '#7E9AB8' }}
+                            className="relative flex items-center justify-center shrink-0 rounded-full transition-all"
+                            style={{
+                              width: `${metrics.outerSize}px`,
+                              height: `${metrics.outerSize}px`,
+                              border: `${metrics.borderWidth}px solid ${
+                                isDisabled ? '#41556B' : isHoverState ? '#8BB7E7' : '#4B6A8A'
+                              }`,
+                              backgroundColor: isDisabled ? '#152E4D' : 'transparent',
+                              outline: isFocusState && !isDisabled ? '1px solid #8BB7E7' : 'none',
+                              outlineOffset: '2px',
+                              marginTop: '2px',
+                            }}
                           >
-                            Desmarcado · {b.state}
+                            <span
+                              className="rounded-full scale-0"
+                              style={{
+                                width: `${metrics.innerDotSize}px`,
+                                height: `${metrics.innerDotSize}px`,
+                              }}
+                            />
                           </span>
+                          <div className="flex flex-col">
+                            <span
+                              className="font-semibold leading-tight"
+                              style={{
+                                fontSize: `${metrics.fontSize}px`,
+                                color: isDisabled
+                                  ? '#6B8299'
+                                  : isHoverState
+                                    ? '#D2E4F7'
+                                    : '#D2E4F7',
+                              }}
+                            >
+                              {displayOption2.label}
+                            </span>
+                            <span
+                              className="text-[10px] font-mono mt-0.5"
+                              style={{ color: isDisabled ? '#41556B' : '#5E7A9C' }}
+                            >
+                              Desmarcado · {b.state}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -345,6 +345,7 @@ export const RADIO_BUTTON_DEFINITION: ComponentDefinition<RadioButtonConfig> = {
     state: 'Default',
     size: 'Medium',
     orientation: 'Vertical',
+    descriptionOption: 'Com texto de apoio',
     groupTitle: 'Selecione o plano desejado',
     options: [
       {
