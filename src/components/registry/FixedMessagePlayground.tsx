@@ -24,6 +24,8 @@ const SEVERITIES: FixedMessageSeverity[] = ['Informativo', 'Atenção', 'Crític
 const ACTIONS_OPTIONS: FixedMessageActionsOption[] = ['Nenhuma', '1 ação', '2 ações']
 const DISMISS_OPTIONS: FixedMessageDismissOption[] = ['Dispensável', 'Não dispensável']
 const STACK_OPTIONS: FixedMessageStackCount[] = [1, 2, 3]
+/** Limite oficial de mensagens fixas empilhadas — o corte é visível no contador da demo. */
+const STACK_LIMIT_DEFAULT: FixedMessageStackCount = 3
 const SCOPES: FixedMessageScope[] = ['Global', 'Módulo']
 
 const ACTION_LABELS: Record<FixedMessageSeverity, { primary: string; secondary: string }> = {
@@ -108,7 +110,7 @@ export const FixedMessagePlayground: React.FC<FixedMessagePlaygroundProps> = ({
     initialConfig?.fechamento || 'Dispensável',
   )
   const [empilhamento, setEmpilhamento] = useState<FixedMessageStackCount>(
-    initialConfig?.empilhamento || 1,
+    initialConfig?.empilhamento || STACK_LIMIT_DEFAULT,
   )
   const [escopo, setEscopo] = useState<FixedMessageScope>(initialConfig?.escopo || 'Global')
   const [titulo, setTitulo] = useState<string>(
@@ -161,10 +163,6 @@ export const FixedMessagePlayground: React.FC<FixedMessagePlaygroundProps> = ({
   const resetStack = () => {
     setDismissedIds(new Set())
   }
-
-  const stacked = sortStacked(STACK_SCENARIO)
-    .filter((m) => !dismissedIds.has(m.id))
-    .slice(0, empilhamento)
 
   const FIGMA_PROTO_URL =
     'https://www.figma.com/proto/YEMa9j7O8aNm5PVmS8eSlC/Guia-de-Estilos?node-id=34-1734&viewport=-759%2C471%2C0.32&t=wAmAkj8XxXp7cOHD-1&scaling=contain&content-scaling=responsive&page-id=18%3A2'
@@ -589,21 +587,24 @@ function FixedMessageStackDemo({
   onDismiss: (id: string) => void
   onReset: () => void
 }) {
-  const stack = sortStacked(STACK_SCENARIO)
-    .filter((m) => !dismissedIds.has(m.id))
-    .slice(0, empilhamento)
+  const allSorted = sortStacked(STACK_SCENARIO).filter((m) => !dismissedIds.has(m.id))
+  const stack = allSorted.slice(0, empilhamento)
+  const overflow = allSorted.length - stack.length
+  const isGlobal = escopo === 'Global'
 
   return (
     <div className="mt-10 pt-8 border-t border-[#F0F2F5]">
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>
           <h3 className="text-base sm:text-lg font-bold text-[#141414]">
-            Empilhamento — ordenação por severidade com limite
+            Empilhamento e escopo — ordenação por severidade com limite
           </h3>
           <p className="text-xs sm:text-sm text-[#7A7A7A] mt-1 font-normal">
             Empilhamento vertical com limite configurável ({empilhamento}) e ordenação por
             severidade: crítico primeiro, depois atenção, depois informativo. Dispensar uma mensagem
-            e a próxima entra no lugar (recência como desempate).
+            e a próxima entra no lugar (recência como desempate). Escopo{' '}
+            {isGlobal ? 'Global' : 'Módulo'} — o indicador da faixa acompanha a seleção do
+            playground.
           </p>
         </div>
         <button
@@ -625,6 +626,21 @@ function FixedMessageStackDemo({
             Nenhuma mensagem fixa ativa. Restaure o empilhamento para continuar a demonstração.
           </p>
         )}
+        {/* Indicador de escopo — provavelmente a única evidência visível do controle ESCOPO */}
+        <div className="flex items-center justify-between pb-3 mb-1 border-b border-[#113C68]/60">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#8BB7E7]/80">
+            Escopo da área de mensagens: {escopo}
+          </span>
+          <span
+            className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
+            style={{
+              backgroundColor: isGlobal ? 'rgba(139, 183, 231, 0.18)' : 'rgba(242, 203, 5, 0.14)',
+              color: isGlobal ? '#8BB7E7' : '#F2CB05',
+            }}
+          >
+            {isGlobal ? 'Global — todas as páginas' : 'Módulo — apenas nesta página'}
+          </span>
+        </div>
         {stack.map((msg, i) => (
           <div
             key={msg.id}
@@ -647,11 +663,14 @@ function FixedMessageStackDemo({
         ))}
         <div className="flex items-center justify-between pt-1">
           <span className="text-xs text-[#8BB7E7]">
-            {stack.length} de {empilhamento} — limite de {empilhamento} mensagens · 4 mensagens
-            disponíveis na simulação
+            {stack.length} de {empilhamento} exibidas · limite de {empilhamento} mensagens ·{' '}
+            {overflow > 0
+              ? `${overflow} ${overflow === 1 ? 'mensagem cortada' : 'mensagens cortadas'} pelo limite`
+              : 'sem cortes — todas as ativas cabem no limite'}
           </span>
           <span className="text-xs font-semibold text-[#F2CB05]">
             {stack.length} / {empilhamento}
+            {overflow > 0 ? ` (+${overflow} fora)` : ''}
           </span>
         </div>
       </div>
@@ -670,7 +689,7 @@ export const FIXED_MESSAGE_DEFINITION: ComponentDefinition<FixedMessageConfig> =
     severidade: 'Atenção',
     acoes: '2 ações',
     fechamento: 'Dispensável',
-    empilhamento: 1,
+    empilhamento: STACK_LIMIT_DEFAULT,
     escopo: 'Global',
     titulo: 'Pendência de configuração de e-mail',
     descricao:
