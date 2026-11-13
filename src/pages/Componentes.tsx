@@ -16,6 +16,7 @@ import { ModalPlayground } from '@/components/registry/ModalPlayground'
 import { BreadcrumbPlayground } from '@/components/registry/BreadcrumbPlayground'
 import { CarouselPlayground } from '@/components/registry/CarouselPlayground'
 import { TabsPlayground } from '@/components/registry/TabsPlayground'
+import { FixedMessagePlayground } from '@/components/registry/FixedMessagePlayground'
 
 export default function Componentes() {
   const { componentId } = useParams<{ componentId?: string }>()
@@ -37,7 +38,8 @@ export default function Componentes() {
     | 'modal'
     | 'breadcrumb'
     | 'carousel'
-    | 'tabs' = 'button'
+    | 'tabs'
+    | 'mensagem-fixa' = 'button'
 
   if (componentId === 'input') current = 'input'
   else if (componentId === 'select') current = 'select'
@@ -55,6 +57,7 @@ export default function Componentes() {
   else if (componentId === 'carousel' || componentId === 'carrossel') current = 'carousel'
   else if (componentId === 'tabs' || componentId === 'tab' || componentId === 'abas')
     current = 'tabs'
+  else if (componentId === 'mensagem-fixa' || componentId === 'mensagem') current = 'mensagem-fixa'
 
   const titleMap = {
     button: 'Button',
@@ -73,6 +76,7 @@ export default function Componentes() {
     breadcrumb: 'Breadcrumb (Trilha de Navegação)',
     carousel: 'Carousel (Carrossel de Conteúdo)',
     tabs: 'Tabs (Sistema de Abas)',
+    'mensagem-fixa': 'Mensagem Fixa (Aviso Persistente)',
   }
 
   return (
@@ -178,6 +182,11 @@ export default function Componentes() {
         {current === 'tabs' && (
           <section id="tabs" className="w-full">
             <TabsPlayground />
+          </section>
+        )}
+        {current === 'mensagem-fixa' && (
+          <section id="mensagem-fixa" className="w-full">
+            <FixedMessagePlayground />
           </section>
         )}
       </div>

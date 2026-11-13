@@ -50,6 +50,16 @@ import {
   TabItemData,
   generateTabsCss,
 } from './types'
+
+export { FIXED_MESSAGE_DEFINITION, SingleFixedMessagePreview } from './FixedMessagePlayground'
+export type {
+  FixedMessageConfig,
+  FixedMessageSeverity,
+  FixedMessageActionsOption,
+  FixedMessageDismissOption,
+  FixedMessageScope,
+  FixedMessageStackCount,
+} from './types'
 import { ButtonPlayground } from './ButtonPlayground'
 import { InputPlayground } from './InputPlayground'
 import { SelectPlayground } from './SelectPlayground'
@@ -66,6 +76,11 @@ import { ModalPlayground } from './ModalPlayground'
 import { BreadcrumbPlayground } from './BreadcrumbPlayground'
 import { CarouselPlayground } from './CarouselPlayground'
 import { TabsPlayground } from './TabsPlayground'
+import {
+  FixedMessagePlayground,
+  FIXED_MESSAGE_DEFINITION,
+  SingleFixedMessagePreview,
+} from './FixedMessagePlayground'
 
 export interface ComponentRegistryItem {
   id: string
@@ -216,6 +231,14 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentRegistryItem> = {
       '3 tamanhos × 4 estados × com/sem ícone e badge — sistema de abas com underline marcante e linha contínua',
     category: 'COMPONENTES',
     component: TabsPlayground,
+  },
+  'mensagem-fixa': {
+    id: 'mensagem-fixa',
+    name: 'Mensagem Fixa',
+    subtitle:
+      '3 severidades × até 2 ações × fechamento opcional — aviso persistente no topo, sem timeout, com empilhamento por severidade',
+    category: 'COMPONENTES',
+    component: FixedMessagePlayground,
   },
 }
 export const BUTTON_DEFINITION: ComponentDefinition<ButtonConfig> = {
@@ -696,6 +719,7 @@ export {
   BreadcrumbPlayground,
   CarouselPlayground,
   TabsPlayground,
+  FixedMessagePlayground,
 }
 export type {
   ModalVariant,

@@ -2987,3 +2987,273 @@ export function generateTabsCss(config: TabsConfig): string {
 
   return sections.join('\n\n')
 }
+
+// ==========================================
+// 17. MENSAGEM FIXA (AVISO PERSISTENTE) COMPONENT TYPES
+// ==========================================
+
+export type FixedMessageSeverity = 'Informativo' | 'Atenção' | 'Crítico'
+export type FixedMessageActionsOption = 'Nenhuma' | '1 ação' | '2 ações'
+export type FixedMessageDismissOption = 'Dispensável' | 'Não dispensável'
+export type FixedMessageScope = 'Global' | 'Módulo'
+export type FixedMessageStackCount = 1 | 2 | 3
+
+export interface FixedMessageConfig {
+  severidade: FixedMessageSeverity
+  acoes: FixedMessageActionsOption
+  fechamento: FixedMessageDismissOption
+  empilhamento: FixedMessageStackCount
+  escopo: FixedMessageScope
+  titulo: string
+  descricao: string
+}
+
+export interface FixedMessageSeverityTokens {
+  /** Rótulo da severidade */
+  label: string
+  /** Papel ARIA: status para informativo/atenção, alert para crítico */
+  role: 'status' | 'alert'
+  /** Ícone (Material Symbols) da severidade */
+  icon: string
+  /** Peso tipográfico do título (crescente: 500 → 600 → 800) */
+  titleFontWeight: number
+  /** Borda esquerda de 4px — cor da severidade */
+  accentColor: string
+  /** Fundo pálido da faixa */
+  bgColor: string
+  /** Borda da faixa */
+  borderColor: string
+  /** Cor do texto do título */
+  titleColor: string
+  /** Cor do texto da descrição */
+  descColor: string
+  /** Cor do ícone */
+  iconColor: string
+}
+
+/**
+ * Tokens oficiais COMVEN aplicados à Mensagem Fixa.
+ * - Informativo: azul primário #004185
+ * - Atenção: amarelo #F2CB05 (regra do guia: permitido em alertas, nunca como cor principal)
+ * - Crítico: vermelho de alerta #CC0000 (escala oficial, contraste AA garantido)
+ */
+export const FIXED_MESSAGE_SEVERITY_TOKENS: Record<
+  FixedMessageSeverity,
+  FixedMessageSeverityTokens
+> = {
+  Informativo: {
+    label: 'Informativo',
+    role: 'status',
+    icon: 'info',
+    titleFontWeight: 500,
+    accentColor: '#004185',
+    bgColor: '#EBF3FC',
+    borderColor: '#8BB7E7',
+    titleColor: '#00346A',
+    descColor: '#235F9D',
+    iconColor: '#004185',
+  },
+  Atenção: {
+    label: 'Atenção',
+    role: 'status',
+    icon: 'warning',
+    titleFontWeight: 600,
+    accentColor: '#F2CB05',
+    bgColor: '#FEFAE6',
+    borderColor: '#F2CB05',
+    titleColor: '#615102',
+    descColor: '#917A03',
+    iconColor: '#917A03',
+  },
+  Crítico: {
+    label: 'Crítico',
+    role: 'alert',
+    icon: 'error',
+    titleFontWeight: 800,
+    accentColor: '#CC0000',
+    bgColor: '#FFE5E5',
+    borderColor: '#CC0000',
+    titleColor: '#990000',
+    descColor: '#CC0000',
+    iconColor: '#CC0000',
+  },
+}
+
+export const FIXED_MESSAGE_METRICS = {
+  paddingY: 14,
+  paddingX: 16,
+  gap: 12,
+  iconSize: 20,
+  titleFontSize: 15,
+  titleLineHeight: 1.3,
+  descFontSize: 13.5,
+  descLineHeight: 1.5,
+  radius: 8,
+  leftBorderWidth: 4,
+  actionHeight: 32,
+  actionFontSize: 12.5,
+  actionsGap: 8,
+  actionsMarginTop: 10,
+  stackGap: 10,
+} as const
+
+/** Ordenação canônica por severidade: crítico primeiro, depois atenção, depois informativo. */
+export const FIXED_MESSAGE_SEVERITY_ORDER: FixedMessageSeverity[] = [
+  'Crítico',
+  'Atenção',
+  'Informativo',
+]
+
+/**
+ * CSS Generator for the Fixed Message (Mensagem Fixa) component — persistent
+ * top banner. BEM hierarchy: .comven-fixed-message__*
+ */
+export function generateFixedMessageCss(config: FixedMessageConfig): string {
+  const { severidade, acoes, fechamento, escopo, empilhamento } = config
+  const tokens = FIXED_MESSAGE_SEVERITY_TOKENS[severidade]
+  const m = FIXED_MESSAGE_METRICS
+
+  const comment = `/* Mensagem Fixa — Severidade=${severidade}, Ações=${acoes}, Fechamento=${fechamento}, Empilhamento=${empilhamento}, Escopo=${escopo} */`
+
+  const sections: string[] = [comment]
+
+  sections.push(`.comven-fixed-message {
+  display: flex;
+  align-items: flex-start;
+  gap: ${m.gap}px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: ${m.paddingY}px ${m.paddingX}px;
+  border-radius: ${m.radius}px;
+  border: 1px solid ${tokens.borderColor};
+  border-left: ${m.leftBorderWidth}px solid ${tokens.accentColor};
+  background-color: ${tokens.bgColor};
+}`)
+
+  sections.push(`.comven-fixed-message__icon {
+  flex-shrink: 0;
+  font-size: ${m.iconSize}px;
+  line-height: 1;
+  color: ${tokens.iconColor};
+  margin-top: 1px;
+}`)
+
+  sections.push(`.comven-fixed-message__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}`)
+
+  sections.push(`.comven-fixed-message__title {
+  font-size: ${m.titleFontSize}px;
+  line-height: ${m.titleLineHeight};
+  font-weight: ${tokens.titleFontWeight}; /* Peso crescente por severidade: 500 → 600 → 800 */
+  color: ${tokens.titleColor};
+  margin: 0;
+}`)
+
+  sections.push(`.comven-fixed-message__description {
+  font-size: ${m.descFontSize}px;
+  line-height: ${m.descLineHeight};
+  font-weight: 400;
+  color: ${tokens.descColor};
+  margin: 2px 0 0 0;
+}`)
+
+  if (acoes !== 'Nenhuma') {
+    sections.push(`.comven-fixed-message__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ${m.actionsGap}px;
+  margin-top: ${m.actionsMarginTop}px;
+}`)
+
+    if (acoes !== '1 ação') {
+      sections.push(`.comven-fixed-message__action--primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: ${m.actionHeight}px;
+  padding: 0 14px;
+  border-radius: ${m.radius - 2}px;
+  background-color: ${tokens.accentColor};
+  color: #FFFFFF;
+  font-size: ${m.actionFontSize}px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.comven-fixed-message__action--primary:hover {
+  background-color: #00346A;
+}
+.comven-fixed-message__action--primary:focus-visible {
+  outline: 2px solid #004185;
+  outline-offset: 2px;
+}`)
+    }
+
+    if (acoes === '2 ações') {
+      sections.push(`.comven-fixed-message__action--secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: ${m.actionHeight}px;
+  padding: 0 14px;
+  border-radius: ${m.radius - 2}px;
+  background-color: transparent;
+  color: ${tokens.titleColor};
+  font-size: ${m.actionFontSize}px;
+  font-weight: 600;
+  border: 1px solid ${tokens.borderColor};
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.comven-fixed-message__action--secondary:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.comven-fixed-message__action--secondary:focus-visible {
+  outline: 2px solid #004185;
+  outline-offset: 2px;
+}`)
+    }
+  }
+
+  if (fechamento === 'Dispensável') {
+    sections.push(`.comven-fixed-message__dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: ${tokens.iconColor};
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  transition: background-color 0.15s ease;
+}
+.comven-fixed-message__dismiss:hover {
+  background-color: rgba(255, 255, 255, 0.55);
+}
+.comven-fixed-message__dismiss:focus-visible {
+  outline: 2px solid #004185;
+  outline-offset: 2px;
+}`)
+  }
+
+  sections.push(`.comven-fixed-message__stack {
+  display: flex;
+  flex-direction: column;
+  gap: ${m.stackGap}px;
+  width: 100%;
+}`)
+
+  return sections.join('\n\n')
+}

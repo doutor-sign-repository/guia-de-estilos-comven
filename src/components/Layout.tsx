@@ -239,6 +239,7 @@ export default function Layout() {
                   { id: 'breadcrumb', label: 'Breadcrumb' },
                   { id: 'carousel', label: 'Carousel' },
                   { id: 'tabs', label: 'Tabs' },
+                  { id: 'mensagem-fixa', label: 'Mensagem Fixa' },
                 ].map((comp) => {
                   const isActive =
                     isComponentesPage &&
