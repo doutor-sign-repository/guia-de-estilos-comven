@@ -34,11 +34,11 @@ export const BRAND_COLORS: BrandColor[] = [
     description: 'Cor de destaque e confirmações',
   },
   {
-    name: 'Amarelo (logo)',
-    role: 'Amarelo',
+    name: 'Amarelo',
+    role: 'Alerta',
     hex: '#F2CB05',
     textLight: false,
-    description: 'Uso restrito ao logotipo e detalhes de marca',
+    description: 'Alertas, badges e tags — nunca como cor principal ou fundo de interface',
   },
   {
     name: 'Neutro Escuro',
