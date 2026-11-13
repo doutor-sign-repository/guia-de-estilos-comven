@@ -504,11 +504,17 @@ export function SingleFixedMessagePreview({
                   height: `${m.actionHeight}px`,
                   padding: '0 14px',
                   backgroundColor: tokens.accentColor,
-                  color: '#FFFFFF',
+                  color: tokens.actionPrimaryColor,
                   fontSize: `${m.actionFontSize}px`,
                   fontWeight: 700,
                   border: 'none',
                   cursor: 'pointer',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = tokens.actionPrimaryHoverBg
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = tokens.accentColor
                 }}
               >
                 {primaryLabel}

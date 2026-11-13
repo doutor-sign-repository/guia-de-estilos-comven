@@ -3029,6 +3029,10 @@ export interface FixedMessageSeverityTokens {
   descColor: string
   /** Cor do ícone */
   iconColor: string
+  /** Cor do texto/ícone do botão de ação primário — regra AA: nunca branco sobre amarelo */
+  actionPrimaryColor: string
+  /** Fundo do botão de ação primário em hover (mantém a cor de texto AA-compatível) */
+  actionPrimaryHoverBg: string
 }
 
 /**
@@ -3052,6 +3056,8 @@ export const FIXED_MESSAGE_SEVERITY_TOKENS: Record<
     titleColor: '#00346A',
     descColor: '#235F9D',
     iconColor: '#004185',
+    actionPrimaryColor: '#FFFFFF',
+    actionPrimaryHoverBg: '#00346A',
   },
   Atenção: {
     label: 'Atenção',
@@ -3064,6 +3070,9 @@ export const FIXED_MESSAGE_SEVERITY_TOKENS: Record<
     titleColor: '#615102',
     descColor: '#917A03',
     iconColor: '#917A03',
+    /* Regra AA do guia: amarelo #F2CB05 nunca com texto branco — sempre #141414 */
+    actionPrimaryColor: '#141414',
+    actionPrimaryHoverBg: '#E0BC04',
   },
   Crítico: {
     label: 'Crítico',
@@ -3076,6 +3085,8 @@ export const FIXED_MESSAGE_SEVERITY_TOKENS: Record<
     titleColor: '#990000',
     descColor: '#CC0000',
     iconColor: '#CC0000',
+    actionPrimaryColor: '#FFFFFF',
+    actionPrimaryHoverBg: '#A30000',
   },
 }
 
@@ -3179,7 +3190,7 @@ export function generateFixedMessageCss(config: FixedMessageConfig): string {
   padding: 0 14px;
   border-radius: ${m.radius - 2}px;
   background-color: ${tokens.accentColor};
-  color: #FFFFFF;
+  color: ${tokens.actionPrimaryColor};
   font-size: ${m.actionFontSize}px;
   font-weight: 700;
   border: none;
@@ -3187,7 +3198,7 @@ export function generateFixedMessageCss(config: FixedMessageConfig): string {
   transition: background-color 0.15s ease;
 }
 .comven-fixed-message__action--primary:hover {
-  background-color: #00346A;
+  background-color: ${tokens.actionPrimaryHoverBg};
 }
 .comven-fixed-message__action--primary:focus-visible {
   outline: 2px solid #004185;
