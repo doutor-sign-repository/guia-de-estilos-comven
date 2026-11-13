@@ -3102,7 +3102,8 @@ export const FIXED_MESSAGE_METRICS = {
   radius: 8,
   leftBorderWidth: 4,
   actionHeight: 32,
-  actionFontSize: 12.5,
+  actionFontSize: 12,
+  actionRadius: 8,
   actionsGap: 8,
   actionsMarginTop: 10,
   stackGap: 10,
@@ -3187,8 +3188,8 @@ export function generateFixedMessageCss(config: FixedMessageConfig): string {
   align-items: center;
   justify-content: center;
   height: ${m.actionHeight}px;
-  padding: 0 14px;
-  border-radius: ${m.radius - 2}px;
+  padding: 0 12px;
+  border-radius: ${m.actionRadius}px;
   background-color: ${tokens.accentColor};
   color: ${tokens.actionPrimaryColor};
   font-size: ${m.actionFontSize}px;
@@ -3212,8 +3213,8 @@ export function generateFixedMessageCss(config: FixedMessageConfig): string {
   align-items: center;
   justify-content: center;
   height: ${m.actionHeight}px;
-  padding: 0 14px;
-  border-radius: ${m.radius - 2}px;
+  padding: 0 12px;
+  border-radius: ${m.actionRadius}px;
   background-color: transparent;
   color: ${tokens.titleColor};
   font-size: ${m.actionFontSize}px;

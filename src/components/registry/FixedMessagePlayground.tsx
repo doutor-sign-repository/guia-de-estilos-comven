@@ -502,7 +502,8 @@ export function SingleFixedMessagePreview({
                 className="inline-flex items-center justify-center shrink-0 rounded-md transition-colors"
                 style={{
                   height: `${m.actionHeight}px`,
-                  padding: '0 14px',
+                  padding: '0 12px',
+                  borderRadius: `${m.actionRadius}px`,
                   backgroundColor: tokens.accentColor,
                   color: tokens.actionPrimaryColor,
                   fontSize: `${m.actionFontSize}px`,
@@ -527,7 +528,8 @@ export function SingleFixedMessagePreview({
                 className="inline-flex items-center justify-center shrink-0 rounded-md transition-colors"
                 style={{
                   height: `${m.actionHeight}px`,
-                  padding: '0 14px',
+                  padding: '0 12px',
+                  borderRadius: `${m.actionRadius}px`,
                   backgroundColor: 'transparent',
                   color: tokens.titleColor,
                   fontSize: `${m.actionFontSize}px`,
