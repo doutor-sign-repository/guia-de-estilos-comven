@@ -624,7 +624,7 @@ function getDarkBadgeStyle(
       return {
         backgroundColor: 'rgba(242, 203, 5, 0.3)',
         border: '1px solid #F2CB05',
-        color: '#FFFFFF',
+        color: '#141414',
         boxShadow: '0 0 0 1px #F2CB05',
       }
     }

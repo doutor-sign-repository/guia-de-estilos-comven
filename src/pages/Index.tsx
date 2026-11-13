@@ -449,7 +449,7 @@ export default function Index() {
                     {family.shades.map((item, idx) => {
                       const isLightShade = idx < 5 && family.id !== 'amarelo-logo'
                       const isYellow = family.id === 'amarelo-logo'
-                      const useDarkText = isYellow ? idx < 6 : isLightShade
+                      const useDarkText = isYellow ? idx < 8 : isLightShade
 
                       return (
                         <button
